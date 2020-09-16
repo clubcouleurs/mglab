@@ -29,18 +29,24 @@
 
 
 
-    <div
-      class="flex h-screen bg-gray-50 dark:bg-gray-900"
+    <div style="background-color: rgba(0, 0, 0, 0.1)" 
+      class="flex h-screen"
       :class="{ 'overflow-hidden': isSideMenuOpen }"
     >
       <!-- Desktop sidebar -->
       <aside
-        class="z-20 hidden w-64 overflow-y-auto bg-white dark:bg-gray-800 md:block flex-shrink-0"
+        class="z-20 hidden w-64 overflow-y-auto bg-white md:block flex-shrink-0"
       >
-        <div class="py-4 text-gray-500 dark:text-gray-400">
+        <div class="py-4 text-gray-500">
           <a
             class="ml-6 text-lg font-bold text-gray-800 dark:text-gray-200"
-            href="#"
+            href="
+            @can('voir_dashboard')
+            /dashboard
+            @else
+            /
+            @endcan('voir_dashboard')
+            "
           >
             MGLABS
           </a>
@@ -52,7 +58,7 @@
               ></span>
               <a
                 class="inline-flex items-center w-full text-sm font-semibold text-gray-800 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200 dark:text-gray-100"
-                href="index.html"
+                href="/"
               >
                 <svg
                   class="w-5 h-5"
@@ -73,10 +79,11 @@
             </li>
           </ul>
           <ul>
+            @can('voir_conceptions_en_cours_crea')
             <li class="relative px-6 py-3">
               <a
                 class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
-                href="/conceptions"
+                href="/conceptions_en_cours"
               >
                 <svg
                   class="w-5 h-5"
@@ -96,6 +103,59 @@
               </a>
               <hr class="mt-4 ">
             </li>
+              @endcan
+            @can('voir_conceptions_en_attente_config')
+            <li class="relative px-6 py-3">
+              <a
+                class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800"
+                href="/conceptions_en_attente"
+              >
+                <svg
+                  class="w-5 h-5"
+                  aria-hidden="true"
+                  fill="none"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"
+                  ></path>
+                </svg>
+                <span class="ml-4 text-red-700">Conceptions en attente</span>
+              </a>
+              <hr class="mt-4 ">
+            </li>
+              @endcan
+            @can('voir_conceptions_validées')
+            <li class="relative px-6 py-3">
+              <a
+                class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800"
+                href="/conceptions_validees"
+              >
+                <svg
+                  class="w-5 h-5"
+                  aria-hidden="true"
+                  fill="none"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"
+                  ></path>
+                </svg>
+                <span class="ml-4">Conceptions validées</span>
+              </a>
+              <hr class="mt-4 ">
+                        
+            </li>
+              @endcan
+              @cannot('administrer')          
             <li class="relative px-6 py-3">
               <a
                 class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
@@ -405,7 +465,8 @@
                 </svg>
                 <span class="ml-4">Etiquettes (0)</span>
               </a>
-            </li>                                                          
+            </li>
+            @endcannot                                                     
           </ul>
 
         </div>

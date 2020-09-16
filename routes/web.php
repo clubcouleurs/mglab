@@ -19,18 +19,28 @@ Route::get('/form', function () {
     return view('form');
 });
 
+
+
 Route::middleware('auth')->group(function(){
+
 Route::post('/conceptions', 'ConceptionController@store');
+Route::get('/conceptions/{conception}/edit', 'ConceptionController@edit')->middleware('can:update,conception');
+Route::patch('/conceptions/{conception}', 'ConceptionController@update')->middleware('can:update,conception');
+Route::get('/conceptions/{conception}', 'ConceptionController@show')->middleware('can:view,conception');
 
-Route::get('/conceptions/{conception}/edit', 'ConceptionController@edit');
-Route::patch('/conceptions/{conception}', 'ConceptionController@update');
-Route::get('/conceptions/{conception}', 'ConceptionController@show');
 
-Route::get('/', 'ConceptionController@index');
 
-Route::get('/conceptions', 'ConceptionController@index')->name('home');
+Route::get('/', 'ConceptionController@index')->name('home');
+
+Route::get('/conceptions_en_attente', 'ConceptionController@crea_attente');
+Route::get('/conceptions_en_cours', 'ConceptionController@crea_en_cours');
+Route::get('/conceptions_validees', 'ConceptionController@crea_valide');
+
+
+
+Route::get('/dashboard', 'ConceptionController@dashboard')->name('dashboard');
+
 });
 
 Auth::routes();
 
-Route::get('/conceptions', 'ConceptionController@index')->name('conceptions');

@@ -76,6 +76,20 @@ return [
             'engine'    => null,
         ],
 
+        'mglab' => [ 
+            'driver'    => 'mysql',
+            'host'      => '127.0.0.1',
+            'database'  => 'mglabs',
+            'port' => '8889',
+            'username'  => 'root',
+            'password'  => 'root',
+            'charset'   => 'utf8',
+            'collation' => 'utf8_unicode_ci',
+            'prefix'    => '',
+            'strict'    => false,
+            'engine'    => null,
+        ],        
+
         'pgsql' => [
             'driver' => 'pgsql',
             'url' => env('DATABASE_URL'),

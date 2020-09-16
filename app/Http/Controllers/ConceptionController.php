@@ -19,14 +19,64 @@ class ConceptionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    public function dashboard()
+    {
+
+            return view('dashboard', ['conceptions' => Conception::whereNull('updated_at')
+                                                                ->orderBy('updated_at', 'desc')
+                                                                ->get(),
+                                          'conceptionsACreer' => Conception::whereNotNull('updated_at')
+                                                                ->orderBy('lancer_at', 'desc')
+                                                                ->get()
+                                         ]);   
+
+    }
+    public function crea_attente()
+    {
+        
+            return view('conceptions.indexAttente', ['conceptions' => Conception::whereNull('updated_at')
+                                                                ->orderBy('updated_at', 'desc')
+                                                                ->get(),
+                                                     'graphistes' => User::where('isGraphiste', 1)->get(),
+                                                                
+
+                                         ]);   
+
+    }    
+    public function crea_en_cours()
+    {
+
+            return view('conceptions.index', ['conceptions' => Conception::whereNull('updated_at')
+                                                                ->orderBy('updated_at', 'desc')
+                                                                ->get(),
+                                          'conceptionsACreer' => Conception::whereNotNull('updated_at')
+                                                                ->orderBy('lancer_at', 'desc')
+                                                                ->get()
+                                         ]);   
+
+    }
+    public function crea_valide()
+    {
+
+            return view('conceptions.index', ['conceptions' => Conception::whereNull('updated_at')
+                                                                ->orderBy('updated_at', 'desc')
+                                                                ->get(),
+                                          'conceptionsACreer' => Conception::whereNotNull('updated_at')
+                                                                ->orderBy('lancer_at', 'desc')
+                                                                ->get()
+                                         ]);   
+
+    }    
+
     public function index()
     {
         
-       
-        return view('conceptions.index', ['conceptions' => auth()->user()->conceptionAConfigurer(),
+      
+            return view('conceptions.index', ['conceptions' => auth()->user()->conceptionAConfigurer(),
                                           'conceptionsACreer' => auth()->user()->conceptionACreer()
                                          ]);
-
+  
 
     }
 
