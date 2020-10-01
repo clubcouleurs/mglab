@@ -44,8 +44,11 @@ class LoginController extends Controller
 
 protected function authenticated(Request $request, $user)
 {
-if ($user->permissions()->contains('voir_dashboard') ) {// do your magic here
+if ($user->permissions()->contains('voir_dashboard') ) {
     return redirect()->route('dashboard');
+}
+elseif ($user->permissions()->contains('voir_conceptions_en_cours_crea')) {
+    return redirect()->route('crea_en_cours');
 }
 
  return redirect('/');

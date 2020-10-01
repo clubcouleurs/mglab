@@ -17,7 +17,7 @@ class CreateImagesTable extends Migration
             $table->id();
             $table->text('description');
             $table->string('lien');
-            $table->string('nomFichier')
+            $table->string('nomFichier');
             $table->timestamps();
         });
     }

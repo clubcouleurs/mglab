@@ -3,6 +3,8 @@
 namespace App;
 
 use App\Conception;
+use App\Graphiste;
+use App\Notification;
 use App\Role;
 use Corcel\Model\User as Corcel;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
@@ -16,20 +18,7 @@ use Illuminate\Notifications\Notifiable;
 class User extends Corcel
 {
     use Notifiable;
-    /*use Eloquence, Mappable;
-
-        protected $table = 'wp_users';
-
-        protected $maps = [
-            // legacy db with badly named columns
-            'email' => 'user_email',
-            'password' => 'user_pass',
-            'name' => 'user_nicename',
-            'created_at' => 'user_registered'
-
-        ];*/
-
-        
+      
 
     /**
      * The attributes that are mass assignable.
@@ -63,9 +52,19 @@ class User extends Corcel
         return $this->hasMany(Conception::class)->latest();
     }
 
+    public function notifications()
+    {
+        return $this->hasMany(Notification::class, 'notifiable_id')->latest();
+    }
+
+    public function propals()
+    {
+        return $this->hasMany(Propal::class)->latest();
+    }    
+
     public function conceptionAConfigurer()
     {
-
+      
         return Conception::where('user_id', $this->ID)
                                                 ->whereNull('updated_at')
                                                 ->orderBy('updated_at', 'desc')
@@ -77,12 +76,17 @@ class User extends Corcel
     public function conceptionACreer()
     {
         return Conception::where('user_id', $this->ID)
-                                                ->whereNotNull('updated_at')
+                                                ->whereNotNull('lancer_at')
                                                 ->orderBy('lancer_at', 'desc')
                                                 ->get();
 
         
     }    
+
+    public function graphiste()
+    {
+        return $this->hasMany(Graphiste::class)->latest();
+    }
 
 
     public function roles()

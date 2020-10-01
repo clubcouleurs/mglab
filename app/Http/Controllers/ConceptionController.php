@@ -1,13 +1,19 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use App\Conception;
+use App\Events\ConceptionValidated;
+use App\Events\DataConceptionReceived;
+use App\Events\GraphisteAffected;
+use App\Events\ModificationValidated;
+use App\Events\PropalsValidated;
+use App\Graphiste;
 use App\Http\Requests\StoreConception;
 use App\Image;
-//use App\User as Utilisateur;
+use App\Propal;
 use Carbon\Carbon;
 use Corcel\Model\User;
+use Gate ;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
@@ -34,47 +40,250 @@ class ConceptionController extends Controller
     }
     public function crea_attente()
     {
-        
-            return view('conceptions.indexAttente', ['conceptions' => Conception::whereNull('updated_at')
-                                                                ->orderBy('updated_at', 'desc')
-                                                                ->get(),
-                                                     'graphistes' => User::where('isGraphiste', 1)->get(),
-                                                                
 
-                                         ]);   
+           return view('conceptions.indexAttente', ['conceptions' => Conception::whereNull('lancer_at')
+                                                                ->get()
+                            ]); 
+    }
 
-    }    
     public function crea_en_cours()
     {
 
-            return view('conceptions.index', ['conceptions' => Conception::whereNull('updated_at')
-                                                                ->orderBy('updated_at', 'desc')
-                                                                ->get(),
-                                          'conceptionsACreer' => Conception::whereNotNull('updated_at')
+        if (Gate::allows('soumettre_proposition') && Gate::denies('administrer')) {
+            return view('conceptions.indexEnCours', ['conceptionsEnAttPropals'
+                                    => Conception::where('graphiste_id', auth()->user()->ID)
+                                                                ->where('status_id' , 2)
                                                                 ->orderBy('lancer_at', 'desc')
-                                                                ->get()
-                                         ]);   
+                                                                ->with('propals')
+                                                                ->get(),
+
+                                                    'conceptionsEnAttCrea'
+                                    => Conception::where('graphiste_id', auth()->user()->ID)
+                                                                ->whereNotNull('lancer_at')
+                                                                ->whereNotNull('validate_at')
+                                                                ->orderBy('validate_at', 'desc')
+                                                                ->get(),
+                'conceptions1' => Conception::where('graphiste_id', auth()->user()->ID)
+                                                                ->where('status_id' , 1 )
+                                                                ->orderBy('lancer_at', 'desc')
+                                                                ->get(),
+
+                'conceptions2' => Conception::where('graphiste_id', auth()->user()->ID)
+                                                                ->where('status_id' , 2 )
+                                                                ->orderBy('lancer_at', 'desc')
+                                                                ->get(),
+                'conceptions3' => Conception::where('graphiste_id', auth()->user()->ID)
+                                                                ->where('status_id' , 3 )
+                                                                ->orderBy('lancer_at', 'desc')
+                                                                ->get(),
+                'conceptions4' => Conception::where('graphiste_id', auth()->user()->ID)
+                                                                ->where('status_id' , 4 )
+                                                                ->orderBy('lancer_at', 'desc')
+                                                                ->get(),
+                'conceptions5' => Conception::where('graphiste_id', auth()->user()->ID)
+                                                                ->where('status_id' , 5 )
+                                                                ->orderBy('lancer_at', 'desc')
+                                                                ->get(),
+                'conceptions6' => Conception::where('graphiste_id', auth()->user()->ID)
+                                                                ->where('status_id' , 6 )
+                                                                ->orderBy('lancer_at', 'desc')
+                                                                ->get(),
+                'conceptions7' => Conception::where('graphiste_id', auth()->user()->ID)
+                                                                ->where('status_id' , 7 )
+                                                                ->orderBy('lancer_at', 'desc')
+                                                                ->get(),
+                'conceptions8' => Conception::where('graphiste_id', auth()->user()->ID)
+                                                                ->where('status_id' , 8 )
+                                                                ->orderBy('lancer_at', 'desc')
+                                                                ->get(),
+                'conceptions9' => Conception::where('graphiste_id', auth()->user()->ID)
+                                                                ->where('status_id' , 9 )
+                                                                ->orderBy('lancer_at', 'desc')
+                                                                ->get(),
+                'conceptions10' => Conception::where('graphiste_id', auth()->user()->ID)
+                                                                ->where('status_id' , 10 )
+                                                                ->orderBy('lancer_at', 'desc')
+                                                                ->get(),
+                'conceptions11' => Conception::where('graphiste_id', auth()->user()->ID)
+                                                                ->where('status_id' , 11 )
+                                                                ->orderBy('lancer_at', 'desc')
+                                                                ->get(),
+                'conceptions12' => Conception::where('graphiste_id', auth()->user()->ID)
+                                                                ->where('status_id' , 12 )
+                                                                ->orderBy('lancer_at', 'desc')
+                                                                ->get(),
+                'conceptions13' => Conception::where('graphiste_id', auth()->user()->ID)
+                                                                ->where('status_id' , 13 )
+                                                                ->orderBy('lancer_at', 'desc')
+                                                                ->get(),
+                'conceptions14' => Conception::where('graphiste_id', auth()->user()->ID)
+                                                                ->where('status_id' , 14 )
+                                                                ->orderBy('lancer_at', 'desc')
+                                                                ->get(), 
+
+                                                                                                                                                                         
+                                                     'graphistes' => ''
+                            ]);
+        }
+
+                                                               
+
+            return view('conceptions.indexEnCours', ['conceptions' => Conception::whereNotNull('lancer_at')
+                                                                ->orderBy('lancer_at', 'desc')
+                                                                ->with('graphiste')
+                                                                ->with('user')
+                                                                ->get(),
+                'conceptions1' => Conception::where('status_id' , 1 )
+                                                                ->orderBy('lancer_at', 'desc')
+                                                                ->get(),
+
+                'conceptions2' => Conception::where('status_id' , 2 )
+                                                                ->orderBy('lancer_at', 'desc')
+                                                                ->get(),
+                'conceptions3' => Conception::where('status_id' , 3 )
+                                                                ->orderBy('lancer_at', 'desc')
+                                                                ->get(),
+                'conceptions4' => Conception::where('status_id' , 4 )
+                                                                ->orderBy('lancer_at', 'desc')
+                                                                ->get(),
+                'conceptions5' => Conception::where('status_id' , 5 )
+                                                                ->orderBy('lancer_at', 'desc')
+                                                                ->get(),
+                                                                         
+                'conceptions6' => Conception::where('status_id' , 6 )
+                                                                ->orderBy('lancer_at', 'desc')
+                                                                //->with('modifications')
+                                                                ->with(['propals' => function($query){
+                                                                    $query->whereNotNull('user_id')
+                                                                    ->first();
+                                                                }])
+                                                                ->get(),
+                                                              
+
+
+
+
+                'conceptions7' => Conception::where('status_id' , 7 )
+                                                                ->orderBy('lancer_at', 'desc')
+                                                                ->get(),
+
+                'conceptions8' => Conception::where('status_id' , 8 )
+                                                                ->orderBy('lancer_at', 'desc')
+                                                                ->get(),
+                'conceptions9' => Conception::where('status_id' , 9 )
+                                                                ->orderBy('lancer_at', 'desc')
+                                                                ->get(),
+                'conceptions10' => Conception::where('status_id' , 10 )
+                                                                ->orderBy('lancer_at', 'desc')
+                                                                ->get(),
+
+                'conceptions11' => Conception::where('status_id' , 11 )
+                                                                ->orderBy('lancer_at', 'desc')
+                                                                ->get(),
+                'conceptions12' => Conception::where('status_id' , 12 )
+                                                                ->orderBy('lancer_at', 'desc')
+                                                                ->get(),
+                'conceptions13' => Conception::where('status_id' , 13 )
+                                                                ->orderBy('lancer_at', 'desc')
+                                                                ->get(),
+
+                'conceptions14' => Conception::where('status_id' , 14 )
+                                                                ->orderBy('lancer_at', 'desc')
+                                                                ->get(),
+                'conceptions15' => Conception::where('status_id' , 15 )
+                                                                ->orderBy('lancer_at', 'desc')
+                                                                ->get(),
+
+                                                            
+
+                                                               
+
+                'conceptionsEnAttPropals' => Conception::where('status_id' , 14 )
+                                                                ->orderBy('lancer_at', 'desc')
+                                                                ->get(), // à supprimer
+
+                'conceptionsEnAttCrea' => Conception::where('status_id' , 14 )
+                                                                ->orderBy('lancer_at', 'desc')
+                                                                ->get(), // à supprimer
+
+
+                                                     'graphistes' => Graphiste::with('user')->get(),
+                            ]);  
 
     }
     public function crea_valide()
     {
-
-            return view('conceptions.index', ['conceptions' => Conception::whereNull('updated_at')
-                                                                ->orderBy('updated_at', 'desc')
+            return view('conceptions.indexValidees', ['conceptions' => Conception::whereNotNull('validate_at')
+                                                                ->orderBy('validate_at', 'desc')
+                                                                ->with('graphiste')
+                                                                ->with('user')
                                                                 ->get(),
-                                          'conceptionsACreer' => Conception::whereNotNull('updated_at')
-                                                                ->orderBy('lancer_at', 'desc')
-                                                                ->get()
-                                         ]);   
-
+                                                     'graphistes' => Graphiste::with('user')->get(),
+                            ]);  
     }    
 
     public function index()
     {
-        
+
       
-            return view('conceptions.index', ['conceptions' => auth()->user()->conceptionAConfigurer(),
-                                          'conceptionsACreer' => auth()->user()->conceptionACreer()
+            return view('conceptions.index', 
+                ['conceptions1' => Conception::where('user_id', auth()->user()->ID)
+                                                                ->where('status_id' , 1 )
+                                                                ->orderBy('lancer_at', 'desc')
+                                                                ->get(),
+
+                'conceptions2' => Conception::where('user_id', auth()->user()->ID)
+                                                                ->whereIn('status_id' , [2 , 3 , 4] )
+                                                                
+                                                                ->orderBy('lancer_at', 'desc')
+                                                                ->get(),
+
+                'conceptions5' => Conception::where('user_id', auth()->user()->ID)
+                                                                ->where('status_id' , 5 )
+                                                                ->orderBy('lancer_at', 'desc')
+                                                                ->get(),
+
+                'conceptions6' => Conception::where('user_id', auth()->user()->ID)
+                                                                ->whereIn('status_id' , [6,7] )
+                                                                ->orderBy('lancer_at', 'desc')
+                                                                ->get(),
+
+
+                'conceptions8' => Conception::where('user_id', auth()->user()->ID)
+                                                                ->where('status_id' , 8 )
+                                                                ->orderBy('lancer_at', 'desc')
+                                                                ->get(),
+
+                'conceptions9' => Conception::where('user_id', auth()->user()->ID)
+                                                                ->whereIn('status_id' , [9,10] )
+
+                                                                ->orderBy('lancer_at', 'desc')
+                                                                ->get(),
+
+                'conceptions11' => Conception::where('user_id', auth()->user()->ID)
+                                                                ->where('status_id' , 11 )
+                                                                ->orderBy('lancer_at', 'desc')
+                                                                ->get(),
+
+                'conceptions12' => Conception::where('user_id', auth()->user()->ID)
+                                                                ->whereIn('status_id' , [12,13] )
+
+
+                                                                ->orderBy('lancer_at', 'desc')
+                                                                ->get(),       
+
+                'conceptions14' => Conception::where('user_id', auth()->user()->ID)
+                                                                ->where('status_id' , 14 )
+                                                                ->orderBy('lancer_at', 'desc')
+                                                                ->get(),  
+
+                'conceptions15' => Conception::where('user_id', auth()->user()->ID)
+                                                                ->where('status_id' , 15 )
+                                                                ->orderBy('lancer_at', 'desc')
+                                                                ->get(),                                                                                                                                                                                       
+
+                 'conceptions' => auth()->user()->conceptionAConfigurer(), // à supprimer 
+                 'conceptionsACreer' => auth()->user()->conceptionACreer() // à supprimer
                                          ]);
   
 
@@ -99,12 +308,7 @@ class ConceptionController extends Controller
      */
     public function store(StoreConception $request)
     {
-
-
-
-
-
-        
+       
     }
 
     /**
@@ -172,8 +376,71 @@ class ConceptionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+
+
+
     public function update(StoreConception $request, Conception $conception)
     {
+        if($request->has('upgrade'))
+        {
+            
+            switch (Request('upgrade')) {
+                case '0' :
+                    $conception->upgradeStatus(5) ;
+                    break;
+                case '1' :
+                ///dd("Request('upgrade')") ;
+                    $conception->upgradeStatus(8) ;
+                    break;
+                case '2' :
+                    $conception->upgradeStatus(11) ;
+                    break; 
+                case '3' :
+                    $conception->upgradeStatus(14) ;
+                    break;                                                          
+                default:
+                    abort(403) ;
+                    break;
+            }
+
+            if ( $conception->status->id === 5 ) {
+                PropalsValidated::dispatch($conception) ;
+            }
+            else
+            {
+                ModificationValidated::dispatch($conception) ;
+            }
+            return back() ;
+        }
+
+        if($request->has('graphiste'))
+        {
+            $conception->graphiste_id = Request('graphiste') ;
+            $conception->save();
+            $conception->upgradeStatus(3) ;
+
+            GraphisteAffected::dispatch($conception) ;
+            
+            return back() ;
+        }
+        if($request->hasFile('pdf_conception'))
+        {
+            
+
+            $pdfName = 'Exe_' . str_replace(' ', '', $conception->type) . '-' 
+                              . str_replace('.', '', $conception->user->user_login) . '-' 
+                              . str_replace(' ', '-', date('Y-m-d-His')) ;
+            $pdfExtension = $request->file('pdf_conception')->extension() ;                 
+
+            $pdfPath = $request->file('pdf_conception')
+                                       ->storeAs('creations', $pdfName . '.' . $pdfExtension) ;
+
+            $conception->pdf_conception = $pdfName . '.' . $pdfExtension ;
+            $conception->upgradeStatus(15) ;
+            $conception->save();
+            ConceptionValidated::dispatch($conception) ;            
+            return back() ;
+        }        
 
 
         if($request->hasFile('images')) {
@@ -237,11 +504,13 @@ class ConceptionController extends Controller
         'cible'  => $cible,
         'font' => $font,
         'lancer_at' => date('Y-m-d H:i:s'),
-
+        'status_id' => 2
        ]);
        
+        DataConceptionReceived::dispatch($conception) ;
+        return redirect()->route('home') ;
+       
 
-       return redirect()->route('conceptions') ;
     }
 
     /**

@@ -24,7 +24,7 @@
                     >
                       <th class="px-4 py-3">{{ count($conceptions) }} Conceptions en attente de données</th>
                       
-                      <th class="px-4 py-3">Graphiste</th>
+                      
                      
                       <th class="px-4 py-3">Date de commande</th>
                      
@@ -76,36 +76,7 @@
                         </div>
                       </td>
 
-                      <td class="px-4 py-3 text-xs">
-<form class="w-full max-w-sm">
-  <div class="flex items-center border border-teal-500 py-2 px-2 bg-blue-100">
-
-
-        <select class="block w-full mr-3 appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="">
-
-          @foreach ($graphistes as $graphiste)
-
-
-          <option>{{ $graphiste->display_name }}</option>
-          @endforeach
-        </select>
-
-
-
-    <button class="flex-shrink-0 bg-teal-500 hover:bg-teal-700 border-teal-500 hover:border-teal-700 text-sm border-4 text-white py-3 px-4 pr-8 rounded" type="button">
-      Ok
-    </button>
-
-  </div>
-</form>
-
-
-
-
-                      </td>
-
-
-                      <td class="px-4 py-3 text-xs">
+                        <td class="px-4 py-3 text-xs">
                         <span
                           class="px-2 py-1 font-semibold leading-tight text-green-700 bg-green-100 rounded-full "
                         >

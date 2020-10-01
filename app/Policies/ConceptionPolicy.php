@@ -20,7 +20,7 @@ class ConceptionPolicy
      */
     public function viewAny(User $user)
     {
-        return $user->isSuperAdmin();
+        //return $user->isSuperAdmin();
     }
 
     /**
@@ -32,7 +32,7 @@ class ConceptionPolicy
      */
     public function view(User $user, Conception $conception)
     {
-        return $user->ID === $conception->user_id
+        return $user->ID === $conception->user_id || $user->ID === $conception->graphiste_id
                 ? Response::allow()
                 : Response::deny('Vous n\'êtes pas propriétaire cette conception.');
 
@@ -58,7 +58,7 @@ class ConceptionPolicy
      */
     public function update(User $user, Conception $conception)
     {
-        return $user->ID === $conception->user_id
+        return $user->ID === $conception->user_id || $user->ID === $conception->graphiste_id
                 ? Response::allow()
                 : Response::deny('Vous n\'êtes pas propriétaire cette conception.');
     }
