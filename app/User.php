@@ -85,7 +85,7 @@ class User extends Corcel
 
     public function graphiste()
     {
-        return $this->hasMany(Graphiste::class)->latest();
+        return $this->hasOne(Graphiste::class)->latest();
     }
 
 

@@ -2,8 +2,8 @@
 
 
 <main class="h-full overflow-y-auto bg-blue-100">
-<div class="container px-6 mx-auto grid gap-4 grid-cols-3">
-            <div class="grid gap-6 mb-8 xl:grid-cols-4 mt-8">
+<div class="container px-6 mx-auto grid gap-4 grid-cols-3 mb-8 mt-8">
+
               @foreach ($propositions as $propal)
               <div
                 class="min-w-0 p-4 bg-white rounded-lg shadow-md"
@@ -31,7 +31,7 @@
               @endforeach
 
 
-            </div>
+           
             </div>
            </main> 
 </x-master>

@@ -73,7 +73,7 @@ class PropalController extends Controller
 
             $conception->upgradeStatus(4) ;
             PropalsCreated::dispatch($conception) ;
-            return back() ;
+            return back()->with('message','Propositions envoyées !') ; ;
         } 
     }
 

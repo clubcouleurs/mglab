@@ -1,3 +1,4 @@
+   <x-layout>
    <form method="POST" action="{{ route('login') }}">
    @csrf
     <div class="flex items-center min-h-screen p-6 bg-gray-50 dark:bg-gray-900">
@@ -28,7 +29,7 @@
                 <input
                   id="email" type="email" name="email" value="{{ old('email') }}"
                   required autocomplete="email" autofocus
-                  class="@error('email') border border-red-700 @enderror block w-full mt-1 text-sm focus:border-purple-400 focus:outline-none focus:shadow-outline-purple
+                  class="px-2 @error('email') border border-red-700 @enderror block w-full mt-1 text-sm focus:border-purple-400 focus:outline-none focus:shadow-outline-purple
                   rounded border border-red-800 form-input h-12"
                   placeholder=" Votre E-Mail ici ..."
                 />
@@ -39,7 +40,7 @@
                                 @enderror
               </label>
               <label for="password" class="block mt-4 text-sm">
-                <span class="text-gray-700">{{ __('Password') }}</span>
+                <span class="text-gray-700">Mot de passe</span>
 
                 <input
                   class="@error('password') border border-red-700 @enderror block w-full mt-1 text-sm focus:border-purple-400 focus:outline-none focus:shadow-outline-purple form-input"
@@ -54,18 +55,7 @@
                                 @enderror                
               </label>
 
-<!-- remember me -->              
-              <label class="block mt-4 text-sm">
-                <span class="text-gray-700">{{ __('Remember Me') }}</span>
-                <input
-                  class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple form-checkbox" 
-                  type="checkbox"
-                  name="remember" id="remember"
-                  {{ old('remember') ? 'checked' : '' }}
-                />
-             
-              </label>
-<!-- remember me -->
+
 
 
               <!-- You should use a button here, as the anchor is only used for the example  -->
@@ -81,18 +71,11 @@
               <p class="mt-4">
                                 @if (Route::has('password.request'))
                                     <a class="btn btn-link" href="{{ route('password.request') }}">
-                                        {{ __('Forgot Your Password?') }}
+                                        Mot de passe oublié ?
                                     </a>
                                 @endif
               </p>
-              <p class="mt-1">
-                <a
-                  class="text-sm font-medium text-purple-600 dark:text-purple-400 hover:underline"
-                  href="./create-account.html"
-                >
-                  Create account
-                </a>
-              </p>
+
             </div>
           </div>
         </div>
@@ -100,16 +83,4 @@
     </div>
   </form>
 
-@extends('layouts.app')
-
-@section('content')
-
-
-
-
-
-                            
-                                
-
-
-@endsection
+</x-layout>

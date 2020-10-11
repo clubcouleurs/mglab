@@ -48,7 +48,10 @@ class DataConceptionReceivedNotificationToClient extends Notification
                                 'sujet' => 'Données reçues',
                                 'conception' => $this->conception,
                                 'client' => $this->conception->user->display_name,
-                            ]);
+                            ])
+                            ->attachData($this->conception->createPdf(), 'name.pdf', [
+                    'mime' => 'application/pdf',
+                ]);
     }
 
     /**

@@ -1,4 +1,4 @@
-<x-master>
+<x-master type='types' :value="$types">
 
         <main class="h-full overflow-y-auto">
 

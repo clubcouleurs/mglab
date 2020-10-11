@@ -17,6 +17,9 @@ use App\Notifications\ModificationAppliedNotification;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Route;
 
+use Illuminate\Http\Request;
+
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -30,16 +33,18 @@ use Illuminate\Support\Facades\Route;
 
 
 
-Route::get('/form', function () {
+/*Route::get('/form', function () {
     return view('form');
-});
+});*/
 
-Route::get('mail', function () {
+/*Route::get('mail', function () {
 	
-	$conception = Conception::find(11);
+	$c = Conception::find(26);
+	//$c->createPdf ;
+	//die();
 /*return (new ModificationAppliedNotification($conception))
                 ->toMail(request()->user());*/
-    GraphisteAffected::dispatch($conception) ;            
+    //GraphisteAffected::dispatch($conception) ;            
     //ConceptionValidated::dispatch($conception) ;
 	//ModificationValidated::dispatch($conception);
 	//ModificationApplied::dispatch($conception);
@@ -56,38 +61,79 @@ Route::get('mail', function () {
 	
     return (new DataConceptionReceivedNotificationToClient($Conception))
                 ->toMail(request()->user());*/
-});
+//});
 
 
 
 Route::middleware('auth')->group(function(){
 
+Route::get('/conceptions/{conception}/pdf', 'ConceptionController@createPDF')
+					->middleware('can:update,conception');
+
+
+
 Route::post('/conceptions', 'ConceptionController@store')->middleware('can:create,conception');
+
 Route::get('/conceptions/{conception}/edit', 'ConceptionController@edit')->middleware('can:update,conception');
 
-Route::patch('/conceptions/{conception}', 'ConceptionController@update')->middleware('can:update,conception');
 
-Route::get('/conceptions/{conception}', 'ConceptionController@show')->middleware('can:view,conception');
+Route::get('/{type}/conceptions', 'TypeController@index');
 
 
+
+Route::patch('/conceptions/{conception}', 'ConceptionController@update')
+									->middleware('can:update,conception');
+
+Route::delete('/conceptions/{conception}', 'ConceptionController@destroy')
+									->middleware('can:update,conception');
+
+Route::get('/conceptions/{conception}', 'ConceptionController@show')
+									->middleware('can:view,conception');
+
+Route::get('/conceptions/{conception}/confirm', 'ConceptionController@confirm')
+									->middleware('can:view,conception');
 
 Route::get('/', 'ConceptionController@index')->name('home');
 
-Route::get('/conceptions_en_attente', 'ConceptionController@crea_attente')
-									->middleware('can:voir_conceptions_en_attente_config');
-Route::get('/conceptions_en_cours', 'ConceptionController@crea_en_cours')
+/*Route::get('/conceptions_en_attente', 'ConceptionController@crea_attente')
+									->middleware('can:voir_conceptions_en_attente_config');*/
+
+/*Route::get('/conceptions_en_cours', 'ConceptionController@crea_en_cours')
 									->name('crea_en_cours')
-									->middleware('can:voir_conceptions_en_cours_crea');
-Route::get('/conceptions_validees', 'ConceptionController@crea_valide')
+									->middleware('can:voir_conceptions_en_cours_crea');*/
+
+/*Route::get('/conceptions_validees', 'ConceptionController@crea_valide')
+									->middleware('can:voir_conceptions_validées');*/
+
+
+Route::get('/data-required', 'ConceptionController@WaitingForData')
+									->middleware('can:administrer');
+
+Route::get('/creation-required', 'ConceptionController@WaitingForCreation')
+									->name('crea_en_cours')
+									->middleware('can:soumettre_proposition');
+
+Route::get('/graphic-required', 'ConceptionController@WaitingForGraphiste')
+									->middleware('can:affecter_graphistes');
+
+Route::get('/response-required', 'ConceptionController@WaitingForClient')
+									->middleware('can:administrer');
+
+Route::get('/modify-required', 'ConceptionController@WaitingForModification')
+									->middleware('can:soumettre_proposition');
+
+Route::get('/validation-required', 'ConceptionController@WaitingForValidation')
+									->middleware('can:valider_création');									
+
+Route::get('/validated', 'ConceptionController@conceptionEnding')
 									->middleware('can:voir_conceptions_validées');
-
-
 
 Route::get('/dashboard', 'ConceptionController@dashboard')->name('dashboard')
 													->middleware('can:voir_dashboard');
 
 // Routes for propals and modification
-Route::get('/conceptions/{conception}/propositions', 'PropalController@index') ; //->middleware('can:view,Propal');
+Route::get('/conceptions/{conception}/propositions', 'PropalController@index')
+										->middleware('can:view, Propal');
 
 Route::put('/conceptions/{conception}/propositions/{propal}', 'PropalController@update') ; //->middleware('can:view,Propal');
 
@@ -108,6 +154,9 @@ Route::get('/propositions/{propal}', 'PropalController@show') ; //->middleware('
 Route::post('/propositions/{propal}/modifications', 'ModificationController@store') ; //->middleware('can:view,Propal');
 
 Route::post('conceptions/{conception}/modifications/{modification}/propositions', 'PropalController@storeAsPropalAfterModification') ; //->middleware('can:view,Propal');
+
+
+Route::get('/notifications' , 'NotificationController@show') ;
 
 });
 

@@ -1,4 +1,151 @@
 
+<form method="POST" action="/conceptions/{{ $conception->id }}" >
+   @csrf
+   @method('DELETE')
+   
+<table class="w-full whitespace-no-wrap">
+    <thead>
+      <tr
+      class="text-xs font-semibold tracking-wide uppercase border"
+      >
+      <th class="px-4 py-3">Image</th>
+      <th class="px-4 py-3">Suppression</th>
+    </tr>
+  </thead>
+  <tbody
+  class="bg-white divide-y"
+  >
+  @foreach ($images as $image)
+  <tr class="text-gray-700">
+   <td class="px-4 py-3">
+    <a class="flex" href="{{ asset($image->lien) }}" target="_blank">
+
+      <div class="flex items-center">
+        <div class="flex-1px-4 py-2">
+          <img src="{{ asset($image->lien) }}"
+          class="h-48 border border-blue-500 rounded rounded-lg">
+        </div>
+        <div class="flex-1 text-center px-4 py-2 m-2">
+          <span class="inline-block align-middle">
+           {{$image->nomFichier}}
+         </span>
+       </div>
+     </div>
+   </a>
+ </td>    
+    <td>
+      <div class="flex items-center h-24">
+        <div class="flex-1 text-center px-4 py-2 ">
+         <input
+         type="checkbox"
+         class="text-purple-600 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray form-checkbox h-8 w-8"
+         name="imagesBd[{{ $image->id }}]"
+         value="{{ $image->id }}"
+         />  
+       </div>
+
+     </div>
+
+
+   </td>
+
+</tr>
+@endforeach
+<tr>
+  <td></td>
+  <td> 
+      <div class="flex items-center h-24">
+        <div class="flex-1 text-center px-4 py-2 ">
+      <button class="w-64 px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-red-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple mb-2" type="submit">
+        Supprimer la sélection
+      </button> 
+       </div>
+
+     </div>
+
+
+    </form>  
+  </td>
+</tr>
+</tbody>
+</table>
+
+
+
+
+<form method="POST" action="/conceptions/{{ $conception->id }}">
+        @csrf
+        @method('DELETE')
+        <input type="hidden" name="deleteLogo">
+        <button
+        class="relative align-middle rounded-md focus:outline-none focus:shadow-outline-purple"
+        type="submit"
+        >
+        <span
+        aria-hidden="true"
+        class="inline-block align-middle absolute text-md shadow-xs font-bold text-white top-0 right-0
+        bg-red-600 w-6 h-6 transform translate-x-2 -translate-y-2 rounded-full"
+        >X</span>
+
+      </button>
+      <img src="{{ asset($conception->logo) }}" width="100px">
+    </form>
+
+
+<section
+x-data="{
+logos:[],
+newTodo:'',
+addLogo(){
+this.logos.push({
+id: this.logos.length +1,
+
+});
+},
+
+}"
+>
+<section x-show="logoDb">
+            <button
+            class="relative align-middle rounded-md focus:outline-none focus:shadow-outline-purple"
+            @click="AddLogo(), logoDb = ! logoDb"
+            :aria-expanded="logoDb ? 'true' : 'false'" :class="{ 'active': logoDb }"
+            type="button"
+            >
+            <span
+            aria-hidden="true"
+            class="inline-block align-middle absolute text-md shadow-xs font-bold text-white top-0 right-0
+            bg-red-600 w-6 h-6 transform translate-x-2 -translate-y-2 rounded-full"
+            >X</span>
+            <img src="{{ asset($conception->logo) }}" width="100px">
+
+          </button>
+        </section>
+          <section x-show="logo">
+  <template x-for="logo in logos" :key="logo.id">
+
+    <input
+    class="block h-12 px-2 py-2 rounded-md w-full
+    border border-gray-400 bg-gray-200
+    focus:border-purple-600 focus:outline-none
+    focus:shadow-outline-purple form-input"
+    type="file"
+    name="logo"
+    id="logo"
+    value="{{old('logo', $conception->logo)}}"
+    required>
+
+    @error('logo')
+    <p class="test-red-500 test-xs mt-2"> {{ $message }}</p>
+    @enderror
+
+  </template>
+        </section>           
+
+
+    @endif
+      </section>
+      
 
 
           <!-- ancien modèle -->

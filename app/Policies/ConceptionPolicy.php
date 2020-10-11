@@ -32,7 +32,7 @@ class ConceptionPolicy
      */
     public function view(User $user, Conception $conception)
     {
-        return $user->ID === $conception->user_id || $user->ID === $conception->graphiste_id
+        return ($user->ID === $conception->user_id || $user->graphiste->id === $conception->graphiste_id)
                 ? Response::allow()
                 : Response::deny('Vous n\'êtes pas propriétaire cette conception.');
 

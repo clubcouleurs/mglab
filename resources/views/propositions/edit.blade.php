@@ -3,10 +3,10 @@
 
 <main class="h-full overflow-y-auto bg-blue-100">
 <div class="container px-6 mx-auto">
-            <div class="grid gap-6 mb-8 xl:grid-cols-4 mt-8 grid-rows-4 grid-flow-col">
+            <div class="grid gap-6 mb-8 grid-cols-3 mt-8 grid-rows-4">
              
               <div
-                class="min-w-0 row-span-3 col-span-1 p-4 bg-white rounded-lg shadow-md"
+                class="min-w-0 col-span-1 p-4 bg-white rounded-lg shadow-md"
               >
                 <h4 class="mb-4 font-semibold text-gray-600">
                  Vous avez choisie cette proposition 
@@ -82,7 +82,7 @@
                     class="px-5 items-center w-full py-3 font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple"
                   type="submit"
                   >
-                    Je choisie cette proposition
+                    Soumettre ma modification
                   </button>
                   </form>
                 </div>

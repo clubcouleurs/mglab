@@ -109,7 +109,7 @@ class ModificationController extends Controller
             ChoixFaitModificationReceived::dispatch($propal->conception) ;
             //dd($upgrade) ;
 
-            return redirect('/') ;
+            return redirect('/')->with('message','Modification reçue !') ; ;
 
       
     }

@@ -14,6 +14,7 @@ class AuthServiceProvider extends ServiceProvider
      */
     protected $policies = [
         Conception::class => ConceptionPolicy::class,
+        Propal::class => PropalPolicy::class,
     ];
 
     /**

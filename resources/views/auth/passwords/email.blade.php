@@ -1,47 +1,63 @@
-@extends('layouts.app')
+<x-layout>
 
-@section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">{{ __('Reset Password') }}</div>
+    <div class="flex items-center min-h-screen p-6 bg-gray-50 dark:bg-gray-900">
+      <div
+        class="flex-1 h-full max-w-4xl mx-auto overflow-hidden bg-white rounded-lg shadow-xl dark:bg-gray-800"
+      >
+        <div class="flex flex-col overflow-y-auto md:flex-row">
+          <div class="h-32 md:h-auto md:w-1/2">
+            <img
+              aria-hidden="true"
+              class="object-cover w-full h-full"
+              src="{{ asset('img/login-fond.jpg') }}"
+              alt="Office"
+            />
+          </div>
+          <div class="flex items-center justify-center p-6 sm:p-12 md:w-1/2">
+            <div class="w-full">
+              <h1
+                class="mb-4 text-xl font-semibold text-gray-700"
+              >
+                Réinitialiser le mot de passe
+              </h1>
 
-                <div class="card-body">
                     @if (session('status'))
                         <div class="alert alert-success" role="alert">
                             {{ session('status') }}
                         </div>
                     @endif
 
-                    <form method="POST" action="{{ route('password.email') }}">
+                    <form method="POST" action="{{ route('password.update') }}">
                         @csrf
 
-                        <div class="form-group row">
-                            <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('E-Mail Address') }}</label>
 
-                            <div class="col-md-6">
-                                <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
+              <label class="block text-sm">
+                <span class="text-gray-700 dark:text-gray-400">{{ __('E-Mail Address') }}</span>
+
+                  <input id="email" type="email"
+                                    class="mr-2 block w-full mt-1 text-sm focus:border-purple-400 focus:outline-none focus:shadow-outline-purple form-input" name="email" value="{{ $email ?? old('email') }}" required autocomplete="email" autofocus placeholder="Votre email">
 
                                 @error('email')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
+                                      <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+                                        <span class="block sm:inline">{{ $message }}</span>
+                                        <span class="absolute top-0 bottom-0 right-0 px-4 py-3">
+                                          <svg class="fill-current h-6 w-6 text-red-500" role="button" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M14.348 14.849a1.2 1.2 0 0 1-1.697 0L10 11.819l-2.651 3.029a1.2 1.2 0 1 1-1.697-1.697l2.758-3.15-2.759-3.152a1.2 1.2 0 1 1 1.697-1.697L10 8.183l2.651-3.031a1.2 1.2 0 1 1 1.697 1.697l-2.758 3.152 2.758 3.15a1.2 1.2 0 0 1 0 1.698z"/></svg>
+                                        </span>
+                                      </div>                                
+                                @enderror                                    
+              </label>
 
-                        <div class="form-group row mb-0">
-                            <div class="col-md-6 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
-                                    {{ __('Send Password Reset Link') }}
-                                </button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
+              <!-- You should use a button here, as the anchor is only used for the example  -->
+
+                                <button
+                                  class="block w-full px-4 py-2 mt-4 text-sm font-medium leading-5 text-center text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple" type="submit">
+                                    Envoyer le lien de réinitialisation
+                                </button>              
             </div>
+          </div>
         </div>
+      </div>
     </div>
-</div>
-@endsection
+
+
+</x-layout>

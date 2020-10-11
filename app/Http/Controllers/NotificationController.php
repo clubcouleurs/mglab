@@ -46,7 +46,9 @@ class NotificationController extends Controller
      */
     public function show(Notification $notification)
     {
-        //
+        return view('notifications.show', ['notifications' => request()->user()
+                                                              ->notifications()->paginate(25),
+                                         ]);    
     }
 
     /**
