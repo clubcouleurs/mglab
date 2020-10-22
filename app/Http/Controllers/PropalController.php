@@ -3,15 +3,20 @@
 namespace App\Http\Controllers;
 
 use App\Conception;
+use App\Events\ConceptionValidatedPdfRequired;
 use App\Events\ModificationApplied;
 use App\Events\PropalsCreated;
+use App\Http\Traits\ImageWidthHeight;
 use App\Modification;
 use App\Propal;
+use App\Type;
 use Corcel\Model\User;
 use Illuminate\Http\Request;
+use Intervention\Image\Facades\Image as ImageIntervention;
 
 class PropalController extends Controller
 {
+    use ImageWidthHeight ;
     /**
      * Display a listing of the resource.
      *
@@ -21,10 +26,12 @@ class PropalController extends Controller
     {
         //return view('propositions.index', ['propositions' => $conception->propals]) ;
         return view('propositions.index', ['propositions' => $conception->propals()
-                                                                    ->orderBy('id', 'asc')
-                                                                    ->take(3)
-                                                                    ->get(),
-                                            'conception' => $conception]) ;        
+                                                                    ->get()
+                                                                    ->sortBy('id')
+                                                                    ->take(3),
+                                            'conception' => $conception,
+                                            'types' => Type::all(), 
+                                        ]) ;        
     }
 
     /**
@@ -34,7 +41,7 @@ class PropalController extends Controller
      */
     public function create()
     {
-        //
+        dd('create');
     }
 
     /**
@@ -49,23 +56,25 @@ class PropalController extends Controller
 
             $conception->modifications()->delete();
             $conception->propals()->delete();
-
-
             $i = 0 ;
             foreach($request->file('propals') as $propal) {
             $i += 1 ;
+            $resize = ImageIntervention::make($propal)->encode('jpg');
+            $resize->resize($this->getNewWidth($resize->width(), $resize->height(), 800), $this->getNewHeight($resize->width(), $resize->height(), 800) ,function ($constraint) {
+                $constraint->aspectRatio();
+                $constraint->upsize();
+            });
 
             $propalName = 'Proposition_' . $i . '_' . str_replace(' ', '', $conception->type) . '-' 
                                      . str_replace(' ', '-', date('Y-m-d-His')) ;
 
-            $propalExtension = $propal->extension() ;                 
-
-            $propalPath = $propal->storeAs('propals', $propalName . '.' . $propalExtension) ;
-
-            $propalNameExtension = $propalName . '.' . $propalExtension ;
+            $path = "{$propalName}.jpeg";
+            $watermark = ImageIntervention::make(public_path('storage/img/watermark.png'));
+            $resize->insert($watermark, 'center') ;
+            $resize->save('storage/propals/'.$path);
 
                 $propalConception = new Propal([
-                    'lien' => $propalNameExtension,
+                    'lien' => $path,
 
                 ]);            
                 $conception->propals()->save($propalConception);
@@ -73,7 +82,7 @@ class PropalController extends Controller
 
             $conception->upgradeStatus(4) ;
             PropalsCreated::dispatch($conception) ;
-            return back()->with('message','Propositions envoyées !') ; ;
+            return back()->with('message','Propositions envoyées !') ; 
         } 
     }
 
@@ -88,30 +97,27 @@ class PropalController extends Controller
                                                         Modification $Modification)
     {
        if($request->hasFile('modif')) {
-
-                   
             $i = $conception->getCountModifications() + 1 ;
-
-
             $propal = $request->file('modif') ;
+            $resize = ImageIntervention::make($propal)->encode('jpg');
             
-
+            $resize->resize($this->getNewWidth($resize->width(), $resize->height(), 800), $this->getNewHeight($resize->width(), $resize->height(), 800) ,function ($constraint) {
+                $constraint->aspectRatio();
+                $constraint->upsize();
+            });
             $propalName = 'Modification_' . $i . '_' . str_replace(' ', '', $conception->type) . '-' 
                                      . str_replace(' ', '-', date('Y-m-d-His')) ;
-
-            $propalExtension = $propal->extension() ;                 
-
-            $propalPath = $propal->storeAs('propals', $propalName . '.' . $propalExtension) ;
-
-            $propalNameExtension = $propalName . '.' . $propalExtension ;
+            $path = "{$propalName}.jpeg";
+            $watermark = ImageIntervention::make(public_path('storage/img/watermark.png'));
+            $resize->insert($watermark, 'center') ;
+            $resize->save('storage/propals/'.$path);
 
                 $propalConception = new Propal([
-                    'lien' => $propalNameExtension,
+                    'lien' => $path,
                     'modification_id' => $Modification->id,
                     'user_id' => $conception->user_id,
                 ]);
                 $conception->propals()->save($propalConception);
-                //dd($conception->getCountModifications()) ;
                 switch ($conception->getCountModifications()) {
                     case 1:
                         $upgrade = 7 ;
@@ -132,7 +138,7 @@ class PropalController extends Controller
                 
                 ModificationApplied::dispatch($conception);
                 
-            return back() ;
+            return back()->with('message','Fichier envoyé !') ;
         } 
     }    
 
@@ -145,10 +151,33 @@ class PropalController extends Controller
     public function show(Propal $propal)
     {   
 
-        return view('propositions.show', ['proposition' => $propal , 
-                                        'modifications' => $propal->modification()
-                                        ]) ;  
-        
+        if ($propal->conception->status_id === 14 )
+        {
+          if ( $propal->conception->propalModifiee() !== null )
+          {
+            $propal = Propal::find($propal->conception->propalModifiee()->id) ;
+          }
+          else
+          {
+            $propal = Propal::find($propal->conception->propalChoisie()->id) ;
+          }
+            
+            return view('propositions.final', ['proposition'    => $propal ,
+                                              'modifications'   => $propal->modification(),
+                                              'types'           => Type::all(),
+                                              'count'           => $propal->conception
+                                                                ->getCountModifications(),
+                                            ]) ;              
+        }
+        else
+        {
+            return view('propositions.show', ['proposition'     => $propal , 
+                                              'modifications'   => $propal->modification(),
+                                              'types'           => Type::all(),
+                                              'count'           => $propal->conception
+                                                                ->getCountModificationsRestantes(),
+                                            ]) ;  
+        }
     }
 
     /**
@@ -159,7 +188,11 @@ class PropalController extends Controller
      */
     public function edit(Propal $propal)
     {
-        return view('propositions.edit', ['proposition' => $propal]) ;  
+        return view('propositions.edit', ['proposition' => $propal,
+                                          'types'       => Type::all(),
+                                          'count'       => $propal->conception
+                                                            ->getCountModificationsRestantes(), 
+                                    ]);  
         //
     }
 
@@ -172,18 +205,24 @@ class PropalController extends Controller
      */
     public function update(Request $request, Conception $conception, Propal $propal)
     {
-        /*$propalExistant = $conception->propals()->whereNotNull('user_id')->first() ;
-        if ($propalExistant)
-        {
-            $propalExistant->user_id = NULL ;
-            $propalExistant->save(); 
-        }
 
             $propal->user_id = $conception->user_id ; //auth()->user()->ID ;
             $propal->save();
-            
-            return redirect('/propositions/' . $propal->id ) ;
-            //return back() ;   */         
+
+        if($request->has('upgrade'))
+        {
+            switch (Request('upgrade')) {
+                case '3' :
+                $conception->upgradeStatus(14) ;
+                break;                                                          
+                default:
+                abort(403) ;
+                break;
+            }
+
+                ConceptionValidatedPdfRequired::dispatch($conception) ;
+                return redirect('/propositions/' . $propal->id)->with('message','Conception Validée !') ;
+        }                 
     }
 
     /**

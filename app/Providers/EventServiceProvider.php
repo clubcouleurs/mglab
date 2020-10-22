@@ -21,7 +21,7 @@ class EventServiceProvider extends ServiceProvider
         Registered::class => [
             SendEmailVerificationNotification::class,
         ],
-        \App\Events\DataConceptionReceived::class => [
+      /*  \App\Events\DataConceptionReceived::class => [
             \App\Listeners\EnvoiNotificationDataReceived::class,
         ],
         \App\Events\GraphisteAffected::class => [
@@ -44,13 +44,16 @@ class EventServiceProvider extends ServiceProvider
         ],
         \App\Events\ConceptionValidated::class => [
             \App\Listeners\EnvoiNotificationConceptionValidated::class,
-        ],        
+        ],     
+        \App\Events\ConceptionValidatedPdfRequired::class => [
+            \App\Listeners\EnvoiNotificationConceptionValidatedPdfRequired::class,
+        ],*/
 
     ];
 
     public function shouldDiscoverEvents()
     {
-        return false ;
+        return true ;
     }
 
     /**

@@ -29,8 +29,6 @@ class EnvoiNotificationPropalsValidated
      */
     public function handle(PropalsValidated $event)
     {
-        //$admin = User::find(1) ;
-        //dd($event->conception) ;
         Notification::send($event->conception->user,
                             new PropalsValidatedNotification($event->conception)) ;
     }

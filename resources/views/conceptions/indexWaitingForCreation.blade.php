@@ -68,15 +68,24 @@
 
 
 </div>  
-<div class="text-center justify-center flex items-center row-span-1 col-span-4 p-4 rounded-lg bg-white rounded-lg shadow-md">
-
+<div class="text-center flex flex-col justify-center items-center row-span-1 col-span-4 p-4 rounded-lg bg-white rounded-lg shadow-md">
+<div class="h-12 w-full">
   <a
   class="block w-full px-4 py-2 text-sm font-medium leading-5 text-center text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple"
   href="/conceptions/{{$conception->id}}"
   >
   Voir le cahier de charges
 </a>
-
+</div>
+<div class="h-12 w-full">
+  <a
+  class="block w-full px-4 py-2 text-sm font-medium leading-5 text-center text-white transition-colors duration-150 bg-red-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple"
+  href="/conceptions/{{$conception->id}}/pdf"
+  download
+  >
+  Télécharger le cahier de charges en PDF
+</a>
+</div>
 
 </div>
 
@@ -86,11 +95,14 @@
 
    <form class="w-full max-w-sm" action="/conceptions/{{$conception->id}}/propositions" method="POST"
      enctype="multipart/form-data"
-     onsubmit="return validateForm()"
-     name="myForm">
+     onsubmit="return validateFormPropals()"
+     name="FormPropals">
      @csrf
+     <div>
+<p class="text-gray-700 text-sm mb-2">Uploader ici les 3 propositions en format JPG ou PNG</p>
+       <hr class="mb-2">
+     </div>
      <div class="flex items-center">
-
       <input
       class="block w-full mt-1 text-sm focus:border-purple-400 focus:outline-none focus:shadow-outline-purple form-input"
       type="file"
@@ -103,8 +115,7 @@
       <p class="test-red-500 test-xs mt-2"> {{ $message }}</p>
       @enderror
 
-
-      <button class="flex-shrink-0 bg-teal-500 hover:bg-teal-700 border-teal-500 hover:border-teal-700 text-sm border-4 text-white py-3 px-4 pr-8 rounded" type="submit">
+      <button class="flex-shrink-0 bg-teal-500 hover:bg-teal-700 border-teal-500 hover:border-teal-700 text-sm border-4 text-white py-3 px-4 rounded" type="submit">
         Ok
       </button>
 
@@ -112,6 +123,26 @@
   </form>
 
 </div>
+
+
+<hr class="mb-2 mt-2">
+
+
+@can('administrer')
+<div class="mt-2">
+ <form action="/conceptions/{{$conception->id}}" method="POST" >
+  @csrf
+    <button class="block w-full px-4 py-2 text-sm flex-shrink-0 bg-gray-500 hover:bg-gray-700 border-gray-500 hover:border-gray-700 text-sm border-4 text-white rounded-lg"
+    type="submit">
+    Downgrader
+  </button>
+</form>
+</div>
+@endcan
+
+
+
+
 </div>
 <div class="row-span-1 col-span-3 p-4 rounded-lg bg-white rounded-lg shadow-md">
   <div class="block flex items-center w-full">
@@ -158,26 +189,5 @@
 </div>
 </main>
 
-<script type="text/javascript">
 
-  function validateForm() {
-
-    var files = document.getElementById("propals").files;
-
-    var l = files.length ;
-    if (l === 3) {
-
-      return true;
-
-    }
-    else
-    {
-      alert("Vous devez soumettre 3 propositions ! " );
-      document.getElementById("propals").value = '' ;
-
-      return false;
-    }
-  }
-
-</script>
 </x-master>

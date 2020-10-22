@@ -17,5 +17,8 @@ class Modification extends Model
         return $this->belongsTo(Propal::class)->latest();
     }  
 
-
+   public function document()
+   {
+      return $this->hasMany(Document::class, 'modification_id')->latest() ;
+   }
 }

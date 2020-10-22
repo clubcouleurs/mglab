@@ -1,4 +1,4 @@
-<x-master>
+<x-master type='types' :value="$types">
 
 
   <main class="h-full overflow-y-auto bg-blue-100">
@@ -39,7 +39,14 @@
       Votre logo
     </h3>
 
-    <img src="{{asset($conception->logo)}}" width="250">
+            @if (substr($conception->logo, -3) == 'pdf' )
+            <a href="{{ asset($conception->logo) }}" download="mon-logo"
+              class="text-blue-500 underline border px-4 py-4 bg-blue-100">Télécharger votre logo</a>
+            @else
+            <img src="{{asset($conception->logo)}}" width="250">
+            @endif
+
+    
   </div>
 
 @endif
@@ -172,6 +179,8 @@ class="w-full mt-1 text-lg px-2 py-2 bg-blue-100 border rounded-lg"
 </div>
 @endif
 <!-- Div photos -->
+
+
 @if(count($images) > 0 )
 <div class="px-4 py-3 mb-8 bg-white rounded-lg shadow-md">
   <div class="mb-4">
@@ -183,11 +192,67 @@ Les images pour votre création<hr>
 @endif
 </h3>
   @foreach ($images as $image)
-        <section x-show="img{{ $image->id }}" class="flex inline-grid ml-8">
-            <a class="flex" href="{{ asset($image->lien) }}" target="_blank">
+
+      <!-- ici c'est pour la modal -->
+<main
+      class="inline-flex mx-auto max-w-4xl "
+      x-data="{ 'isDialogOpen': false }"
+      @keydown.escape="isDialogOpen = false"
+>
+       <section class="flex flex-wrap">
+          <button type="button" class="hover:border-gray-500" @click="isDialogOpen = true">
             <img src="{{ asset($image->lien) }}"
-            class="px-2 py-2 w-48 border border-blue-400 shadow-lg rounded-lg mb-2"></a>
-        </section>
+            class="px-2 py-2 w-48 border border-blue-400 shadow-lg rounded-lg mb-2">
+          </button>
+
+
+      <!-- overlay -->
+      <div
+      class="overflow-auto"
+      style="background-color: rgba(0,0,0,0.5)"
+      x-show="isDialogOpen"
+      :class="{ 'absolute inset-0 z-30 flex items-start justify-center': isDialogOpen }"
+      >
+      <!-- dialog -->
+      <div
+      class="bg-white shadow-2xl m-4 sm:m-8 rounded-lg"
+      x-show="isDialogOpen"
+      @click.away="isDialogOpen = false"
+      >
+
+      <header class="flex justify-end">
+        <button
+        class="inline-flex items-center justify-center w-6 h-6 text-black transition-colors duration-150 rounded hover:text-gray-700"
+        aria-label="close"
+        @click="isDialogOpen = false"
+        >
+        <svg
+        class="w-4 h-4"
+        fill="currentColor"
+        viewBox="0 0 20 20"
+        role="img"
+        aria-hidden="true"
+        >
+        <path
+        d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+        clip-rule="evenodd"
+        fill-rule="evenodd"
+        ></path>
+      </svg>
+    </button>
+  </header>
+
+
+  <div class="relative flex justify-between items-center ">
+    <img class="rounded-b-lg" src="{{asset($image->lien)}}">
+
+  </div>
+
+</div><!-- /dialog -->
+</div><!-- /overlay -->
+
+</section>
+</main>        
 @endforeach
 </div>
 </div>
@@ -204,7 +269,7 @@ Les images pour votre création<hr>
 
                       <a
             class="relative align-middle rounded-md focus:outline-none focus:shadow-outline-purple"
-            type="button" href="{{ asset($document->lien) }}"
+            type="button" href="{{ asset($document->lien) }}" download="{{$document->nomDocument}}"
             >
             <span
             aria-hidden="true"
@@ -215,7 +280,7 @@ Les images pour votre création<hr>
             class="block px-2 py-2 rounded-md w-full
           border border-gray-400 bg-gray-200 shadow-lg">
           </a>
-      <a  class="ml-4 text-blue-400 font-bold"> {{ $document->nomDocument }}</a>
+      <a class="ml-4 text-blue-400 font-bold"> {{ $document->nomDocument }}</a>
   </div>
 </div>
 @endif
@@ -286,9 +351,75 @@ this.todos.splice(this.todos.indexOf(todo), 1 );
 
 <div class="grid grid-cols-3 gap-4 justify-items-auto">
   <div class="flex justify-center items-center px-4 py-2">
-            <a class="flex" href="{{ asset($produit->image) }}" target="_blank">
+
+
+
+
+      <!-- ici c'est pour la modal -->
+<main
+      class="inline-flex mx-auto max-w-4xl "
+      x-data="{ 'isDialogOpen': false }"
+      @keydown.escape="isDialogOpen = false"
+>
+       <section class="flex flex-wrap">
+          <button type="button" class="hover:border-gray-500" @click="isDialogOpen = true">
             <img src="{{ asset($produit->image) }}"
-            class="px-2 py-2 w-32  border border-blue-400 shadow-lg rounded-lg mb-2"></a>    
+            class="px-2 py-2 w-48 border border-blue-400 shadow-lg rounded-lg mb-2">
+          </button>
+
+
+      <!-- overlay -->
+      <div
+      class="overflow-auto"
+      style="background-color: rgba(0,0,0,0.5)"
+      x-show="isDialogOpen"
+      :class="{ 'absolute inset-0 z-30 flex items-start justify-center': isDialogOpen }"
+      >
+      <!-- dialog -->
+      <div
+      class="bg-white shadow-2xl m-4 sm:m-8 rounded-lg"
+      x-show="isDialogOpen"
+      @click.away="isDialogOpen = false"
+      >
+
+      <header class="flex justify-end">
+        <button
+        class="inline-flex items-center justify-center w-6 h-6 text-black transition-colors duration-150 rounded hover:text-gray-700"
+        aria-label="close"
+        @click="isDialogOpen = false"
+        >
+        <svg
+        class="w-4 h-4"
+        fill="currentColor"
+        viewBox="0 0 20 20"
+        role="img"
+        aria-hidden="true"
+        >
+        <path
+        d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+        clip-rule="evenodd"
+        fill-rule="evenodd"
+        ></path>
+      </svg>
+    </button>
+  </header>
+
+
+  <div class="relative flex justify-between items-center ">
+    <img class="rounded-b-lg" src="{{asset($produit->image)}}">
+
+  </div>
+
+</div><!-- /dialog -->
+</div><!-- /overlay -->
+
+</section>
+</main>   
+
+<!-- fin partie modal-->
+
+
+
   </div>
   <div class="flex justify-center items-center px-4 py-2">
      <p
@@ -710,7 +841,7 @@ class="inline-block w-4 h-4 mr-1 bg-red-600 rounded-full"
   <div class="grid grid-cols-4 gap-4">
     <div></div>
     <div>
-          <a class="text-center block rounded rounded-lg py-2 px-4 text-white transition-colors duration-150 bg-purple-600 border border-transparent active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple" href="/conceptions/{{ $conception->id }}/edit">Modifier</a>
+          <a class="text-center block rounded text-sm rounded-lg h-10 py-2 text-white transition-colors duration-150 bg-purple-600 border border-transparent active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple" href="/conceptions/{{ $conception->id }}/edit">Modifier</a>
   </div>
   <div>
     <form method="POST" action="/conceptions/{{ $conception->id }}" >
@@ -718,7 +849,7 @@ class="inline-block w-4 h-4 mr-1 bg-red-600 rounded-full"
       @method('PATCH')
       <input type="hidden" name="confirm">
 
-      <button class="w-64 px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-red-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple mb-2" type="submit">
+      <button class="w-64 px-4 py-2 text-sm h-10 font-medium leading-5 text-white transition-colors duration-150 bg-red-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple mb-2" type="submit">
         Valider et lancer la création
      </button>
     </form>     

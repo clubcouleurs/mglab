@@ -43,7 +43,8 @@
                 <span class="text-gray-700">Mot de passe</span>
 
                 <input
-                  class="@error('password') border border-red-700 @enderror block w-full mt-1 text-sm focus:border-purple-400 focus:outline-none focus:shadow-outline-purple form-input"
+                  class="px-2 @error('password') border border-red-700 @enderror block w-full mt-1 text-sm focus:border-purple-400 focus:outline-none focus:shadow-outline-purple
+                  rounded border border-red-800 form-input h-12"
                   placeholder="***************"
                   type="password"
                   id="password" name="password" required autocomplete="current-password"                  

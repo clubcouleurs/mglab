@@ -7,10 +7,11 @@ use App\Propal;
 use App\Status;
 use App\User;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Notifications\DatabaseNotification;
 
 class Notification extends Model
 {
-	protected $connection = 'mglab';
+
     protected $guarded = [];
     protected $casts = [
 		'data' => 'array',
@@ -20,6 +21,5 @@ class Notification extends Model
    {
    		return $this->belongsTo(User::class, 'notifiable_id')->latest() ;
    }
-
 
 }

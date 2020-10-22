@@ -65,36 +65,65 @@
      </span>
    </div>
  </div> 
+</div>
 
 
-</div>  
-<div class="text-center justify-center flex items-center row-span-2 col-span-4 p-4 rounded-lg bg-white rounded-lg shadow-md">
+<div class="row-span-2 col-span-4 p-4 rounded-lg bg-white rounded-lg shadow-md">
+        @if($conception->status_id === 5)
+          <a
+          class="block w-full px-4 py-2 text-sm font-medium leading-5 text-center text-white transition-colors duration-150 bg-red-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple"
+          href="/conceptions/{{$conception->id}}/propositions"
+          >
+          Voir les propositions
+          </a>
+        @endif  
+
+        @if($conception->status_id === 8)
+          <a
+            class="block w-full px-4 py-2 text-sm font-medium leading-5 text-center text-white transition-colors duration-150 bg-red-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple"
+            href="/propositions/{{$conception->propalModifiee()->id}}"
+            >
+            Voir la modification
+          </a>  
+        @endif
+
+        @if($conception->status_id === 11)
+
+          <a
+            class="block w-full px-4 py-2 text-sm font-medium leading-5 text-center text-white transition-colors duration-150 bg-red-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple"
+            href="/propositions/{{$conception->propalModifiee()->id}}"
+            >
+            Voir la modification
+          </a>  
+        @endif
 
 
-        <a
-        class="block w-full px-4 py-2 text-sm font-medium leading-5 text-center text-white transition-colors duration-150 bg-red-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple"
-        href="/conceptions/{{$conception->id}}/propositions"
-        >
-        Voir les propositions
-      </a>
+<hr class="mb-2 mt-2">
+
+@can('administrer')
+<div class="mt-2">
+ <form action="/conceptions/{{$conception->id}}" method="POST" >
+  @csrf
+    <button class="block w-full px-4 py-2 text-sm flex-shrink-0 bg-gray-500 hover:bg-gray-700 border-gray-500 hover:border-gray-700 text-sm border-4 text-white rounded-lg"
+    type="submit">
+    Downgrader
+  </button>
+</form>
+</div>
+@endcan
 
 
 
 </div>
-
-
 
 <div class="row-span-1 col-span-3 p-4 rounded-lg bg-white rounded-lg shadow-md">
   <div class="block flex items-center w-full">
     <span class="inline-block w-3 h-3 mr-1 bg-red-600 rounded-full">
     </span>
     <p class="text-xs">Date de commande</p>
-  </div>  
+</div>  
 
-
-
-
-  <span class="py-1 font-sm leading-tight text-green-700 bg-green-100 rounded-full "
+<span class="py-1 font-sm leading-tight text-green-700 bg-green-100 rounded-full "
   >
   {{ $conception->lancer_at->diffForHumans() }}
 </span>
@@ -129,22 +158,4 @@
 
 </div>
 </main>
-
-<script type="text/javascript">
-
- function validateFormFinal() {
-    var file = document.getElementById("pdf_conception").value;
-    var l = file.split('.').pop();
-    if (l == 'pdf') {
-      return true;
-    }
-    else
-    {
-      alert("Vous devez soumettre un fichier PDF ! ");
-      document.getElementById("pdf_conception").value = '' ;
-
-      return false;
-    }
-  }
-</script>
 </x-master>

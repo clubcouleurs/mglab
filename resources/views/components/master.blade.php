@@ -7,12 +7,13 @@
   <!-- CSRF Token -->
   <meta name="csrf-token" content="{{ csrf_token() }}">
 
-  <title>{{ config('app.name', '.com') }}</title>
+  <title>{{ config('app.name', 'MonGraphisme.com') }}</title>
   <!--<title>{{ config('app.name', 'MonGraphisme.com') }}</title>-->
 
   <!-- Scripts -->
   <script src="{{asset('js/app.js')}}" defer></script>
   <script src="{{asset('js/init-alpine.js')}}"></script>
+  <script src="{{asset('js/function.js')}}"></script>
 
   <!-- Fonts -->
   <link rel="dns-prefetch" href="//fonts.gstatic.com">
@@ -111,7 +112,7 @@
       ></span>
       <a
       class="inline-flex items-center w-full text-2xl font-semibold text-gray-800 transition-colors duration-150 hover:text-gray-800"
-      href="/"
+      href="/dashboard"
       >
       <svg
       class="w-5 h-5"
@@ -153,7 +154,7 @@
     d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"
     ></path>
   </svg>
-  <span class="ml-4 text-white">En attente de données</span>
+  <span class="ml-2 text-white">En attente de données ({{ count(App\Conception::where('status_id', 1)->get()) }})</span>
 </a>
 <hr class="mt-4 ">
 </li>
@@ -178,9 +179,9 @@
   d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"
   ></path>
 </svg>
-<span class="ml-4 text-white">Affectation Graphiste</span>
+<span class="ml-2 text-white">Affectation Graphiste ({{ count(App\Conception::where('status_id', 2)->get()) }})</span>
 </a>
-<hr class="mt-4 ">
+<hr class="mt-2">
 </li>
 @endcan
 @can('soumettre_proposition')
@@ -204,7 +205,9 @@
   d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"
   ></path>
 </svg>
-<span class="ml-4 text-white">En création</span>
+<span class="ml-2 text-white">En création (@can('administrer')
+{{ count(App\Conception::whereIn('status_id', [3])->get()) }}@elsecan ('soumettre_proposition')
+{{ count(App\Conception::where('graphiste_id', Auth::user()->graphiste->id)->whereIn('status_id', [3])->get()) }}@endcan)</span>
 </a>
 <hr class="mt-4 ">
 
@@ -231,7 +234,7 @@
   d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"
   ></path>
 </svg>
-<span class="ml-4 text-white">En attente de validation</span>
+<span class="ml-2 text-white">En validation ({{ count(App\Conception::whereIn('status_id', [4,7,10,13])->get()) }})</span>
 </a>
 <hr class="mt-4">
 
@@ -258,7 +261,7 @@
   d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"
   ></path>
 </svg>
-<span class="ml-4 text-white">En attente de retour</span>
+<span class="ml-2 text-white">En attente de retour ({{ count(App\Conception::whereIn('status_id', [5,8,11])->get()) }})</span>
 </a>
 <hr class="mt-4 ">
 
@@ -285,7 +288,37 @@
   d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"
   ></path>
 </svg>
-<span class="ml-4 text-white">En modification</span>
+<span class="ml-2 text-white">En modification (@can('administrer')
+{{ count(App\Conception::whereIn('status_id', [6,9,12])->get()) }}@elsecan ('soumettre_proposition')
+{{ count(App\Conception::where('graphiste_id', Auth::user()->graphiste->id)->whereIn('status_id', [6,9,12])->get()) }}@endcan)</span>
+</a>
+<hr class="mt-4 ">
+</li>
+@endcan
+@can('soumettre_proposition')
+
+<li class="relative px-6 py-3">
+  <a
+  class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800"
+  href="/pdf-required"
+  >
+  <svg
+  class="w-5 h-5"
+  aria-hidden="true"
+  fill="none"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  stroke-width="2"
+  viewBox="0 0 24 24"
+  stroke="white"
+  >
+  <path
+  d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"
+  ></path>
+</svg>
+<span class="ml-2 text-white">En attente du PDF (@can('administrer')
+{{ count(App\Conception::whereIn('status_id', [14])->get()) }}@elsecan ('soumettre_proposition')
+{{ count(App\Conception::where('graphiste_id', Auth::user()->graphiste->id)->whereIn('status_id', [14])->get()) }}@endcan)</span>
 </a>
 <hr class="mt-4 ">
 </li>
@@ -311,7 +344,9 @@
   d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"
   ></path>
 </svg>
-<span class="ml-4 text-white">Validées et finalisées</span>
+<span class="ml-2 text-white">Validées et finalisées (@can('administrer')
+{{ count(App\Conception::whereIn('status_id', [15])->get()) }}@elsecan ('soumettre_proposition')
+{{ count(App\Conception::where('graphiste_id', Auth::user()->graphiste->id)->whereIn('status_id', [15])->get()) }}@endcan)</span>
 </a>
 <hr class="mt-4 ">
 
@@ -327,7 +362,7 @@
   <a
   class="inline-flex items-center w-full text-sm transition-colors duration-150
   hover:text-gray-500 text-white"
-  href=""
+  href="/"
   >
   <svg
   class="w-5 h-5"
@@ -343,8 +378,7 @@
   d="M4 6h16M4 10h16M4 14h16M4 18h16"
   ></path>
 </svg>
-<span class="ml-2 py-2 font-bold text-lg">Vos création en cours {{-- $type->label . ' (' . count($type->conceptions()->
-                      where('status_id' , '15')->get()) . ')' --}}</span>
+<span class="ml-2 py-2 font-bold text-md">Vos création en cours ({{Auth::user()->CountConceptionEncours()}})</span>
 </a>
 </li>
 
@@ -372,14 +406,11 @@
   d="M4 6h16M4 10h16M4 14h16M4 18h16"
   ></path>
 </svg>
-<span class="ml-2">{{ $type->label . ' (' . count($type->conceptions()->
-                      where('status_id' , '15')->
-                      where('user_id' , Auth::user()->ID)->get()) . ')' }}</span>
+<span class="ml-2">{{ $type->label }} ({{ $type->countConceptions()}})</span>
 </a>
 </li>
 
 @endforeach
-
 
 @endcannot
 @endcannot                                                     
@@ -484,8 +515,8 @@ aria-label="Search"
   <span
   aria-hidden="true"
   class="inline-block absolute text-xs text-white top-0 right-0
-  w-5 h-5 transform translate-x-2 -translate-y-2 rounded-full"
-  style="margin-top: -2px; background-color: #c01a89"
+  transform translate-x-2 -translate-y-2 rounded-full px-1"
+  style="margin-top: -5px; background-color: #c01a89"
   >{{ count( Auth::user()->unreadNotifications()->get()) }}</span>
   @endif
 </button>
@@ -501,17 +532,29 @@ aria-label="Search"
   <li class="flex">
     <a
     class="inline-flex items-center justify-between w-full px-2 py-1 text-sm font-semibold transition-colors duration-150 rounded-md hover:bg-gray-100 hover:text-gray-800"
-    href="/notifications"
+    href="/notifications-non-lus"
     >
-    <span>Notifications</span>
+    <span>Notifications non-lus</span>
     <span
     class="inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-red-600 bg-red-100 rounded-full"
     >
-    {{ count(Auth::user()->unreadNotifications()->get()) }}
+    {{ count(Auth::user()->UnreadNotifications()->get()) }}
   </span>
 </a>
 </li>
-
+  <li class="flex">
+    <a
+    class="inline-flex items-center justify-between w-full px-2 py-1 text-sm font-semibold transition-colors duration-150 rounded-md hover:bg-gray-100 hover:text-gray-800"
+    href="/notifications-lus"
+    >
+    <span>Notifications lus</span>
+    <span
+    class="inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-red-600 bg-red-100 rounded-full"
+    >
+    {{ count(Auth::user()->readNotifications()->get()) }}
+  </span>
+</a>
+</li>
 </ul>
 </template>
 </li>
@@ -541,9 +584,10 @@ aria-label="Search"
   x-transition:leave-end="opacity-0"
   @click.away="closeProfileMenu"
   @keydown.escape="closeProfileMenu"
-  class="absolute right-0 w-56 p-2 mt-2 space-y-2 text-white bg-gray-800 rounded-md shadow-xl"
+  class="absolute right-0 p-2 mt-2 space-y-2 text-white bg-gray-800 rounded-md shadow-xl"
   aria-label="submenu"
   >
+  <!--
   <li class="flex">
     <a
     class="inline-flex items-center w-full px-2 py-1 text-sm font-semibold transition-colors duration-150 rounded-md hover:bg-gray-100 hover:text-gray-800"
@@ -565,32 +609,10 @@ aria-label="Search"
   </svg>
   <span>Profil</span>
 </a>
-</li>
+</li>-->
 
-  <li class="flex">
-    <a
-    class="inline-flex items-center w-full px-2 py-1 text-sm font-semibold transition-colors duration-150 rounded-md hover:bg-gray-100 hover:text-gray-800"
-    href="/logout"
-    >
-    <svg
-    class="w-4 h-4 mr-3"
-    aria-hidden="true"
-    fill="none"
-    stroke-linecap="round"
-    stroke-linejoin="round"
-    stroke-width="2"
-    viewBox="0 0 24 24"
-    stroke="currentColor"
-    >
-    <path
-    d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
-    ></path>
-  </svg>
-  <span>Déconnexion</span>
-</a>
-</li>
 
-<li class="flex">
+<li class="flex w-full">
   <form method="POST" action="/logout">
     @csrf
     <button

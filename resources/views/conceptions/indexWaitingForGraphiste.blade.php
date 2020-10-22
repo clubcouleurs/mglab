@@ -97,12 +97,29 @@
           >{{ $graphiste->user->user_login }}</option>
           @endforeach
         </select>
-        <button class="flex-shrink-0 bg-teal-500 hover:bg-teal-700 border-teal-500 hover:border-teal-700 text-sm border-4 text-white py-3 px-4 pr-8 rounded" type="submit">
+        <button class="flex-shrink-0 bg-teal-500 hover:bg-teal-700 border-teal-500 hover:border-teal-700 text-sm border-4 text-white py-3 px-4 rounded" type="submit">
           Ok
         </button>
 
       </div>
     </form>
+
+<hr class="mb-2 mt-2">
+
+@can('administrer')
+<div class="mt-2">
+ <form action="/conceptions/{{$conception->id}}" method="POST" >
+  @csrf
+    <button class="block w-full px-4 py-2 text-sm flex-shrink-0 bg-gray-500 hover:bg-gray-700 border-gray-500 hover:border-gray-700 text-sm border-4 text-white rounded-lg"
+    type="submit">
+    Downgrader
+  </button>
+</form>
+</div>
+@endcan
+
+
+
   </div>
   <div class="row-span-1 col-span-3 p-4 rounded-lg bg-white rounded-lg shadow-md">
     <div class="block flex items-center w-full">

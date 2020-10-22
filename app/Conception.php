@@ -60,42 +60,54 @@ class Conception extends Model
 
    public function propals()
    {
-      return $this->hasMany(Propal::class)->latest() ;
+      return $this->hasMany(Propal::class) ;
    }
 
    public function propalChoisie()   
    {
 
-      return $this->propals()->select('id')
+      return $this->propals()//->select('id')
                              ->where('user_id', $this->user_id )
                              ->whereNull('modification_id')
                              ->first() ;
    }
 
-   public function propalModifiee()   
+   public function propalModifiee($value = null)   
    {
-      return $this->propals()->select('id')
+    if (isset($value))
+    {
+      $rslt = $this->propals()//->select('id')
+                              ->where('user_id', $this->user_id )
+                              ->whereNotNull('modification_id')
+                              ->orderBy('updated_at' , 'asc')->get();
+      return $rslt[$value] ;                              
+    }
+    else
+    {
+      return $this->propals()//->select('id')
                              ->where('user_id', $this->user_id )
                              ->whereNotNull('modification_id')
-                             ->orderBy('created_at' , 'desc')
-                             ->first() ;
+                             ->orderBy('updated_at' , 'desc')
+                             ->first();      
+    }
    }   
 
    public function getCountModifications()
    {
-      $modifications = $this->propals()->select('id')
+      return count($this->propals()
                              ->where('user_id', $this->user_id )
                              ->whereNotNull('modification_id')
-                             ->get() ; 
+                             ->get()) ;
+   }
 
-    $CountModifications = count($modifications) ;
-
-     return $CountModifications;
+   public function getCountModificationsRestantes()
+   {
+      return ($this->nombreModification - count($this->getModifications())) ;
    }
 
    public function getModifications()
    {
-     return $this->propals->map->modification->pluck('id')->flatten()->unique()->filter() ;
+     return $this->propals->map->modification->sortByDesc('created_at')->pluck('id')->flatten()->unique()->filter()->values() ;
    }
 
     public function modifications()
@@ -105,14 +117,23 @@ class Conception extends Model
 
    public function upgradeStatus($valeur = Null)
    {
-
         $this->status_id = $valeur  ;
         return $this->save() ;
    }
-   public function getSlabAttribute()
+
+   public function downgradeStatus($value = null)
    {
-      return ((Str::substr($this->font,0,2) !== '00') && (Str::substr($this->font,0,2) !== '') ? 'Slab Serif' : '') ;
-   }
+        if (isset($value))
+        {
+          $this->status_id = $value  ;  
+        }
+        else
+        {
+          $this->status_id = ( $this->status_id - 1 )  ;
+        }
+        return $this->save() ;
+   }   
+
    public function getParticuliersAttribute()
    {
       return ((Str::substr($this->cible,0,1) !== '0') && (Str::substr($this->cible,0,1) !== '') ? 'Particuliers' : '') ;
@@ -121,6 +142,12 @@ class Conception extends Model
    {
       return ((Str::substr($this->cible,2,1) !== '0') && (Str::substr($this->cible,2,1) !== '')? 'Entreprises' : '') ;
    }
+
+   public function getSlabAttribute()
+   {
+      return ((Str::substr($this->font,0,2) !== '00') && (Str::substr($this->font,0,2) !== '') ? 'Slab Serif' : '') ;
+   }
+
    public function getScriptAttribute()
    {
      return ((Str::substr($this->font,3,2) !=='00') && (Str::substr($this->font,3,2) !=='') ? 'Script' : '') ;
@@ -129,8 +156,9 @@ class Conception extends Model
    {
      return ((Str::substr($this->font,12,2) !== '00') && (Str::substr($this->font,12,2) !== '') ? 'Serif' : '') ;
    }
-   public function getSansSerifAttribute()
+   public function getSanserifAttribute()
    {
+
      return ((Str::substr($this->font,6,2) !== '00') && (Str::substr($this->font,6,2) !== '') ? 'Sans Serif' : '') ;
    }
    public function getManuscritAttribute()
@@ -167,14 +195,12 @@ class Conception extends Model
 
     public function getTypeConceptionAttribute()
     {
-
-        list($type) = explode(' ', strtolower($this->type));
-        return $type ;
-
+        $type  = explode(' ', strtolower($this->type));
+        return $type[1] ;
     }
 
+
     public function createPdf() {
-      //dd('pdf') ;
       // share data to view
       view()->share('conception', $this);
       $pdf = PDF::loadView('pdf.conception', ['conception' => $this,
@@ -199,7 +225,7 @@ class Conception extends Model
         ]) ; 
 
       // download PDF file with download method
-      return $pdf->setPaper('a4')->setOptions(['dpi' => 300])->download($this->type .'.pdf');
+      return $pdf->download($this->type .'.pdf');
     }
    
 }

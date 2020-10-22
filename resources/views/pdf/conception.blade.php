@@ -62,7 +62,7 @@
 <table style="width: 100%">
 <tr>
 <td align="center">
-  <h2>Le cahier de charges pour la conception du {{ $conception->type }}</h2>
+  <h2>Le cahier de charges pour : {{ $conception->type }}</h2>
 </td>
   </tr>
 
@@ -81,7 +81,7 @@
   @else
 
   <hr>
-  <h3>Votre logo</h3>
+  <h3 style="z-index: 7">Votre logo</h3>
 
   <img src="{{asset($conception->logo)}}" width="250" class="img-thumbnail">
 
@@ -206,10 +206,10 @@
       {{ $i += 1  }}
 
       @if ($i === 3)
-          <td><img src="{{ asset($image->lien) }}" height="200px"></td>      
+          <td><img src="{{ asset('thumbs/'. substr($image->lien,8)) }}" width="190px"></td>      
         </tr>
       @else
-          <td><img src="{{ asset($image->lien) }}" height="200px"></td>      
+          <td><img src="{{ asset('thumbs/'. substr($image->lien,8)) }}" width="190px"></td>      
       @endif
 
       @if ($i === 3)
@@ -272,7 +272,7 @@
     <tbody>
       @foreach ($produits as $produit)
       <tr>
-        <td align="center"><img src="{{ asset($produit->image) }}" width="100px" class="img-thumbnail"></td>
+        <td align="center"><img src="{{ asset('thumbs/'. substr($produit->image,8 )) }}" width="200px" class="img-thumbnail"></td>
         <td><p>{{$produit->description}}</p></td>
         <td>{{$produit->prix / 100 }} €</td>
       </tr>
@@ -443,7 +443,7 @@
       @else
 
 
-<table width="100%" style="height: 50px; width: 100%">
+<table border="1" width="100%" style="height: 50px; width: 100%">
   <tr>
     <td style="background-color: {{$conception->couleur_1}}">
     </td>

@@ -62,7 +62,7 @@ class PropalsValidatedNotification extends Notification
     public function toArray($notifiable)
     {
         return [
-                                'sujet' => 'Modification reçue',
+                                'sujet' => 'Propositions prêtes',
                                 'conception' => $this->conception->type,
                                 'conceptionId' => $this->conception->id,
                                 'client' => $this->conception->user->display_name,

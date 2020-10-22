@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Document;
 use App\Events\ChoixFaitModificationReceived;
 use App\Modification;
 use App\Propal;
@@ -38,21 +39,14 @@ class ModificationController extends Controller
     public function store(Request $request, Propal $propal)
     {
 
-           
-            /*$i = 0 ;
-            foreach($request->file('propals') as $propal) {
-            $i += 1 ;
 
-            $propalName = 'Proposition_' . $i . '_' . str_replace(' ', '', $conception->type) . '-' 
-                                     . str_replace(' ', '-', date('Y-m-d-His')) ;
-
-            $propalExtension = $propal->extension() ;                 
-
-            $propalPath = $propal->storeAs('docs', $propalName . '.' . $propalExtension) ;
-
-            $propalNameExtension = $propalName . '.' . $propalExtension ;
-        }*/
-
+                $validatedData = $request->validate([
+                    'explication' => 'required|string',
+                    'doc.*'         => 'sometimes|required|mimetypes:application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/msword,application/vnd.openxmlformats-officedocument.presentationml.presentation,application/vnd.ms-powerpoint,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/pdf,image/png,image/jpeg'
+            ],
+            [
+                'doc.mimetypes' => 'Les documents doivent être du format Word, Pownerpoint, Excel, PDF ou une image.'
+            ]);
 
                 $data = [
                     'explication' => $request['explication'],
@@ -79,15 +73,32 @@ class ModificationController extends Controller
         if (!$propalModificationExistant)
         {
 
-            $propal->modification()->save(new Modification($data));
+            $modification = $propal->modification()->save(new Modification($data));
 
         }
         else
         {
             $propalModificationExistant->delete() ;
-            $propal->modification()->save(new Modification($data));
+            $modification = $propal->modification()->save(new Modification($data));
 
         }
+
+            if ($request->has('doc'))
+                {
+                                
+                foreach($request->file('doc') as $document)
+                {
+                    $destinationPath = $document->store('docs') ;
+                    $filename = $document->getClientOriginalName();
+                    $documentConception = new Document([
+                        'lien' => $destinationPath,
+                        'nomDocument' => $filename
+                    ]);
+                    $modification->document()->save($documentConception);
+                    }
+                }
+
+
         switch ($propal->conception->getCountModifications()) {
             case 0:
                 $upgrade  = 6;

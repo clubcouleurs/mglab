@@ -68,7 +68,7 @@
  </div> 
 </div>  
 
-<div class="flex row-span-2 col-span-4 p-4 rounded-lg bg-white rounded-lg shadow-md">
+<div class="row-span-2 col-span-4 p-4 rounded-lg bg-white rounded-lg shadow-md">
         
 
           <div class="row-span-1 col-span-4 p-4 bg-white rounded-lg">
@@ -94,7 +94,7 @@
           <img src="{{ asset('img/pdf.png') }}" class="h-8 mr-2">
 
           <a download="{{ $conception->pdf_conception }}" href="{{ Storage::url('creations/' . $conception->pdf_conception) }}" class="font-semibold text-red-600">
-            Exe_{{ $conception->type }}_{{ $conception->user->user_login }}</a>
+            Exe_{{ $conception->type }}</a>
           
         </div>
 
@@ -106,11 +106,22 @@
 
 
 
+<hr class="mb-2 mt-2">
+
+@can('administrer')
+<div class="mt-2">
+ <form action="/conceptions/{{$conception->id}}" method="POST" >
+  @csrf
+    <button class="block w-full px-4 py-2 text-sm flex-shrink-0 bg-gray-500 hover:bg-gray-700 border-gray-500 hover:border-gray-700 text-sm border-4 text-white rounded-lg"
+    type="submit">
+    Downgrader
+  </button>
+</form>
+</div>
+@endcan
 
 
 </div>
-
-
 
 <div class="row-span-1 col-span-3 p-4 rounded-lg bg-white rounded-lg shadow-md">
   <div class="block flex items-center w-full">

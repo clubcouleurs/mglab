@@ -15,7 +15,7 @@ class TypeController extends Controller
      */
     public function index(Type $type)
     {
-        //dd($type->id) ;
+
         return view('types.index', 
             ['conceptions' => Conception::where('user_id', auth()->user()->ID)
             ->where('type_id' , $type->id )

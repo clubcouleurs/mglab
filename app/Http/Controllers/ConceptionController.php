@@ -4,12 +4,14 @@ namespace App\Http\Controllers;
 use App\Conception;
 use App\Document;
 use App\Events\ConceptionValidated;
+use App\Events\ConceptionValidatedPdfRequired;
 use App\Events\DataConceptionReceived;
 use App\Events\GraphisteAffected;
 use App\Events\ModificationValidated;
 use App\Events\PropalsValidated;
 use App\Graphiste;
 use App\Http\Requests\StoreConception;
+use App\Http\Traits\ImageWidthHeight;
 use App\Http\Traits\RowToColTrait ;
 use App\Image;
 use App\Produit;
@@ -20,7 +22,9 @@ use Carbon\Carbon;
 use Corcel\Model\User;
 use Gate ;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Intervention\Image\Facades\Image as ImageIntervention;
 
 class ConceptionController extends Controller
 {
@@ -31,6 +35,7 @@ class ConceptionController extends Controller
      */
 
     use RowToColTrait ;
+    use ImageWidthHeight ;
 
     public function dashboard()
     {
@@ -46,7 +51,7 @@ class ConceptionController extends Controller
     }
 
 
-    public function crea_en_cours()
+    /*public function crea_en_cours()
     {
 
         if (Gate::allows('soumettre_proposition') && Gate::denies('administrer')) {
@@ -210,7 +215,7 @@ class ConceptionController extends Controller
                                                                 'graphistes' => Graphiste::with('user')->get(),
                                                             ]);  
 
-    }
+    }*/
 
 
 
@@ -280,14 +285,14 @@ class ConceptionController extends Controller
         if (Gate::allows('soumettre_proposition') && Gate::denies('administrer')) {
         return view('conceptions.indexWaitingForModification', [
             'conceptions' => Conception::where('graphiste_id', auth()->user()->graphiste->id)
-            ->whereIn('status_id' , [6,9,12,14] )
+            ->whereIn('status_id' , [6,9,12] )
             ->orderBy('lancer_at', 'desc')
             ->paginate(10)
         ]);
         }
         if (Gate::allows('administrer')) {
         return view('conceptions.indexWaitingForModification', [
-            'conceptions' => Conception::whereIn('status_id' , [6,9,12,14] )
+            'conceptions' => Conception::whereIn('status_id' , [6,9,12] )
             ->orderBy('lancer_at', 'desc')
             ->paginate(10)
         ]);
@@ -298,7 +303,6 @@ class ConceptionController extends Controller
 // les conceptions en attente réponse client step 5/8/11/14
     public function WaitingForClient()
     {
-
         return view('conceptions.indexWaitingForClient', [
             'conceptions' => Conception::whereIn('status_id' , [5,8,11] )
             ->orderBy('lancer_at', 'desc')
@@ -307,6 +311,28 @@ class ConceptionController extends Controller
 
     }
 // fin les conceptions en attente réponse client
+
+// les conceptions en attente fichier pdf step 14
+    public function WaitingForPDF()
+    {
+        if (Gate::allows('soumettre_proposition') && Gate::denies('administrer')) {
+        return view('conceptions.indexWaitingForPDF', [
+            'conceptions' => Conception::where('graphiste_id', auth()->user()->graphiste->id)
+            ->whereIn('status_id' , [14] )
+            ->orderBy('lancer_at', 'desc')
+            ->paginate(10),
+        ]);
+        }
+        if (Gate::allows('administrer')) {
+        return view('conceptions.indexWaitingForPDF', [
+            'conceptions' => Conception::whereIn('status_id' , [14] )
+            ->orderBy('lancer_at', 'desc')
+            ->paginate(10),
+        ]);
+        }
+    }
+// fin les conceptions en attente fichier pdf
+
 
 // les conceptions en cours de création step 15
     public function conceptionEnding()
@@ -334,64 +360,36 @@ class ConceptionController extends Controller
     public function index()
     {
 
+        //dd($expDate) ;
         return view('conceptions.index', 
             ['conceptions1' => Conception::where('user_id', auth()->user()->ID)
             ->where('status_id' , 1 )
             ->orderBy('lancer_at', 'desc')
             ->get(),
 
-            'conceptions2' => Conception::where('user_id', auth()->user()->ID)
+            'conceptions234' => Conception::where('user_id', auth()->user()->ID)
             ->whereIn('status_id' , [2 , 3 , 4] )
 
             ->orderBy('lancer_at', 'desc')
             ->get(),
 
-            'conceptions5' => Conception::where('user_id', auth()->user()->ID)
-            ->where('status_id' , 5 )
+            'conceptions5811' => Conception::where('user_id', auth()->user()->ID)
+            ->whereIn('status_id' , [5,8,11] )
             ->orderBy('lancer_at', 'desc')
             ->get(),
 
-            'conceptions6' => Conception::where('user_id', auth()->user()->ID)
-            ->whereIn('status_id' , [6,7] )
+            'conceptions691271013' => Conception::where('user_id', auth()->user()->ID)
+            ->whereIn('status_id' , [6,9,12,7,10,13] )
             ->orderBy('lancer_at', 'desc')
             ->get(),
-
-
-            'conceptions8' => Conception::where('user_id', auth()->user()->ID)
-            ->where('status_id' , 8 )
-            ->orderBy('lancer_at', 'desc')
-            ->get(),
-
-            'conceptions9' => Conception::where('user_id', auth()->user()->ID)
-            ->whereIn('status_id' , [9,10] )
-
-            ->orderBy('lancer_at', 'desc')
-            ->get(),
-
-            'conceptions11' => Conception::where('user_id', auth()->user()->ID)
-            ->where('status_id' , 11 )
-            ->orderBy('lancer_at', 'desc')
-            ->get(),
-
-            'conceptions12' => Conception::where('user_id', auth()->user()->ID)
-            ->whereIn('status_id' , [12,13] )
-
-
-            ->orderBy('lancer_at', 'desc')
-            ->get(),       
-
             'conceptions14' => Conception::where('user_id', auth()->user()->ID)
-            ->where('status_id' , 14 )
+            ->whereIn('status_id' , [14] )
             ->orderBy('lancer_at', 'desc')
-            ->get(),  
+            ->get(),                   
 
-            'conceptions15' => Conception::where('user_id', auth()->user()->ID)
-            ->where('status_id' , 15 )
-            ->orderBy('lancer_at', 'desc')
-            ->get(),                                                                                                                                                                                       'types' => Type::all(), 
+            'conceptions15' => auth()->user()->ConceptionAvantArchive(), 
+            'types' => Type::all(), 
 
-                 'conceptions' => auth()->user()->conceptionAConfigurer(), // à supprimer 
-                 'conceptionsACreer' => auth()->user()->conceptionACreer() // à supprimer
              ]);
 
 
@@ -409,18 +407,6 @@ class ConceptionController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(StoreConception $request)
-    {
-
-    }
- 
-
-    /**
      * Display the specified resource.
      *
      * @param  int  $id
@@ -428,7 +414,7 @@ class ConceptionController extends Controller
      */
     public function confirm(Conception $conception)
     {
-        //$data = $conception->getConceptionAttributes($conception);
+
         return view('conceptions.show', ['conception' => $conception,
             'images' =>$conception->images,
             'produits' => $conception->produits,
@@ -448,6 +434,7 @@ class ConceptionController extends Controller
             'Seniours' => $conception->seniours,
             'type' => $conception->typeConception,
             'confirm' => '',
+            'types' => Type::all(), 
 
         ]) ;
     }
@@ -460,7 +447,6 @@ class ConceptionController extends Controller
      */
     public function show(Conception $conception)
     {
-        //$data = $conception->getConceptionAttributes();
         return view('conceptions.show', ['conception' => $conception,
             'images' =>$conception->images,
             'produits' => $conception->produits,
@@ -479,6 +465,7 @@ class ConceptionController extends Controller
             'Adultes' => $conception->adultes,
             'Seniours' => $conception->seniours,
             'type' => $conception->typeConception,
+            'types' => Type::all(), 
         ]) ;
     }
 
@@ -511,8 +498,152 @@ class ConceptionController extends Controller
             'Adultes' => $conception->adultes,
             'Seniours' => $conception->seniours,
             'type' => $conception->typeConception,
+            'types' => Type::all(), 
+
         ]) ;        
         
+    }
+
+    /**
+     * Downgrade a conception from a level to a lower level.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function downgrade(Request $request, Conception $conception)
+    {
+
+        //dd('') ;
+            switch ($conception->status_id)
+            {
+                case 15 :
+                    Storage::delete('creations/' . $conception->pdf_conception);
+                    $conception->pdf_conception = Null;
+                    $conception->save() ;
+                    $conception->downgradeStatus() ;
+                    break;
+
+                case 14 :
+                    switch (count($conception->modifications)) 
+                    {
+                        case 0 :
+                            $conception->downgradeStatus(4) ;
+                            break;
+                        case 1 :
+                            $conception->downgradeStatus(7) ;
+                            break;
+                        case 2 :
+                            $conception->downgradeStatus(10) ;
+                            break;    
+                        case 3 :
+                            $conception->downgradeStatus(13) ;
+                            break;
+                    }
+                            break;
+
+                case 11 :
+                    switch (count($conception->modifications)) 
+                    {
+                        case 0 :
+                            $conception->downgradeStatus(4) ;
+                            break;
+                        case 1 :
+                            $conception->downgradeStatus(7) ;
+                            break;
+                        case 2 :
+                            $conception->downgradeStatus(10) ;
+                            break;    
+                    }             
+                            break;
+
+                case 8  :
+                    switch (count($conception->modifications)) 
+                    {
+                        case 0 :
+                            $conception->downgradeStatus(4) ;
+                            break;
+                        case 1 :
+                            $conception->downgradeStatus(7) ;
+                            break;   
+                    } 
+                            break;
+
+                case 5  :
+                    switch (count($conception->modifications)) 
+                    {
+                        case 0 :
+                            $conception->downgradeStatus(4) ;
+                            break;   
+                    }
+                            break;   
+
+
+                case 13 :
+                case 10 :
+                case 7  :
+                if ($conception->propalModifiee() !== null)
+                {   
+                    $propal = $conception->propalModifiee() ;
+                    Storage::delete('propals/' . $propal->lien);
+                    $conception->propals()->where('id', $propal->id)->delete();    
+                    $conception->downgradeStatus() ;
+                }
+                else
+                {
+                    $propal = $conception->propalChoisie() ;
+                    $propal->user_id = null ; 
+                    $propal->save();                    
+                    $conception->downgradeStatus(5) ;
+                }
+
+                    break;
+
+                case 12 :
+                case 9  :
+                if ($conception->modifications() !== null)
+                {   
+                    $modif = $conception->modifications()->first() ;   
+                    $conception->modifications()->where('modifications.id', $modif->id)->delete(); 
+                    $conception->downgradeStatus() ;
+                }                    
+                    break;
+
+                case 6  :
+                    if ($conception->modifications() !== null)
+                    {   
+                        $modif = $conception->modifications()->first() ;   
+                        $conception->modifications()->where('modifications.id', $modif->id)->delete(); 
+                    }                
+                    $propal = $conception->propalChoisie() ; 
+                    $propal->user_id = null ; 
+                    $propal->save();
+                    $conception->downgradeStatus() ;                
+                    break;
+
+                case 4  :
+                foreach ($conception->propals()->get() as $propal) {
+                    Storage::delete('propals/' . $propal->lien);
+                }
+                    $conception->propals()->delete() ; 
+                    $conception->downgradeStatus() ;                
+                    break; 
+
+                case 3  :
+                    $conception->graphiste_id = Null;
+                    $conception->save() ;
+                    $conception->downgradeStatus() ;                
+                    break;   
+
+                case 2  :  
+                    $conception->status_id = 1 ;
+                    $conception->lancer_at = null ;
+                    $conception->save();
+                    break ;
+
+            }
+
+            return redirect('/')->with('message','Conception downgradée !') ;
+
     }
 
     /**
@@ -527,18 +658,17 @@ class ConceptionController extends Controller
 
     public function update(StoreConception $request, Conception $conception)
     {
+
         if ($request->has('confirm') && $conception->updated_at !== Null) {
             $conception->status_id = 2 ;
             $conception->lancer_at = date('Y-m-d H:i:s') ;
             $conception->save();
             DataConceptionReceived::dispatch($conception) ;
             return redirect('/')->with('message','Vos données sont bien envoyées !')  ;
-            
         }
 
         if($request->has('upgrade'))
         {
-
             switch (Request('upgrade')) {
                 case '0' :
                 $conception->upgradeStatus(5) ;
@@ -560,12 +690,20 @@ class ConceptionController extends Controller
 
             if ( $conception->status->id === 5 ) {
                 PropalsValidated::dispatch($conception) ;
-                return back()->with('message','Propositions validées !') ;
+                return back()->with('message','Proposition(s) validée(s) !') ;
             }
             else
             {
-                ModificationValidated::dispatch($conception) ;
-                return back()->with('message','Modification validée !') ;
+                if ($conception->status->id === 14) {
+
+                    ConceptionValidatedPdfRequired::dispatch($conception) ;
+                    return back()->with('message','Conception validée !') ;  
+                }
+                else
+                {
+                    ModificationValidated::dispatch($conception) ;
+                    return back()->with('message','Modification validée !') ;                    
+                }
 
             }
         }
@@ -592,7 +730,6 @@ class ConceptionController extends Controller
         if($request->hasFile('pdf_conception'))
         {
 
-
             $pdfName = 'Exe_' . str_replace(' ', '', $conception->type) . '-' 
             . str_replace('.', '', $conception->user->user_login) . '-' 
             . str_replace(' ', '-', date('Y-m-d-His')) ;
@@ -603,6 +740,7 @@ class ConceptionController extends Controller
 
             $conception->pdf_conception = $pdfName . '.' . $pdfExtension ;
             $conception->upgradeStatus(15) ;
+            $conception->validate_at = date('Y-m-d H:i:s') ;
             $conception->save();
             ConceptionValidated::dispatch($conception) ;            
             return back()->with('message','Conception validée et finalisée !') ;
@@ -672,6 +810,15 @@ class ConceptionController extends Controller
             {  
                 $image = $request->file('i'. $i ) ;
                 $destinationPath = $image->store('produits') ;
+                $path = substr($destinationPath, 8 );
+                $resize = ImageIntervention::make(public_path('storage/produits/' . $path))->encode('jpg');
+
+                $resize->resize($this->getNewWidth($resize->width(), $resize->height(), 200) , $this->getNewHeight($resize->width(), $resize->height(), 200) , function ($constraint) {
+                $constraint->aspectRatio();
+                $constraint->upsize();
+                    });
+                    $resize->save('storage/thumbs/'. $path);                
+
             }else
             {
                 $destinationPath = Null;
@@ -694,7 +841,17 @@ class ConceptionController extends Controller
 
         if($request->hasFile('images')) {
             foreach($request->file('images') as $image) {
-                $destinationPath = $image->store('uploads') ;
+
+            $destinationPath = $image->store('uploads') ;
+            $path = substr($destinationPath, 8 );
+            $resize = ImageIntervention::make(public_path('storage/uploads/' . $path))->encode('jpg');
+            $resize->resize($this->getNewWidth($resize->width(), $resize->height(), 200), $this->getNewHeight($resize->width(), $resize->height(), 200) ,function ($constraint) {
+                $constraint->aspectRatio();
+                $constraint->upsize();
+            });
+            $resize->save('storage/thumbs/'. $path);
+
+
                 $filename = $image->getClientOriginalName();
                 $imageConception = new Image([
                     'lien' => $destinationPath,
@@ -704,7 +861,8 @@ class ConceptionController extends Controller
             }
         }
 
-
+        if ($request->has('rs_entreprise'))
+        {
         $sex_cible = ($request->has('Hommes') ? Str::substr(Request('Hommes'), 0, 1) : '0')  
         . '|' . ($request->has('Femmes') ? Str::substr(Request('Femmes'), 0, 1) : '0');
 
@@ -730,6 +888,7 @@ class ConceptionController extends Controller
             ]);
 
             $logo = $request->file('logo')->store('uploads');
+
         }else
         {
             $logo = $conception->logo;
@@ -782,6 +941,7 @@ class ConceptionController extends Controller
         ]);
 
         return redirect('/conceptions/' . $conception->id . '/confirm' ) ;
+        }
     }
 
     /**
@@ -792,12 +952,16 @@ class ConceptionController extends Controller
      */
     public function destroy(Request $request, Conception $conception)
     {
-
-            if ($request->has('deleteLogo'))
+            /*if ($request->has('deleteLogo'))
             {
                 $conception->logo = Null ;
                 $conception->save();
                 return back() ;
-            }
+            }*/
     }
+
+    public function createPDF(Conception $conception)
+    {
+        return $conception->createPdf();
+    }    
 }

@@ -34,6 +34,7 @@ class EnvoiNotificationDataReceived
         $admin = User::find(1) ;
         Notification::send($admin ,
                             new DataConceptionReceivedNotification($event->conception)) ;
+        
         Notification::send($event->conception->user,
                             new DataConceptionReceivedNotificationToClient($event->conception)) ;
 

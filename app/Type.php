@@ -4,6 +4,7 @@ namespace App;
 
 use App\Conception;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 class Type extends Model
 {
@@ -12,6 +13,14 @@ class Type extends Model
       return $this->hasMany(Conception::class)->latest() ;
     	
     }
+
+    public function countConceptions()
+    {
+      return count($this->conceptions()
+                    ->where('user_id' , Auth::user()->ID)
+                    ->where('status_id' , '15')->get()) ;
+    }
+
 
     public function getLabelAttribute()
     {

@@ -20,6 +20,8 @@ class ConceptionPolicy
      */
     public function viewAny(User $user)
     {
+        dd('viewany');
+
         //return $user->isSuperAdmin();
     }
 
@@ -32,9 +34,24 @@ class ConceptionPolicy
      */
     public function view(User $user, Conception $conception)
     {
-        return ($user->ID === $conception->user_id || $user->graphiste->id === $conception->graphiste_id)
-                ? Response::allow()
-                : Response::deny('Vous n\'êtes pas propriétaire cette conception.');
+        if (isset($user->graphiste)) {
+            return ($user->graphiste->id === $conception->graphiste_id)
+                    ? Response::allow()
+                    : Response::deny('Vous n\'êtes pas le graphiste responsable de cette conception.');
+        }
+        else
+        {
+        return ($user->ID === $conception->user_id)
+                    ? Response::allow()
+                    : Response::deny('Vous n\'êtes pas propriétaire cette conception.');            
+        }
+    }
+
+    public function viewPropal(User $user, Conception $conception)
+    {       
+        return $user->ID === $conception->user_id 
+                    ? Response::allow()
+                    : Response::deny('Accès interdit');            
 
     }
 
@@ -46,6 +63,7 @@ class ConceptionPolicy
      */
     public function create(User $user)
     {
+
         //
     }
 
@@ -58,9 +76,63 @@ class ConceptionPolicy
      */
     public function update(User $user, Conception $conception)
     {
-        return $user->ID === $conception->user_id || $user->ID === $conception->graphiste_id
-                ? Response::allow()
-                : Response::deny('Vous n\'êtes pas propriétaire cette conception.');
+        if (isset($user->graphiste)) {
+            return ($user->graphiste->id === $conception->graphiste_id)
+                    ? Response::allow()
+                    : Response::deny('Vous n\'êtes pas le graphiste responsable de cette conception.');
+        }
+        else
+        {
+        return ($user->ID === $conception->user_id)
+                    ? Response::allow()
+                    : Response::deny('Vous n\'êtes pas propriétaire cette conception.');            
+        }
+    }
+
+    public function edit(User $user, Conception $conception)
+    {
+        if (isset($user->graphiste)) {
+            if ($user->graphiste->id === $conception->graphiste_id)
+            {
+                if($this->canEditConception($conception))
+                {
+                    return Response::allow(); 
+                }
+                else
+                {
+                return Response::deny('Vous ne pouvez plus modifier ce cahier de charges,
+                    la conception est en cours de création, mais vous pouvez toujours demander des modifications une fois la création terminée.');
+                }
+            }
+            else
+            {
+                return Response::deny('Vous n\'êtes pas le graphiste responsable de cette conception.');
+            }
+        }
+        else
+        {
+            if ($user->ID === $conception->user_id)
+            {
+                if($this->canEditConception($conception))
+                {
+                    return Response::allow(); 
+                }
+                else
+                {
+                return Response::deny('Vous ne pouvez plus modifier ce cahier de charges,
+                    la conception est en cours de création, mais vous pouvez toujours demander des modifications une fois la création terminée.');
+                }
+            }
+            else
+            {
+                return Response::deny('Vous n\'êtes pas propriétaire cette conception.');
+            }          
+        }
+    }
+
+    public function canEditConception(Conception $conception)
+    {
+        return $conception->status_id === 1 ? true : false ;
     }
 
     /**
@@ -72,6 +144,7 @@ class ConceptionPolicy
      */
     public function delete(User $user, Conception $conception)
     {
+        
         //
     }
 

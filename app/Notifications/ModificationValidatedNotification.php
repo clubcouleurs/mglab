@@ -45,7 +45,7 @@ class ModificationValidatedNotification extends Notification
         return (new MailMessage)
                             ->subject('La modification que vous avez demandé est faite!')
                             ->markdown('mail.user.modificationValidated', [
-                                'sujet' => 'Propositions prêtes',
+                                'sujet' => 'Modification réalisée',
                                 'conception' => $this->conception,
                                 'client' => $this->conception->user->display_name,
                             ]);
@@ -61,7 +61,7 @@ class ModificationValidatedNotification extends Notification
     public function toArray($notifiable)
     {
         return [
-                                'sujet' => 'Modification reçue',
+                                'sujet' => 'Modification réalisée',
                                 'conception' => $this->conception->type,
                                 'conceptionId' => $this->conception->id,
                                 'client' => $this->conception->user->display_name,

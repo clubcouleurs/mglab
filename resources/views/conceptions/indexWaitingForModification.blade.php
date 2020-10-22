@@ -71,13 +71,21 @@
 </div>  
 <div class="text-center justify-center flex items-center row-span-1 col-span-4 p-4 rounded-lg bg-white rounded-lg shadow-md">
 
-
+        @if($conception->status_id === 6)
         <a
-        class="block w-full px-4 py-2 text-sm font-medium leading-5 text-center text-white transition-colors duration-150 bg-red-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple"
-        href="/propositions/{{$conception->propalChoisie()->id}}"
-        >
-        Voir la modification
-      </a>
+          class="block w-full px-4 py-2 text-sm font-medium leading-5 text-center text-white transition-colors duration-150 bg-red-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple"
+          href="/propositions/{{$conception->propalChoisie()->id}}"
+          >
+          Voir la modification
+        </a>
+        @else
+        <a
+          class="block w-full px-4 py-2 text-sm font-medium leading-5 text-center text-white transition-colors duration-150 bg-red-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple"
+          href="/propositions/{{$conception->propalModifiee()->id}}"
+          >
+          Voir la modification
+        </a>        
+        @endif
 
 
 
@@ -90,9 +98,14 @@
  action="conceptions/{{$conception->id}}/modifications/{{$conception->getModifications()[0]}}/propositions"
  method="POST"
  enctype="multipart/form-data"
- onsubmit="return validateFormModif()"
+ onsubmit="return validateFormSendingModif()"
  name="formModif1">
  @csrf
+     <div>
+<p id="labelPropal" class="text-gray-700 text-sm mb-2">Uploader ici la proposition modifiée en format JPG ou PNG</p>
+       <hr class="mb-2">
+     </div>
+
  <div class="flex items-center">
 
   <input
@@ -101,14 +114,13 @@
   name="modif"
   id="modif"
   value="{{old('modif')}}" 
-  multiple
   required>
   @error('modif')
   <p class="test-red-500 test-xs mt-2"> {{ $message }}</p>
   @enderror
 
 
-  <button class="flex-shrink-0 bg-teal-500 hover:bg-teal-700 border-teal-500 hover:border-teal-700 text-sm border-4 text-white py-3 px-4 pr-8 rounded" type="submit">
+  <button class="flex-shrink-0 bg-teal-500 hover:bg-teal-700 border-teal-500 hover:border-teal-700 text-sm border-4 text-white py-3 px-4 rounded" type="submit">
     Ok
   </button>
 
@@ -117,6 +129,23 @@
 
 
 </div>
+
+
+<hr class="mb-2 mt-2">
+
+@can('administrer')
+<div class="mt-2">
+ <form action="/conceptions/{{$conception->id}}" method="POST" >
+  @csrf
+    <button class="block w-full px-4 py-2 text-sm flex-shrink-0 bg-gray-500 hover:bg-gray-700 border-gray-500 hover:border-gray-700 text-sm border-4 text-white rounded-lg"
+    type="submit">
+    Downgrader
+  </button>
+</form>
+</div>
+@endcan
+
+
 </div>
 <div class="row-span-1 col-span-3 p-4 rounded-lg bg-white rounded-lg shadow-md">
   <div class="block flex items-center w-full">
@@ -162,25 +191,4 @@
 
 </div>
 </main>
-
-<script type="text/javascript">
-
- 
-  function validateFormModif() {
-
-    var files = document.getElementById("modif").files;
-
-    var l = files.length ;
-    if (l === 1) {
-      return true;
-
-    }
-    else
-    {
-      alert("Vous devez soumettre un seul fichier ! ");
-      return false;
-    }
-  }
-
-</script>
 </x-master>

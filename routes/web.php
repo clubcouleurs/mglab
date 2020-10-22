@@ -2,6 +2,8 @@
 
 
 use App\Conception;
+use App\Propal;
+
 use App\Events\ChoixFaitModificationReceived;
 use App\Events\ConceptionValidated;
 use App\Events\DataConceptionReceived;
@@ -66,30 +68,33 @@ use Illuminate\Http\Request;
 
 
 Route::middleware('auth')->group(function(){
-
+// Authorization OK
 Route::get('/conceptions/{conception}/pdf', 'ConceptionController@createPDF')
 					->middleware('can:update,conception');
+// Authorization OK
+Route::post('/conceptions', 'ConceptionController@store')
+									->middleware('can:create,conception');
+// Authorization OK
+Route::get('/conceptions/{conception}/edit', 'ConceptionController@edit')
+									->middleware('can:edit,conception');
 
-
-
-Route::post('/conceptions', 'ConceptionController@store')->middleware('can:create,conception');
-
-Route::get('/conceptions/{conception}/edit', 'ConceptionController@edit')->middleware('can:update,conception');
-
-
+// Authorization OK
 Route::get('/{type}/conceptions', 'TypeController@index');
 
+// Authorization OK
+Route::post('/conceptions/{conception}', 'ConceptionController@downgrade')
+									->middleware('can:update,conception');
 
-
+// Authorization OK
 Route::patch('/conceptions/{conception}', 'ConceptionController@update')
 									->middleware('can:update,conception');
-
+// Authorization OK
 Route::delete('/conceptions/{conception}', 'ConceptionController@destroy')
 									->middleware('can:update,conception');
-
+// Authorization OK
 Route::get('/conceptions/{conception}', 'ConceptionController@show')
 									->middleware('can:view,conception');
-
+// Authorization OK
 Route::get('/conceptions/{conception}/confirm', 'ConceptionController@confirm')
 									->middleware('can:view,conception');
 
@@ -108,55 +113,81 @@ Route::get('/', 'ConceptionController@index')->name('home');
 
 Route::get('/data-required', 'ConceptionController@WaitingForData')
 									->middleware('can:administrer');
-
+// Authorization OK
 Route::get('/creation-required', 'ConceptionController@WaitingForCreation')
 									->name('crea_en_cours')
 									->middleware('can:soumettre_proposition');
-
+// Authorization OK
 Route::get('/graphic-required', 'ConceptionController@WaitingForGraphiste')
 									->middleware('can:affecter_graphistes');
-
+// Authorization OK
 Route::get('/response-required', 'ConceptionController@WaitingForClient')
 									->middleware('can:administrer');
-
+// Authorization OK
 Route::get('/modify-required', 'ConceptionController@WaitingForModification')
 									->middleware('can:soumettre_proposition');
-
+// Authorization OK
 Route::get('/validation-required', 'ConceptionController@WaitingForValidation')
 									->middleware('can:valider_création');									
+// Authorization OK
+Route::get('/pdf-required', 'ConceptionController@WaitingForPDF')
+									->middleware('can:soumettre_proposition');	
 
+// Authorization OK
 Route::get('/validated', 'ConceptionController@conceptionEnding')
 									->middleware('can:voir_conceptions_validées');
-
+// Authorization OK									
 Route::get('/dashboard', 'ConceptionController@dashboard')->name('dashboard')
-													->middleware('can:voir_dashboard');
+									->middleware('can:voir_dashboard');
 
 // Routes for propals and modification
+// Authorization OK									
 Route::get('/conceptions/{conception}/propositions', 'PropalController@index')
-										->middleware('can:view, Propal');
+									->middleware('can:viewPropal,conception');
+/////////////////////////////////////////////////////////////////////////////////////
 
-Route::put('/conceptions/{conception}/propositions/{propal}', 'PropalController@update') ; //->middleware('can:view,Propal');
+// Authorization OK				
+Route::get('/conceptions/{conception}/propositions/{propal}', 'PropalController@show')
+								->middleware('can:view,propal');
 
-Route::post('/conceptions/{conception}/propositions', 'PropalController@store') ; //->middleware('can:view,Propal');
+// Authorization OK	
+Route::put('/conceptions/{conception}/propositions/{propal}', 'PropalController@update')
+									->middleware('can:update,propal');
 
-Route::get('/propositions/{propal}/create', 'PropalController@create') ; //->middleware('can:view,Propal');
+// Authorization OK	
+Route::post('/conceptions/{conception}/propositions', 'PropalController@store')
+									->middleware('can:update,conception');
+/////////////////////////////////////////////////////////////////////////////////////
+
+//Route::get('/propositions/{propal}/create', 'PropalController@create')
+//									->middleware('can:create,App\propal');
 
 
-Route::get('/propositions/{propal}/create', 'PropalController@create') ; //->middleware('can:view,Propal');
 
-Route::get('/propositions/{propal}/edit', 'PropalController@edit') ; //->middleware('can:view,Propal');
+// Authorization OK
+Route::get('/propositions/{propal}/edit', 'PropalController@edit')
+									->middleware('can:update,propal');
 
-Route::get('/propositions/{propal}', 'PropalController@show') ; //->middleware('can:view,Propal');
+
+
+// Authorization OK
+Route::get('/propositions/{propal}', 'PropalController@show')
+									->middleware('can:view,propal');
 
 
 //Routes for modification
+// Authorization OK
+Route::post('/propositions/{propal}/modifications', 'ModificationController@store')
+									->middleware('can:update,propal');
 
-Route::post('/propositions/{propal}/modifications', 'ModificationController@store') ; //->middleware('can:view,Propal');
 
-Route::post('conceptions/{conception}/modifications/{modification}/propositions', 'PropalController@storeAsPropalAfterModification') ; //->middleware('can:view,Propal');
+Route::post('conceptions/{conception}/modifications/{modification}/propositions', 'PropalController@storeAsPropalAfterModification');//->middleware('can:update,propal');
 
 
-Route::get('/notifications' , 'NotificationController@show') ;
+
+// Route for notifications
+Route::get('/notifications-lus' , 'NotificationController@showRead') ;
+Route::get('/notifications-non-lus' , 'NotificationController@showUnread') ;
 
 });
 

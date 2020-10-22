@@ -1,4 +1,4 @@
-<x-master>
+<x-master type='types' :value="$types">
 
   <main class="h-full overflow-y-auto">
 
@@ -102,7 +102,7 @@
     @endforeach
   </tbody>
 </table>
-{{ $notifications->links() }}
+{{-- $notifications->links() --}}
 
 </div>
 </div>

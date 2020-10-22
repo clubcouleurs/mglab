@@ -33,7 +33,7 @@
 
       <!-- status 1  -->
       <h4 class="font-semibold text-gray-600 mb-2 mt-6">
-       Ces projets en attente de vos données
+       Ces conceptions en attente de vos données
      </h4>
      @foreach ($conceptions1 as $conception)
      <div class="grid gap-4 xl:grid-cols-12 grid-flow-col mb-8">
@@ -124,7 +124,7 @@
 </div>  
 
 <div class="row-span-1 col-span-3 p-4 rounded-lg bg-white rounded-lg shadow-md">
-  <div class="block flex items-center w-full">
+  <div class="mb-2 block flex items-center w-full">
     <span class="inline-block w-3 h-3 mr-1 bg-red-600 rounded-full">
     </span>
     <p class="text-xs">Etat</p>
@@ -133,7 +133,7 @@
 
 
   <span
-  class="py-1 font-semibold leading-tight text-red-700 bg-red-100 rounded-lg"
+  class="py-2 px-2 font-semibold leading-tight text-red-700 bg-red-100 rounded-lg"
   >    
   {{ $conception->status->label }}
 </span>
@@ -150,16 +150,17 @@
 
 
 
-@if (count($conceptions2) > 0)
+
+@if (count($conceptions234) > 0)
 
 
 <!-- status 2, 3, 4  -->
 <h4 class="font-semibold text-gray-600 mb-2 mt-6">
- Ces conceptions en cours de création
+ Ces conceptions sont en cours de création
 
  
 </h4>
-@foreach ($conceptions2 as $conception)
+@foreach ($conceptions234 as $conception)
 <div class="grid gap-4 xl:grid-cols-12 grid-flow-col mb-8">
   <div class="flex mx-auto items-center row-span-2 col-span-1 p-4 rounded-lg bg-white rounded-lg shadow-md">
     <div>
@@ -216,16 +217,24 @@
 
 
 </div>  
-<div class="text-center justify-center flex items-center row-span-2 col-span-4 p-4 rounded-lg bg-white rounded-lg shadow-md">
-
+<div class="text-center justify-center items-center flex flex-col row-span-2 col-span-4 p-4 rounded-lg bg-white rounded-lg shadow-md">
+<div class="h-12 w-full">
   <a
   class="block w-full px-4 py-2 text-sm font-medium leading-5 text-center text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple"
   href="/conceptions/{{$conception->id}}"
   >
   Voir le cahier de charges
 </a>
-
-
+</div>
+<div class="h-12 w-full">
+  <a
+  class="block w-full px-4 py-2 text-sm font-medium leading-5 text-center text-white transition-colors duration-150 bg-red-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple"
+  href="/conceptions/{{$conception->id}}/pdf"
+  download
+  >
+  Télécharger le cahier de charges en PDF
+</a>
+</div>
 </div>
 
 
@@ -247,23 +256,19 @@
 
 </div>  
 
-<div class="row-span-1 col-span-3 p-4 rounded-lg bg-white rounded-lg shadow-md">
-  <div class="block flex items-center w-full">
-    <span class="inline-block w-3 h-3 mr-1 bg-red-600 rounded-full">
+<div class="row-span-1 col-span-3 p-4 rounded-lg bg-red-600 rounded-lg shadow-md">
+  <div class="mb-2 block flex items-center w-full">
+    <span class="inline-block w-3 h-3 mr-1 bg-white rounded-full">
     </span>
-    <p class="text-xs">Etat</p>
+    <p class="text-xs text-white">Etat</p>
   </div>  
-
-
-
   <span
-  class="py-1 font-semibold leading-tight text-red-700 bg-red-100 rounded-lg"
+  class="py-2 px-2 text-xl uppercase font-semibold leading-tight text-white rounded-lg"
   >    
   En cours de création
 </span>
-
-
 </div>              
+
 </div>
 @endforeach
 <hr>
@@ -279,17 +284,17 @@
 
 
 
-@if (count($conceptions5) > 0)
+@if (count($conceptions5811) > 0)
 
 
 
 <!-- status 5  -->
 <h4 class="font-semibold text-gray-600 mb-2 mt-6">
- Création validée par Manager et en attente de choix client
+ Ces conceptions sont en attente de votre retour
 
 
 </h4>
-@foreach ($conceptions5 as $conception)
+@foreach ($conceptions5811 as $conception)
 <div class="grid gap-4 xl:grid-cols-12 grid-flow-col mb-8">
   <div class="flex mx-auto items-center row-span-2 col-span-1 p-4 rounded-lg bg-white rounded-lg shadow-md">
     <div>
@@ -348,13 +353,40 @@
 </div>  
 <div class="text-center justify-center flex items-center row-span-2 col-span-4 p-4 rounded-lg bg-white rounded-lg shadow-md">
 
-
+@switch ($conception->status_id)
+    @case (5)
         <a
-        class="block w-full px-4 py-2 text-sm font-medium leading-5 text-center text-white transition-colors duration-150 bg-red-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple"
-        href="/conceptions/{{$conception->id}}/propositions"
-        >
-        Voir les propositions
-      </a>
+          class="block w-full px-4 py-2 text-sm font-medium leading-5 text-center text-white transition-colors duration-150 bg-red-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple"
+          href="/conceptions/{{$conception->id}}/propositions"
+          >
+          Voir les propositions
+        </a>
+        @break;
+
+    @case (8)
+        <a
+          class="block w-full px-4 py-2 text-sm font-medium leading-5 text-center text-white transition-colors duration-150 bg-red-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple"
+          href="/propositions/{{$conception->propalModifiee(0)->id}}/edit"
+          >
+          Voir la conception modifiée
+        </a> 
+        @break;
+
+    @case (11) 
+        <a
+          class="block w-full px-4 py-2 text-sm font-medium leading-5 text-center text-white transition-colors duration-150 bg-red-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple"
+          href="/propositions/{{$conception->propalModifiee(1)->id}}/edit"
+          >
+          Voir la conception modifiée
+        </a> 
+        @break;        
+
+@endswitch
+
+
+
+       
+
 
 
 
@@ -379,23 +411,21 @@
 
 </div>  
 
-<div class="row-span-1 col-span-3 p-4 rounded-lg bg-white rounded-lg shadow-md">
-  <div class="block flex items-center w-full">
-    <span class="inline-block w-3 h-3 mr-1 bg-red-600 rounded-full">
+
+<div class="row-span-1 col-span-3 p-4 rounded-lg bg-red-600 rounded-lg shadow-md">
+  <div class="mb-2 block flex items-center w-full">
+    <span class="inline-block w-3 h-3 mr-1 bg-white rounded-full">
     </span>
-    <p class="text-xs">Etat</p>
+    <p class="text-xs text-white">Etat</p>
   </div>  
-
-
-
   <span
-  class="py-1 font-semibold leading-tight text-red-700 bg-red-100 rounded-lg"
+  class="py-2 px-2 text-xl uppercase font-semibold leading-tight text-white rounded-lg"
   >    
-  {{ $conception->status->label }}
+  En attente de votre retour
 </span>
+</div>  
 
 
-</div>              
 </div>
 @endforeach
 <hr>
@@ -410,17 +440,185 @@
 
 
 
-@if (count($conceptions6) > 0)
+@if (count($conceptions691271013 ) > 0)
 
-
-
-<!-- status 6  -->
+<!-- status 691271013  -->
 <h4 class="font-semibold text-gray-600 mb-2 mt-6">
- Choix faite et 1ère modification reçue 
+ Ces conceptions sont en cours de modification
 
 
 </h4>
-@foreach ($conceptions6 as $conception)
+@foreach ($conceptions691271013  as $conception)
+<div class="grid gap-4 xl:grid-cols-12 grid-flow-col mb-8">
+  <div class="flex mx-auto items-center row-span-2 col-span-1 p-4 rounded-lg bg-white rounded-lg shadow-md">
+    <div>
+      <img
+      class="object-cover w-full h-full rounded-full"
+      src="{{ asset('img/icon.jpg') }}"
+      alt=""
+      loading="lazy"
+      />
+    </div>                
+  </div>
+  <div class="row-span-1 col-span-4 p-4 rounded-lg bg-white rounded-lg shadow-md">
+    <div>
+      <div class="block flex items-center w-full">
+        <span class="inline-block w-3 h-3 mr-1 bg-red-600 rounded-full">
+        </span>
+
+        <div class="w-64">
+          <span class="font-bold bold text-2xl">
+            <a href="/conceptions/{{$conception->id}}">
+              {{$conception->type}}
+            </a>
+          </span>
+        </div>
+
+      </div>                            
+
+    </div>
+  </div>
+  <div class="row-span-1 col-span-4 p-4 bg-white rounded-lg shadow-md">
+
+    <div class="block flex items-center w-full">
+      <span class="inline-block w-3 h-3 mr-1 bg-purple-600 rounded-full">
+      </span>
+      <div class="w-64">
+        <span class="font-light text-sm">
+          <a href="/conceptions/{{$conception->id}}">
+           <p class="">Nom Client : {{$conception->user->display_name}}</p>
+         </a>
+       </span>
+     </div>
+   </div>  
+   <div class="block flex items-center w-full">
+    <span class="inline-block w-3 h-3 mr-1 bg-purple-600 rounded-full">
+    </span>
+    <div class="w-64">
+      <span class="font-light text-sm">
+        <a href="/conceptions/{{$conception->id}}">
+         <p class="">Organisme : {{$conception->rs_entreprise}}</p>
+       </a>
+     </span>
+   </div>
+ </div> 
+
+
+</div>  
+<div class="text-center justify-center flex items-center row-span-2 col-span-4 p-4 rounded-lg bg-white rounded-lg shadow-md">
+
+@switch ($conception->status_id)
+    @case (6)
+    @case (7) 
+          <a
+          class="block w-full px-4 py-2 text-sm font-medium leading-5 text-center text-white transition-colors duration-150 bg-red-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple"
+          href="/propositions/{{$conception->propalChoisie()->id}}"
+          >
+          Voir la modification
+        </a>
+        @break;
+  
+    @case (9)
+    @case (10)
+          <a
+          class="block w-full px-4 py-2 text-sm font-medium leading-5 text-center text-white transition-colors duration-150 bg-red-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple"
+          href="/propositions/{{$conception->propalModifiee(0)->id}}"
+          >
+          Voir la modification
+        </a>
+        @break;
+  
+
+    @case (12)
+    @case (13)  
+          <a
+          class="block w-full px-4 py-2 text-sm font-medium leading-5 text-center text-white transition-colors duration-150 bg-red-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple"
+          href="/propositions/{{$conception->propalModifiee(1)->id}}"
+          >
+          Voir la modification
+        </a>
+        @break;
+@endswitch
+
+
+
+
+
+
+<!--
+        @if($conception->status_id < 8)
+          <a
+          class="block w-full px-4 py-2 text-sm font-medium leading-5 text-center text-white transition-colors duration-150 bg-red-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple"
+          href="/propositions/{{$conception->propalChoisie()->id}}"
+          >
+          Voir la modification
+        </a>  
+        @else
+          <a
+          class="block w-full px-4 py-2 text-sm font-medium leading-5 text-center text-white transition-colors duration-150 bg-red-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple"
+          href="/propositions/{{$conception->propalModifiee()->id}}"
+          >
+          Voir la modification
+        </a>        
+        @endif
+
+      -->
+
+
+
+
+</div>
+
+
+
+<div class="row-span-1 col-span-3 p-4 rounded-lg bg-white rounded-lg shadow-md">
+  <div class="block flex items-center w-full">
+    <span class="inline-block w-3 h-3 mr-1 bg-red-600 rounded-full">
+    </span>
+    <p class="text-xs">Date de commande</p>
+  </div>  
+
+
+
+
+  <span class="py-1 font-sm leading-tight text-green-700 bg-green-100 rounded-full "
+  >
+  {{ $conception->lancer_at->diffForHumans() }}
+</span>
+
+</div>  
+
+
+<div class="row-span-1 col-span-3 p-4 rounded-lg bg-red-600 rounded-lg shadow-md">
+  <div class="mb-2 block flex items-center w-full">
+    <span class="inline-block w-3 h-3 mr-1 bg-white rounded-full">
+    </span>
+    <p class="text-xs text-white">Etat</p>
+  </div>  
+  <span
+  class="py-2 px-2 text-xl uppercase font-semibold leading-tight text-white rounded-lg"
+  >    
+  En cours de modification
+</span>
+</div>  
+
+</div>
+@endforeach
+<hr>
+<!-- end status 691271013 -->
+
+
+ @endif
+
+@if (count($conceptions14 ) > 0)
+
+<!-- status 14  -->
+<h4 class="font-semibold text-gray-600 mb-2 mt-6">
+ Les fichiers finaux pour ces conceptions sont en cours de génération par nos soins
+
+
+</h4>
+@foreach ($conceptions14  as $conception)
 <div class="grid gap-4 xl:grid-cols-12 grid-flow-col mb-8">
   <div class="flex mx-auto items-center row-span-2 col-span-1 p-4 rounded-lg bg-white rounded-lg shadow-md">
     <div>
@@ -480,12 +678,20 @@
 <div class="text-center justify-center flex items-center row-span-2 col-span-4 p-4 rounded-lg bg-white rounded-lg shadow-md">
 
 
-        <a
-        class="block w-full px-4 py-2 text-sm font-medium leading-5 text-center text-white transition-colors duration-150 bg-red-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple"
-        href="/propositions/{{$conception->propalChoisie()->id}}"
-        >
-        Voir la modification
-      </a>
+          <a
+          class="block w-full px-4 py-2 text-sm font-medium leading-5 text-center text-white transition-colors duration-150 bg-red-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple"
+          href="/propositions/
+        @isset($conception->propalModifiee()->id)
+        {{$conception->propalModifiee()->id}}
+        @else
+        {{$conception->propalChoisie()->id}}
+        @endif
+        "
+          >
+          Voir la création finale
+        </a>        
+
+
 
 
 
@@ -511,7 +717,7 @@
 </div>  
 
 <div class="row-span-1 col-span-3 p-4 rounded-lg bg-white rounded-lg shadow-md">
-  <div class="block flex items-center w-full">
+  <div class="mb-2 block flex items-center w-full">
     <span class="inline-block w-3 h-3 mr-1 bg-red-600 rounded-full">
     </span>
     <p class="text-xs">Etat</p>
@@ -520,7 +726,7 @@
 
 
   <span
-  class="py-1 font-semibold leading-tight text-red-700 bg-red-100 rounded-lg"
+  class="py-2 px-2 font-semibold leading-tight text-red-700 bg-red-100 rounded-lg"
   >    
   En cours de modification
 </span>
@@ -530,674 +736,16 @@
 </div>
 @endforeach
 <hr>
-<!-- end status 6 -->
-
-
- @endif
-
-
-
-
-
-
-
-@if (count($conceptions8) > 0)
-
-
-
-<!-- status 8  -->
-<h4 class="font-semibold text-gray-600 mb-2 mt-6">
-
- Créations en attente de votre réponse
-
-
-</h4>
-@foreach ($conceptions8 as $conception)
-<div class="grid gap-4 xl:grid-cols-12 grid-flow-col mb-8">
-  <div class="flex mx-auto items-center row-span-2 col-span-1 p-4 rounded-lg bg-white rounded-lg shadow-md">
-    <div>
-      <img
-      class="object-cover w-full h-full rounded-full"
-      src="{{ asset('img/icon.jpg') }}"
-      alt=""
-      loading="lazy"
-      />
-    </div>                
-  </div>
-  <div class="row-span-1 col-span-4 p-4 rounded-lg bg-white rounded-lg shadow-md">
-    <div>
-      <div class="block flex items-center w-full">
-        <span class="inline-block w-3 h-3 mr-1 bg-red-600 rounded-full">
-        </span>
-
-        <div class="w-64">
-          <span class="font-bold bold text-2xl">
-            <a href="/conceptions/{{$conception->id}}">
-              {{$conception->type}}
-            </a>
-          </span>
-        </div>
-
-      </div>                            
-
-    </div>
-  </div>
-  <div class="row-span-1 col-span-4 p-4 bg-white rounded-lg shadow-md">
-
-    <div class="block flex items-center w-full">
-      <span class="inline-block w-3 h-3 mr-1 bg-purple-600 rounded-full">
-      </span>
-      <div class="w-64">
-        <span class="font-light text-sm">
-          <a href="/conceptions/{{$conception->id}}">
-           <p class="">Nom Client : {{$conception->user->display_name}}</p>
-         </a>
-       </span>
-     </div>
-   </div>  
-   <div class="block flex items-center w-full">
-    <span class="inline-block w-3 h-3 mr-1 bg-purple-600 rounded-full">
-    </span>
-    <div class="w-64">
-      <span class="font-light text-sm">
-        <a href="/conceptions/{{$conception->id}}">
-         <p class="">Organisme : {{$conception->rs_entreprise}}</p>
-       </a>
-     </span>
-   </div>
- </div> 
-
-
-</div>  
-<div class="text-center justify-center flex items-center row-span-2 col-span-4 p-4 rounded-lg bg-white rounded-lg shadow-md">
-
-        <a
-        class="block w-full px-4 py-2 text-sm font-medium leading-5 text-center text-white transition-colors duration-150 bg-red-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple"
-        href="/propositions/{{$conception->propalModifiee()->id}}/edit"
-       
-        >
-        Voir la proposition
-      </a>
-
-</div>
-
-
-
-<div class="row-span-1 col-span-3 p-4 rounded-lg bg-white rounded-lg shadow-md">
-  <div class="block flex items-center w-full">
-    <span class="inline-block w-3 h-3 mr-1 bg-red-600 rounded-full">
-    </span>
-    <p class="text-xs">Date de commande</p>
-  </div>  
-
-
-
-
-  <span class="py-1 font-sm leading-tight text-green-700 bg-green-100 rounded-full "
-  >
-  {{ $conception->lancer_at->diffForHumans() }}
-</span>
-
-</div>  
-
-<div class="row-span-1 col-span-3 p-4 rounded-lg bg-white rounded-lg shadow-md">
-  <div class="block flex items-center w-full">
-    <span class="inline-block w-3 h-3 mr-1 bg-red-600 rounded-full">
-    </span>
-    <p class="text-xs">Etat</p>
-  </div>  
-
-
-
-  <span
-  class="py-1 font-semibold leading-tight text-red-700 bg-red-100 rounded-lg"
-  >    
-  En attente de votre réponse
-</span>
-
-
-</div>              
-</div>
-@endforeach
-<hr>
-<!-- end status 8 -->
-
-
-
-
- @endif
-
-
-
-
-
-
-
-@if (count($conceptions9) > 0)
-
-
-
-
-
-<!-- status 9  -->
-<h4 class="font-semibold text-gray-600 mb-2 mt-6">
- 2ème modification reçue 
-
-
-</h4>
-@foreach ($conceptions9 as $conception)
-<div class="grid gap-4 xl:grid-cols-12 grid-flow-col mb-8">
-  <div class="flex mx-auto items-center row-span-2 col-span-1 p-4 rounded-lg bg-white rounded-lg shadow-md">
-    <div>
-      <img
-      class="object-cover w-full h-full rounded-full"
-      src="{{ asset('img/icon.jpg') }}"
-      alt=""
-      loading="lazy"
-      />
-    </div>                
-  </div>
-  <div class="row-span-1 col-span-4 p-4 rounded-lg bg-white rounded-lg shadow-md">
-    <div>
-      <div class="block flex items-center w-full">
-        <span class="inline-block w-3 h-3 mr-1 bg-red-600 rounded-full">
-        </span>
-
-        <div class="w-64">
-          <span class="font-bold bold text-2xl">
-            <a href="/conceptions/{{$conception->id}}">
-              {{$conception->type}}
-            </a>
-          </span>
-        </div>
-
-      </div>                            
-
-    </div>
-  </div>
-  <div class="row-span-1 col-span-4 p-4 bg-white rounded-lg shadow-md">
-
-    <div class="block flex items-center w-full">
-      <span class="inline-block w-3 h-3 mr-1 bg-purple-600 rounded-full">
-      </span>
-      <div class="w-64">
-        <span class="font-light text-sm">
-          <a href="/conceptions/{{$conception->id}}">
-           <p class="">Nom Client : {{$conception->user->display_name}}</p>
-         </a>
-       </span>
-     </div>
-   </div>  
-   <div class="block flex items-center w-full">
-    <span class="inline-block w-3 h-3 mr-1 bg-purple-600 rounded-full">
-    </span>
-    <div class="w-64">
-      <span class="font-light text-sm">
-        <a href="/conceptions/{{$conception->id}}">
-         <p class="">Organisme : {{$conception->rs_entreprise}}</p>
-       </a>
-     </span>
-   </div>
- </div> 
-
-
-</div>  
-<div class="text-center justify-center flex items-center row-span-2 col-span-4 p-4 rounded-lg bg-white rounded-lg shadow-md">
-
-
-        <a
-        class="block w-full px-4 py-2 text-sm font-medium leading-5 text-center text-white transition-colors duration-150 bg-red-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple"
-        href="/propositions/{{$conception->propalModifiee()->id}}"
-        >
-        Voir la modification
-      </a>
-
-
-</div>
-
-
-<div class="row-span-1 col-span-3 p-4 rounded-lg bg-white rounded-lg shadow-md">
-  <div class="block flex items-center w-full">
-    <span class="inline-block w-3 h-3 mr-1 bg-red-600 rounded-full">
-    </span>
-    <p class="text-xs">Date de commande</p>
-  </div>  
-
-
-
-
-  <span class="py-1 font-sm leading-tight text-green-700 bg-green-100 rounded-full "
-  >
-  {{ $conception->lancer_at->diffForHumans() }}
-</span>
-
-</div>  
-
-<div class="row-span-1 col-span-3 p-4 rounded-lg bg-white rounded-lg shadow-md">
-  <div class="block flex items-center w-full">
-    <span class="inline-block w-3 h-3 mr-1 bg-red-600 rounded-full">
-    </span>
-    <p class="text-xs">Etat</p>
-  </div>  
-
-
-
-  <span
-  class="py-1 font-semibold leading-tight text-red-700 bg-red-100 rounded-lg"
-  >    
-  {{ $conception->status->label }}
-</span>
-
-
-</div>              
-</div>
-@endforeach
-<hr>
-<!-- end status 9 -->
-
-
-
-
-
-
-
- @endif
-
-
-
-@if (count($conceptions11) > 0)
-
-
-
-
-
-<!-- status 11  -->
-<h4 class="font-semibold text-gray-600 mb-2 mt-6">
-
- En attente de votre réponse
-
-
-</h4>
-@foreach ($conceptions11 as $conception)
-<div class="grid gap-4 xl:grid-cols-12 grid-flow-col mb-8">
-  <div class="flex mx-auto items-center row-span-2 col-span-1 p-4 rounded-lg bg-white rounded-lg shadow-md">
-    <div>
-      <img
-      class="object-cover w-full h-full rounded-full"
-      src="{{ asset('img/icon.jpg') }}"
-      alt=""
-      loading="lazy"
-      />
-    </div>                
-  </div>
-  <div class="row-span-1 col-span-4 p-4 rounded-lg bg-white rounded-lg shadow-md">
-    <div>
-      <div class="block flex items-center w-full">
-        <span class="inline-block w-3 h-3 mr-1 bg-red-600 rounded-full">
-        </span>
-
-        <div class="w-64">
-          <span class="font-bold bold text-2xl">
-            <a href="/conceptions/{{$conception->id}}">
-              {{$conception->type}}
-            </a>
-          </span>
-        </div>
-
-      </div>                            
-
-    </div>
-  </div>
-  <div class="row-span-1 col-span-4 p-4 bg-white rounded-lg shadow-md">
-
-    <div class="block flex items-center w-full">
-      <span class="inline-block w-3 h-3 mr-1 bg-purple-600 rounded-full">
-      </span>
-      <div class="w-64">
-        <span class="font-light text-sm">
-          <a href="/conceptions/{{$conception->id}}">
-           <p class="">Nom Client : {{$conception->user->display_name}}</p>
-         </a>
-       </span>
-     </div>
-   </div>  
-   <div class="block flex items-center w-full">
-    <span class="inline-block w-3 h-3 mr-1 bg-purple-600 rounded-full">
-    </span>
-    <div class="w-64">
-      <span class="font-light text-sm">
-        <a href="/conceptions/{{$conception->id}}">
-         <p class="">Organisme : {{$conception->rs_entreprise}}</p>
-       </a>
-     </span>
-   </div>
- </div> 
-
-
-</div>  
-<div class="text-center justify-center flex items-center row-span-2 col-span-4 p-4 rounded-lg bg-white rounded-lg shadow-md">
-
-
-        <a
-        class="block w-full px-4 py-2 text-sm font-medium leading-5 text-center text-white transition-colors duration-150 bg-red-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple"
-        href="/propositions/{{$conception->propalModifiee()->id}}/edit"
-
-        >
-        Voir la proposition
-      </a>
-
-
-
-</div>
-
-
-
-<div class="row-span-1 col-span-3 p-4 rounded-lg bg-white rounded-lg shadow-md">
-  <div class="block flex items-center w-full">
-    <span class="inline-block w-3 h-3 mr-1 bg-red-600 rounded-full">
-    </span>
-    <p class="text-xs">Date de commande</p>
-  </div>  
-
-
-
-
-  <span class="py-1 font-sm leading-tight text-green-700 bg-green-100 rounded-full "
-  >
-  {{ $conception->lancer_at->diffForHumans() }}
-</span>
-
-</div>  
-
-<div class="row-span-1 col-span-3 p-4 rounded-lg bg-white rounded-lg shadow-md">
-  <div class="block flex items-center w-full">
-    <span class="inline-block w-3 h-3 mr-1 bg-red-600 rounded-full">
-    </span>
-    <p class="text-xs">Etat</p>
-  </div>  
-
-
-
-  <span
-  class="py-1 font-semibold leading-tight text-red-700 bg-red-100 rounded-lg"
-  >    
-En attente de votre réponse
-</span>
-
-
-</div>              
-</div>
-@endforeach
-<hr>
-<!-- end status 11 -->
-
-
-
-
- @endif
-
-
-@if (count($conceptions12) > 0)
-
-
-
-<!-- status 12  -->
-<h4 class="font-semibold text-gray-600 mb-2 mt-6">
- En cours de modification
-
-
-</h4>
-@foreach ($conceptions12 as $conception)
-<div class="grid gap-4 xl:grid-cols-12 grid-flow-col mb-8">
-  <div class="flex mx-auto items-center row-span-2 col-span-1 p-4 rounded-lg bg-white rounded-lg shadow-md">
-    <div>
-      <img
-      class="object-cover w-full h-full rounded-full"
-      src="{{ asset('img/icon.jpg') }}"
-      alt=""
-      loading="lazy"
-      />
-    </div>                
-  </div>
-  <div class="row-span-1 col-span-4 p-4 rounded-lg bg-white rounded-lg shadow-md">
-    <div>
-      <div class="block flex items-center w-full">
-        <span class="inline-block w-3 h-3 mr-1 bg-red-600 rounded-full">
-        </span>
-
-        <div class="w-64">
-          <span class="font-bold bold text-2xl">
-            <a href="/conceptions/{{$conception->id}}">
-              {{$conception->type}}
-            </a>
-          </span>
-        </div>
-
-      </div>                            
-
-    </div>
-  </div>
-  <div class="row-span-1 col-span-4 p-4 bg-white rounded-lg shadow-md">
-
-    <div class="block flex items-center w-full">
-      <span class="inline-block w-3 h-3 mr-1 bg-purple-600 rounded-full">
-      </span>
-      <div class="w-64">
-        <span class="font-light text-sm">
-          <a href="/conceptions/{{$conception->id}}">
-           <p class="">Nom Client : {{$conception->user->display_name}}</p>
-         </a>
-       </span>
-     </div>
-   </div>  
-   <div class="block flex items-center w-full">
-    <span class="inline-block w-3 h-3 mr-1 bg-purple-600 rounded-full">
-    </span>
-    <div class="w-64">
-      <span class="font-light text-sm">
-        <a href="/conceptions/{{$conception->id}}">
-         <p class="">Organisme : {{$conception->rs_entreprise}}</p>
-       </a>
-     </span>
-   </div>
- </div> 
-
-
-</div>  
-<div class="text-center justify-center flex items-center row-span-2 col-span-4 p-4 rounded-lg bg-white rounded-lg shadow-md">
-
-
-        <a
-        class="block w-full px-4 py-2 text-sm font-medium leading-5 text-center text-white transition-colors duration-150 bg-red-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple"
-        href="/propositions/{{$conception->propalModifiee()->id}}"
-        >
-        Voir la modification
-      </a>
-
-
-</div>
-
-
-
-<div class="row-span-1 col-span-3 p-4 rounded-lg bg-white rounded-lg shadow-md">
-  <div class="block flex items-center w-full">
-    <span class="inline-block w-3 h-3 mr-1 bg-red-600 rounded-full">
-    </span>
-    <p class="text-xs">Date de commande</p>
-  </div>  
-
-
-
-
-  <span class="py-1 font-sm leading-tight text-green-700 bg-green-100 rounded-full "
-  >
-  {{ $conception->lancer_at->diffForHumans() }}
-</span>
-
-</div>  
-
-<div class="row-span-1 col-span-3 p-4 rounded-lg bg-white rounded-lg shadow-md">
-  <div class="block flex items-center w-full">
-    <span class="inline-block w-3 h-3 mr-1 bg-red-600 rounded-full">
-    </span>
-    <p class="text-xs">Etat</p>
-  </div>  
-
-
-
-  <span
-  class="py-1 font-semibold leading-tight text-red-700 bg-red-100 rounded-lg"
-  >    
-En cours de modification
-</span>
-
-
-</div>              
-</div>
-@endforeach
-<hr>
-<!-- end status 12 -->
-
-
-
-
-
- @endif
-
-
-@if (count($conceptions14) > 0)
-
-
-
-
-<!-- status 14  -->
-<h4 class="font-semibold text-gray-600 mb-2 mt-6">
- Création finale
-
-</h4>
-@foreach ($conceptions14 as $conception)
-<div class="grid gap-4 xl:grid-cols-12 grid-flow-col mb-8">
-  <div class="flex mx-auto items-center row-span-2 col-span-1 p-4 rounded-lg bg-white rounded-lg shadow-md">
-    <div>
-      <img
-      class="object-cover w-full h-full rounded-full"
-      src="{{ asset('img/icon.jpg') }}"
-      alt=""
-      loading="lazy"
-      />
-    </div>                
-  </div>
-  <div class="row-span-1 col-span-4 p-4 rounded-lg bg-white rounded-lg shadow-md">
-    <div>
-      <div class="block flex items-center w-full">
-        <span class="inline-block w-3 h-3 mr-1 bg-red-600 rounded-full">
-        </span>
-
-        <div class="w-64">
-          <span class="font-bold bold text-2xl">
-            <a href="/conceptions/{{$conception->id}}">
-              {{$conception->type}}
-            </a>
-          </span>
-        </div>
-
-      </div>                            
-
-    </div>
-  </div>
-  <div class="row-span-1 col-span-4 p-4 bg-white rounded-lg shadow-md">
-
-    <div class="block flex items-center w-full">
-      <span class="inline-block w-3 h-3 mr-1 bg-purple-600 rounded-full">
-      </span>
-      <div class="w-64">
-        <span class="font-light text-sm">
-          <a href="/conceptions/{{$conception->id}}">
-           <p class="">Nom Client : {{$conception->user->display_name}}</p>
-         </a>
-       </span>
-     </div>
-   </div>  
-   <div class="block flex items-center w-full">
-    <span class="inline-block w-3 h-3 mr-1 bg-purple-600 rounded-full">
-    </span>
-    <div class="w-64">
-      <span class="font-light text-sm">
-        <a href="/conceptions/{{$conception->id}}">
-         <p class="">Organisme : {{$conception->rs_entreprise}}</p>
-       </a>
-     </span>
-   </div>
- </div> 
-
-
-</div>  
-<div class="text-center justify-center flex items-center row-span-2 col-span-4 p-4 rounded-lg bg-white rounded-lg shadow-md">
-
-
-        <a
-        class="block w-full px-4 py-2 mt-4 text-sm font-medium leading-5 text-center text-white transition-colors duration-150 bg-red-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple"
-        href="/propositions/{{$conception->propalModifiee()->id}}"
-        >
-        Voir la création finale
-      </a>
-
-
-
-
-</div>
-
-
-<div class="row-span-1 col-span-3 p-4 rounded-lg bg-white rounded-lg shadow-md">
-  <div class="block flex items-center w-full">
-    <span class="inline-block w-3 h-3 mr-1 bg-red-600 rounded-full">
-    </span>
-    <p class="text-xs">Date de commande</p>
-  </div>  
-
-
-
-
-  <span class="py-1 font-sm leading-tight text-green-700 bg-green-100 rounded-full "
-  >
-  {{ $conception->lancer_at->diffForHumans() }}
-</span>
-
-</div>  
-
-<div class="row-span-1 col-span-3 p-4 rounded-lg bg-white rounded-lg shadow-md">
-  <div class="block flex items-center w-full">
-    <span class="inline-block w-3 h-3 mr-1 bg-red-600 rounded-full">
-    </span>
-    <p class="text-xs">Etat</p>
-  </div>  
-
-
-
-  <span
-  class="py-1 font-semibold leading-tight text-red-700 bg-red-100 rounded-lg"
-  >    
-  {{ $conception->status->label }}
-</span>
-
-
-</div>              
-</div>
-@endforeach
-<hr>
 <!-- end status 14 -->
 
- @endif
 
+ @endif
 
 @if (count($conceptions15) > 0)
 
-
-
-
 <!-- status 15  -->
 <h4 class="font-semibold text-gray-600 mb-2 mt-6">
- Conception validée et fichier final prêt
+ Vos conceptions validées et fichier final prêt.
 </h4>
 @foreach ($conceptions15 as $conception)
 <div class="grid gap-4 xl:grid-cols-12 grid-flow-col mb-8">
@@ -1276,6 +824,7 @@ En cours de modification
       <span class="font-light text-sm">
 
          <div class="w-full flex items-center rounded-lg border border-teal-500 py-2 px-2 bg-red-100">
+                      <svg class="fill-current w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M13 8V2H7v6H2l8 8 8-8h-5zM0 18h20v2H0v-2z"/></svg>
           <img src="{{ asset('img/pdf.png') }}" class="h-8 mr-2">
           <a download="{{ $conception->pdf_conception }}" href="{{ Storage::url('creations/' . $conception->pdf_conception) }}" class="font-semibold text-red-600">
             Exe_{{ $conception->type }}_{{ $conception->user->user_login }}</a>
@@ -1287,9 +836,6 @@ En cours de modification
    </div>
  </div> 
 </div> 
-
-
-
 
 
 </div>
@@ -1313,17 +859,18 @@ En cours de modification
 
 </div>  
 
-<div class="row-span-1 col-span-3 p-4 rounded-lg bg-white rounded-lg shadow-md">
-  <div class="block flex items-center w-full">
-    <span class="inline-block w-3 h-3 mr-1 bg-{{ $conception->status->color }}-700 rounded-full">
+<div class="row-span-1 col-span-3 p-4 rounded-lg bg-gray-800 rounded-lg shadow-md">
+  <div class="mb-2 block flex items-center w-full">
+    <span class="inline-block w-3 h-3 mr-1 bg-gray-100 rounded-full">
     </span>
-    <p class="text-xs">Etat</p>
+    <p class="text-xs text-gray-100">Etat</p>
   </div>  
 
 
 
   <span
-  class="py-1 font-semibold leading-tight text-{{ $conception->status->color }}-700 bg-{{ $conception->status->color }}-200 rounded-lg"
+  class="py-2 px-2 font-semibold leading-tight text-gray-100 rounded-lg
+  bg-gray-600"
   >    
   {{ $conception->status->label }}
 </span>
@@ -1337,6 +884,10 @@ En cours de modification
 
 
  @endif
+
+
+
+
 
 
 

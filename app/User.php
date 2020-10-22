@@ -10,10 +10,9 @@ use Corcel\Model\User as Corcel;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Carbon\Carbon;
 
-//use Corcel\Corcel as Corcel ;
-//use Sofa\Eloquence\Eloquence; // base trait
-//use Sofa\Eloquence\Mappable; // extension trait
+
 
 class User extends Corcel
 {
@@ -73,7 +72,7 @@ class User extends Corcel
     }
 
 
-    public function conceptionACreer()
+    /*public function conceptionACreer()
     {
         return Conception::where('user_id', $this->ID)
                                                 ->whereNotNull('lancer_at')
@@ -81,7 +80,7 @@ class User extends Corcel
                                                 ->get();
 
         
-    }    
+    }   */ 
 
     public function graphiste()
     {
@@ -102,13 +101,30 @@ class User extends Corcel
     public function permissions()
     {
         return $this->roles->map->permissions->flatten()->pluck('name')->unique(); ;
-    }    
+    }
 
-    public function isSuperAdmin()
+    public function ConceptionAvantArchive()
+    {
+            $expDate = Carbon::now()->subDays(30);
+            return $this->conceptions()->whereIn('status_id' , [15] )
+            ->whereDate('validate_at', '>=', $expDate)
+            ->orderBy('lancer_at', 'desc')
+            ->get();
+    }    
+    public function CountConceptionEncours()
+    {
+            return count($this->ConceptionAvantArchive())
+            +
+            count($this->conceptions()->whereNotIn('status_id' , [15] )
+            ->orderBy('lancer_at', 'desc')
+            ->get());
+    }
+    /// ça sert à quoi ?
+    /*public function isSuperAdmin()
     {
         if ($this->display_name ==='admin' && $this->user_login ==='admin' && $this->user_nicename ==='admin')
         {
             return true ;
         }
-    }
+    }*/
 }

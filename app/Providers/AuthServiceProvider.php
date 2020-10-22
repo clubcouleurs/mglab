@@ -2,6 +2,10 @@
 
 namespace App\Providers;
 
+use App\Conception;
+use App\Policies\ConceptionPolicy;
+use App\Policies\PropalPolicy;
+use App\Propal;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Gate;
 
@@ -28,8 +32,9 @@ class AuthServiceProvider extends ServiceProvider
 
         Gate::before(function($user, $permission)
         {   
-            
-            if ($user->permissions()->contains($permission)) {
+
+            if ($user->permissions()->contains($permission))
+            {
                 return true ;
             }
             

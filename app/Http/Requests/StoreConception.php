@@ -23,10 +23,11 @@ class StoreConception extends FormRequest
      */
     public function rules()
     {
+
         return [
                 'rs_entreprise'     => 'sometimes|required|max:255|string',
-                'logo'              => 'sometimes|required|mimes:pdf,jpg,jpeg,png',
-                'images[]'          => 'image',
+                'logo'              => 'sometimes|required|max:5000|mimetypes:application/pdf,image/png,image/jpeg,image/tiff,image/svg+xml,image/gif',
+                'images.*'          => 'image|max:5000',
                 'slogan'            => 'nullable|max:255|string',
                 "activities"        => "sometimes|required|string",
                 "positionnement"    => "nullable|string",
@@ -53,9 +54,12 @@ class StoreConception extends FormRequest
                 'note'              => 'nullable|string',
                 'produitService'    => 'nullable|string',
                 'graphiste'         => 'sometimes|required|integer',
-                'pdf_conception'    => 'file|mimetypes:application/pdf',
+                'pdf_conception'    => 'sometimes|required|mimetypes:application/pdf',
 
-                'document'          => 'sometimes|required|mimetypes:application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+                'upgrade'           => 'sometimes|required|max:1|string',
+
+                'document'          => 'sometimes|required|mimetypes:application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/msword,application/vnd.openxmlformats-officedocument.presentationml.presentation,application/vnd.ms-powerpoint,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/pdf,image/png,image/jpeg',
+
 
                 'typeLogo'          => 'nullable|max:255|string',
                 'ageEntreprise'     => 'nullable|max:50|string',
@@ -68,10 +72,49 @@ class StoreConception extends FormRequest
     {
         return [
             'logo.required'             => 'Un logo est nécessaire',
+            'logo.mimetypes'             => 'Le logo doit être en format : JPG, PNG ,JEPG , GIF, PDF ou SVG !',
+
             'rs_entreprise.required'    => 'Une raison sociale ou un nom du client est nécessaire',
-            'activities.required'       => 'Merci de rensigner votre activités',
+            'activities.required'       => 'Merci de rensigner vos activités pour mieux comprendre votre besoin',
+
+            'pdf_conception.file'       => 'Ce fichier doit être un fichier pdf',
+            'pdf_conception.mimes'      => 'Ce fichier doit être un fichier pdf',
+            'images.*.image'            => 'Les fichiers doivent être des images du format : JPG, PNG ou SVG',
+            'positionnement.string'     => 'Du texte est attendu sur ce champs',
+            'contacts.string'           => 'Du texte est attendu sur ce champs',
             'texte_additionnel.required'=> 'Merci de saisir les textes pour votre création',
-            'pdf_conception.file'       => 'Ce fichier doit être un fichier pdf'
+            'cible_b2c.string'                 => 'Du texte est attendu sur ce champs',
+            'cible_b2b.string'                 => 'Du texte est attendu sur ce champs',
+
+            'Enfants.string'                   => 'Du texte est attendu sur ce champs',
+            'Adolescents.string'               => 'Du texte est attendu sur ce champs',
+            'Adultes.string'                   => 'Du texte est attendu sur ce champs',
+            'Seniours.string'                  => 'Du texte est attendu sur ce champs',
+            'Hommes.string'                    => 'Du texte est attendu sur ce champs',
+            'Femmes.string'                    => 'Du texte est attendu sur ce champs',
+            'activities_cible.string'          => 'Du texte est attendu sur ce champs',
+            'couleur_1.string'                 => 'Du texte est attendu sur ce champs',
+            'couleur_2.string'                 => 'Du texte est attendu sur ce champs',
+            'couleur_3.string'                 => 'Du texte est attendu sur ce champs',
+            'Slab.string'                      => 'Du texte est attendu sur ce champs',
+            'Script.string'                    => 'Du texte est attendu sur ce champs',
+            'Manuscrit.string'                 => 'Du texte est attendu sur ce champs',
+            'Serif.string'                     => 'Du texte est attendu sur ce champs',
+            'Sansserif.string'                 => 'Du texte est attendu sur ce champs',
+            'style.string'                     => 'Du texte est attendu sur ce champs',
+            'note.string'                      => 'Du texte est attendu sur ce champs',
+            'produitService.string'            => 'Du texte est attendu sur ce champs',
+            'graphiste.integer'                => 'Un ID est requis',
+            'graphiste.required'               => 'Un ID est requis',
+            'pdf_conception.mimetypes'         => 'Le fichier finale doit être en format PDF',
+            'pdf_conception.required'          => 'Le fichier finale est requis',
+            'ageEntreprise.string'             => 'Du texte est attendu sur ce champs',
+            'objectif.string'                  => 'Du texte est attendu sur ce champs',
+            'document.mimes'                   => 'Le fichier finale doit être en format pdf, jpg, png, Microsoft Word, Microsoft Powerpoint, Microsoft Excel',
+            'document.file'                    => 'Un document est requis',
+            'document.mimetypes'               => 'Un document doit être au format : Word, Excel, PDF ou une image',
+            'document.required'                => 'Le fichier finale est requis',
+
         ];
     }    
 }
