@@ -41,7 +41,7 @@ class PropalController extends Controller
      */
     public function create()
     {
-        dd('create');
+        //
     }
 
     /**

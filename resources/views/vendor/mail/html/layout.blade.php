@@ -95,7 +95,7 @@
 								<tr align="center">
 									<td style="padding: 20px" 
 									>
-									<img src="http://mglab.test/img/footer-email.jpg" width="350">
+									<img src="{{ asset('img/footer-email.jpg') }}" width="350">
 										
 									</td>
 								</tr>
@@ -107,7 +107,7 @@
 								<tr align="center">
 									<td style="padding: 10px" 
 									>
-									<img src="http://mglab.test/img/instagram.jpg" width="40">
+									<img src="{{ asset('img/instagram.jpg') }}" width="40">
 										
 									</td>
 								</tr>

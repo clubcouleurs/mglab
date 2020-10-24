@@ -834,6 +834,25 @@ class="inline-block w-4 h-4 mr-1 bg-red-600 rounded-full"
 
 @endif
 
+
+@can('soumettre_proposition')
+<!-- attributs de la commande -->
+<div class="px-4 py-3 mb-8 bg-white rounded-lg shadow-md">
+  <div class="mb-4">
+    <div class="mt-4 text-sm">
+      <span class="block mb-2 uppercase font-bold text-2xl text-gray-600">
+        Vos préférences pour la police d'écriture
+      </span>
+      <div class="mt-2">
+             {!! $conception->meta_data !!}                                                        
+      </div>
+    </div>             
+
+</div>
+</div>
+@endcan
+
+
 <!-- submit form -->
 @if (isset($confirm))
 <div class="px-4 py-3 mb-8 bg-white rounded-lg shadow-md">

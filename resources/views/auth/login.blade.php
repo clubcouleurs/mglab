@@ -34,7 +34,7 @@
                   placeholder=" Votre E-Mail ici ..."
                 />
                                 @error('email')
-                                    <span class="rounded border border-red-300 bg-red-100 h-8" role="alert">
+                                    <span class="w-full px-2 py-2 mb-2 rounded border border-red-300 bg-red-100 h-12" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
                                 @enderror
@@ -50,7 +50,7 @@
                   id="password" name="password" required autocomplete="current-password"                  
                 />
                                 @error('password')
-                                    <span class="rounded border border-red-300 bg-red-100 h-8" role="alert">
+                                    <span class="w-full px-2 py-2 mb-2 rounded border border-red-300 bg-red-100 h-12" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
                                 @enderror                

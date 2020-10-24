@@ -102,7 +102,7 @@
     @endforeach
   </tbody>
 </table>
-{{-- $notifications->links() --}}
+{{ $notifications->links() }}
 
 </div>
 </div>

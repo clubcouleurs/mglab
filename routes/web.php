@@ -34,6 +34,11 @@ use Illuminate\Http\Request;
 */
 
 
+Route::get('/path', function () {
+    $path = public_path('storage/uploads/') ;
+    dd($path) ;
+});
+
 
 /*Route::get('/form', function () {
     return view('form');
@@ -100,15 +105,17 @@ Route::get('/conceptions/{conception}/confirm', 'ConceptionController@confirm')
 
 Route::get('/', 'ConceptionController@index')->name('home');
 
-/*Route::get('/conceptions_en_attente', 'ConceptionController@crea_attente')
-									->middleware('can:voir_conceptions_en_attente_config');*/
+/////////routes for graphistes
+// Authorization OK
+Route::get('/graphistes', 'GraphisteController@index')
+					->middleware('can:administrer');
 
-/*Route::get('/conceptions_en_cours', 'ConceptionController@crea_en_cours')
-									->name('crea_en_cours')
-									->middleware('can:voir_conceptions_en_cours_crea');*/
+Route::patch('/graphistes/{user}', 'GraphisteController@store')
+					->middleware('can:administrer');	
 
-/*Route::get('/conceptions_validees', 'ConceptionController@crea_valide')
-									->middleware('can:voir_conceptions_validées');*/
+Route::delete('/graphistes/{graphiste}', 'GraphisteController@destroy')
+					->middleware('can:administrer');									
+////// end
 
 
 Route::get('/data-required', 'ConceptionController@WaitingForData')
