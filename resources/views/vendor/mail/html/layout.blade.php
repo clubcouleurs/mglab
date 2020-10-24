@@ -36,7 +36,7 @@
 								<!-- Body content -->
 
 								<tr>
-									<td background="http://mglab.test/img/mail_bg_header.jpg" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; background-repeat: no-repeat; padding: 36px 48px; display: block;">
+									<td background="{{ asset('img/mail_bg_header.jpg') }}" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; background-repeat: no-repeat; padding: 36px 48px; display: block;">
 										<h1 style="box-sizing: border-box; position: relative; margin-top: 0; font-family: 'Helvetica Neue',Helvetica,Roboto,Arial,sans-serif; font-size: 30px; font-weight: 900; line-height: 150%; margin: 0; text-align: left; color: #ffffff;">
 
 											{{ $sujet }}
