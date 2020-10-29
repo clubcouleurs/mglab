@@ -10,7 +10,7 @@
 
 
 
-<!-- status 6/9/12/14  -->
+<!-- status 6/9/12  -->
 
 @foreach ($conceptions as $conception)
 <div class="grid gap-4 xl:grid-cols-12 grid-flow-col mb-8 mt-8">
@@ -184,7 +184,7 @@
 </div>
 @endforeach
 <hr>
-<!-- end status 6/9/12/14 -->
+<!-- end status 6/9/12 -->
 
 {{ $conceptions->links() }}
 

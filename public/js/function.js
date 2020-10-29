@@ -39,6 +39,35 @@
         return false;        
       }
 
+    // Contrôler les images des produits
+    var j = 0 ;
+
+    rsltImageProduit = false ;
+    while(document.getElementById("i"+j) != null)
+    {
+        if ( document.getElementById("i"+j) != null ) {
+          var documentfile = document.getElementById("i"+j).value;
+          if(documentfile != '')
+          {
+          var l = documentfile.split('.').pop();
+
+            if (l != 'png' && l != 'jpg' && l != 'jpeg')
+            {
+              rsltImageProduit = true ;
+              document.getElementById("label"+j).style.color = "red"
+              document.getElementById("i"+j).value = '' ;
+            }
+          }
+        }
+
+        if (rsltImageProduit) {
+          alert("Les images des produits doivent être au format : JPG, PNG ,JEPG ou GIF ! ");
+          return false;        
+        }
+
+          j = j + 1 ;
+   }
+
     if ( document.getElementById("document") != null ) {
       if (document.getElementById("document").files[0] != undefined)
       {
@@ -89,7 +118,7 @@ return true ;
       });
 
       if (rslt) {
-        alert("Les images doivent être au format : Word, PowerPoint, PDF, JPG, PNG ou Excel ! ");
+        alert("Les documents doivent être au format : Word, PowerPoint, PDF, JPG, PNG ou Excel ! ");
         document.getElementById("labelDoc").style.color = "red"
         document.getElementById("doc").value = ""
 

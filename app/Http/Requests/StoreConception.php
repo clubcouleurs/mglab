@@ -27,7 +27,7 @@ class StoreConception extends FormRequest
         return [
                 'rs_entreprise'     => 'sometimes|required|max:255|string',
                 'logo'              => 'sometimes|required|max:5000|mimetypes:application/pdf,image/png,image/jpeg,image/tiff,image/svg+xml,image/gif',
-                'images.*'          => 'image|max:5000',
+                'images.*'          => 'image|mimetypes:image/png,image/jpeg|max:5000',
                 'slogan'            => 'nullable|max:255|string',
                 "activities"        => "sometimes|required|string",
                 "positionnement"    => "nullable|string",
@@ -76,10 +76,12 @@ class StoreConception extends FormRequest
 
             'rs_entreprise.required'    => 'Une raison sociale ou un nom du client est nécessaire',
             'activities.required'       => 'Merci de rensigner vos activités pour mieux comprendre votre besoin',
-
             'pdf_conception.file'       => 'Ce fichier doit être un fichier pdf',
             'pdf_conception.mimes'      => 'Ce fichier doit être un fichier pdf',
-            'images.*.image'            => 'Les fichiers doivent être des images du format : JPG, PNG ou SVG',
+            'images.*.mimetypes'        => 'Les fichiers doivent être des images du format : JPG ou PNG',
+            'images.*.image'            => 'Les fichiers doivent être des images du format : JPG ou PNG',
+            'images.*.required'         => 'Une image du produit est réquise',
+            'images.*.max'              => 'Les images ne doivent pas dépasser 5 Mo',
             'positionnement.string'     => 'Du texte est attendu sur ce champs',
             'contacts.string'           => 'Du texte est attendu sur ce champs',
             'texte_additionnel.required'=> 'Merci de saisir les textes pour votre création',

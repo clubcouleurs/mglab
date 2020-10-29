@@ -1,7 +1,87 @@
 <x-master type='types' :value="$types">
-
-
   <main class="h-full overflow-y-auto bg-blue-100">
+        <div class="sticky top-0 p-4 bg-red-100 shadow-md">
+      <p class="font-bold text-red-700 italic">  
+
+        @switch ($conception->status_id)
+        @case (2)
+        @case (3)
+        @case (4)
+        Cette conception est en cours de création.
+        @break;
+
+        @case (5)
+        Cette conception est en attente de votre retour : 
+          <a class="text-blue-700" href="/conceptions/{{$conception->id}}/propositions">Voir les propositions</a>
+        @break;
+
+        @case (8)
+        Cette conception est en attente de votre retour.
+          <a class="text-blue-700" href="/propositions/{{$conception->propalModifiee(0)->id}}/edit">
+            Voir la modification
+          </a> 
+        @break;
+
+        @case (11)
+        Cette conception est en attente de votre retour.
+          <a class="text-blue-700" href="/propositions/{{$conception->propalModifiee(1)->id}}/edit">
+            Voir la modification
+          </a> 
+        @break;
+
+        @case (6)
+        @case (7)
+        Cette conception est cours de modification :
+        <a class="text-blue-700" href="/propositions/{{$conception->propalChoisie()->id}}">
+          Voir la modification
+        </a>
+        @break;
+
+        @case (9)
+        @case (10)
+        Cette conception est cours de modification :
+        <a class="text-blue-700" href="/propositions/{{$conception->propalModifiee(0)->id}}">
+          Voir la modification
+          </a>
+        @break;
+
+        @case (12)
+        @case (13)
+        Cette conception est cours de modification :
+        <a class="text-blue-700" href="/propositions/{{$conception->propalModifiee(1)->id}}">
+          Voir la modification
+          </a>
+        @break;
+
+        @case (14)
+        Nous sommes entraine de générer le fichier final de cette conception :
+          <a class="text-blue-700"
+          href="/propositions/
+            @isset($conception->propalModifiee()->id)
+            {{$conception->propalModifiee()->id}}
+            @else
+            {{$conception->propalChoisie()->id}}
+            @endif
+            ">
+          Voir la création finale
+        </a> 
+        @break;
+
+        @case (15)
+         <div class="w-full flex items-center">
+           <p class="mr-2">Cette conception est finalisée est le fichier final prêt : </p>
+         <svg class="fill-current w-6 h-6 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M13 8V2H7v6H2l8 8 8-8h-5zM0 18h20v2H0v-2z"/></svg>
+         <img src="{{ asset('img/pdf.png') }}" class="h-8 mr-2">
+         <a download="{{ $conception->pdf_conception }}" href="{{ Storage::url('creations/' . $conception->pdf_conception) }}" class="font-semibold text-red-600">
+         Exe_{{ $conception->type }}_{{ $conception->user->user_login }}</a>
+        </div>
+        @break;
+
+        @endswitch
+      </p>
+    </div>
+
+
     <div class="container px-6 mx-auto grid">
       <div class="">
        <h4
@@ -841,7 +921,7 @@ class="inline-block w-4 h-4 mr-1 bg-red-600 rounded-full"
   <div class="mb-4">
     <div class="mt-4 text-sm">
       <span class="block mb-2 uppercase font-bold text-2xl text-gray-600">
-        Vos préférences pour la police d'écriture
+        Détails techniques
       </span>
       <div class="mt-2">
              {!! $conception->meta_data !!}                                                        

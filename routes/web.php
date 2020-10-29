@@ -36,6 +36,7 @@ use Illuminate\Http\Request;
 
 Route::get('/path', function () {
     $path = public_path('storage/uploads/') ;
+    $path = storage_path('app/public/uploads/');
     dd($path) ;
 });
 

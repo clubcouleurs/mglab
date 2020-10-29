@@ -11,9 +11,9 @@
   <!--<title>{{ config('app.name', 'MonGraphisme.com') }}</title>-->
 
   <!-- Scripts -->
-  <script src="{{asset('js/app.js')}}" defer></script>
-  <script src="{{asset('js/init-alpine.js')}}"></script>
-  <script src="{{asset('js/function.js')}}"></script>
+  <script src="{{url('/js/app.js')}}" defer></script>
+  <script src="{{url('js/init-alpine.js')}}"></script>
+  <script src="{{url('js/function.js')}}"></script>
 
   <!-- Fonts -->
   <link rel="dns-prefetch" href="//fonts.gstatic.com">
@@ -26,7 +26,7 @@
   ></script>
 
   <!--<link href="css/tailwind.output.css" rel="stylesheet"> -->
-  <link href="{{asset('css/main.css')}}" rel="stylesheet">
+  <link href="{{url('css/main.css')}}" rel="stylesheet">
 
   <style type="text/css">
       /*Toast open/load animation*/
@@ -449,6 +449,403 @@
 <!-- Mobile sidebar -->
 <!-- Backdrop -->
 
+      <div
+        x-show="isSideMenuOpen"
+        x-transition:enter="transition ease-in-out duration-150"
+        x-transition:enter-start="opacity-0"
+        x-transition:enter-end="opacity-100"
+        x-transition:leave="transition ease-in-out duration-150"
+        x-transition:leave-start="opacity-100"
+        x-transition:leave-end="opacity-0"
+        class="fixed inset-0 z-10 flex items-end bg-black bg-opacity-50 sm:items-center sm:justify-center"
+      ></div>
+      <aside
+        class="fixed inset-y-0 z-30 flex-shrink-0 w-64 mt-40 overflow-y-auto bg-white"
+        x-show="isSideMenuOpen"
+        x-transition:enter="transition ease-in-out duration-150"
+        x-transition:enter-start="opacity-0 transform -translate-x-20"
+        x-transition:enter-end="opacity-100"
+        x-transition:leave="transition ease-in-out duration-150"
+        x-transition:leave-start="opacity-100"
+        x-transition:leave-end="opacity-0 transform -translate-x-20"
+        @click.away="closeSideMenu"
+        @keydown.escape="closeSideMenu"
+        style="
+        margin-top:153px ;
+            @if (Auth::user()->graphiste !== Null )
+              background-color: #000000
+            @else
+              background-color: #c01a89
+            @endif
+            "
+      >
+<!-- début copie de menu en haut -->
+
+<div class="py-4">
+
+    <a
+    href="
+    @can('voir_dashboard')
+    /dashboard
+    @else
+    /
+    @endcan('voir_dashboard')
+    "
+    >
+    <img src="{{ asset('img/logo-mobile.png') }}" class="w-48 ml-6">
+  </a>
+  <ul class="mt-6">
+    @can('voir_dashboard')
+    <li class="relative px-6 py-3 border-t border-b">
+      <span
+      class="absolute inset-y-0 left-0 w-1 bg-white rounded-tr-lg rounded-br-lg"
+      aria-hidden="true"
+      ></span>
+      <a
+      class="inline-flex items-center w-full text-2xl font-semibold text-gray-800 transition-colors duration-150 hover:text-gray-800"
+      href="/dashboard"
+      >
+      <svg
+      class="w-5 h-5"
+      aria-hidden="true"
+      fill="none"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      stroke-width="2"
+      viewBox="0 0 24 24"
+      stroke="white"
+      >
+      <path
+      d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"
+      ></path>
+    </svg>
+    <span class="ml-4 text-white">Dashboard</span>
+  </a>
+  @endcan
+</li>
+</ul>
+<ul>
+  @can('voir_conceptions_en_attente_config')
+  <li class="relative px-6 py-3">
+    <a
+    class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800"
+    href="/data-required"
+    >
+    <svg
+    class="w-5 h-5"
+    aria-hidden="true"
+    fill="none"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+    viewBox="0 0 24 24"
+    stroke="white"
+    >
+    <path
+    d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"
+    ></path>
+  </svg>
+  <span class="ml-2 text-white">En attente de données ({{ count(App\Conception::where('status_id', 1)->get()) }})</span>
+</a>
+<hr class="mt-4 ">
+</li>
+@endcan
+@can('affecter_graphistes')
+<li class="relative px-6 py-3">
+  <a
+  class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800"
+  href="/graphic-required"
+  >
+  <svg
+  class="w-5 h-5"
+  aria-hidden="true"
+  fill="none"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  stroke-width="2"
+  viewBox="0 0 24 24"
+  stroke="white"
+  >
+  <path
+  d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"
+  ></path>
+</svg>
+<span class="ml-2 text-white">Affectation Graphiste ({{ count(App\Conception::where('status_id', 2)->get()) }})</span>
+</a>
+<hr class="mt-2">
+</li>
+@endcan
+@can('soumettre_proposition')
+
+<li class="relative px-6 py-3">
+  <a
+  class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800"
+  href="/creation-required"
+  >
+  <svg
+  class="w-5 h-5"
+  aria-hidden="true"
+  fill="none"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  stroke-width="2"
+  viewBox="0 0 24 24"
+  stroke="white"
+  >
+  <path
+  d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"
+  ></path>
+</svg>
+<span class="ml-2 text-white">En création (@can('administrer')
+{{ count(App\Conception::whereIn('status_id', [3])->get()) }}@elsecan ('soumettre_proposition')
+{{ count(App\Conception::where('graphiste_id', Auth::user()->graphiste->id)->whereIn('status_id', [3])->get()) }}@endcan)</span>
+</a>
+<hr class="mt-4 ">
+
+</li>
+@endcan
+@can('valider_création')
+
+<li class="relative px-6 py-3">
+  <a
+  class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800"
+  href="/validation-required"
+  >
+  <svg
+  class="w-5 h-5"
+  aria-hidden="true"
+  fill="none"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  stroke-width="2"
+  viewBox="0 0 24 24"
+  stroke="white"
+  >
+  <path
+  d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"
+  ></path>
+</svg>
+<span class="ml-2 text-white">En validation ({{ count(App\Conception::whereIn('status_id', [4,7,10,13])->get()) }})</span>
+</a>
+<hr class="mt-4">
+
+</li>
+@endcan
+@can('administrer')
+
+<li class="relative px-6 py-3">
+  <a
+  class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800"
+  href="/response-required"
+  >
+  <svg
+  class="w-5 h-5"
+  aria-hidden="true"
+  fill="none"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  stroke-width="2"
+  viewBox="0 0 24 24"
+  stroke="white"
+  >
+  <path
+  d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"
+  ></path>
+</svg>
+<span class="ml-2 text-white">En attente de retour ({{ count(App\Conception::whereIn('status_id', [5,8,11])->get()) }})</span>
+</a>
+<hr class="mt-4 ">
+
+</li>
+@endcan
+@can('soumettre_proposition')
+
+<li class="relative px-6 py-3">
+  <a
+  class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800"
+  href="/modify-required"
+  >
+  <svg
+  class="w-5 h-5"
+  aria-hidden="true"
+  fill="none"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  stroke-width="2"
+  viewBox="0 0 24 24"
+  stroke="white"
+  >
+  <path
+  d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"
+  ></path>
+</svg>
+<span class="ml-2 text-white">En modification (@can('administrer')
+{{ count(App\Conception::whereIn('status_id', [6,9,12])->get()) }}@elsecan ('soumettre_proposition')
+{{ count(App\Conception::where('graphiste_id', Auth::user()->graphiste->id)->whereIn('status_id', [6,9,12])->get()) }}@endcan)</span>
+</a>
+<hr class="mt-4 ">
+</li>
+@endcan
+@can('soumettre_proposition')
+
+<li class="relative px-6 py-3">
+  <a
+  class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800"
+  href="/pdf-required"
+  >
+  <svg
+  class="w-5 h-5"
+  aria-hidden="true"
+  fill="none"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  stroke-width="2"
+  viewBox="0 0 24 24"
+  stroke="white"
+  >
+  <path
+  d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"
+  ></path>
+</svg>
+<span class="ml-2 text-white">En attente du PDF (@can('administrer')
+{{ count(App\Conception::whereIn('status_id', [14])->get()) }}@elsecan ('soumettre_proposition')
+{{ count(App\Conception::where('graphiste_id', Auth::user()->graphiste->id)->whereIn('status_id', [14])->get()) }}@endcan)</span>
+</a>
+<hr class="mt-4 ">
+</li>
+@endcan
+@can('voir_conceptions_validées')
+
+<li class="relative px-6 py-3">
+  <a
+  class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800"
+  href="/validated"
+  >
+  <svg
+  class="w-5 h-5"
+  aria-hidden="true"
+  fill="none"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  stroke-width="2"
+  viewBox="0 0 24 24"
+  stroke="white"
+  >
+  <path
+  d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"
+  ></path>
+</svg>
+<span class="ml-2 text-white">Validées et finalisées (@can('administrer')
+{{ count(App\Conception::whereIn('status_id', [15])->get()) }}@elsecan ('soumettre_proposition')
+{{ count(App\Conception::where('graphiste_id', Auth::user()->graphiste->id)->whereIn('status_id', [15])->get()) }}@endcan)</span>
+</a>
+<hr class="mt-4 ">
+
+</li>           
+@endcan
+
+@can('affecter_graphistes')
+
+<li class="relative px-6 py-3">
+  <a
+  class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800"
+  href="/graphistes"
+  >
+  <svg
+  class="w-5 h-5"
+  aria-hidden="true"
+  fill="none"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  stroke-width="2"
+  viewBox="0 0 24 24"
+  stroke="white"
+  >
+  <path
+  d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"
+  ></path>
+</svg>
+<span class="ml-2 text-white">Graphistes ({{ count(App\Graphiste::all()) }})</span>
+</a>
+<hr class="mt-4 ">
+
+</li>           
+@endcan
+
+@cannot('administrer')
+@cannot('soumettre_proposition')          
+
+<hr>
+
+<li class="relative ml-2">
+  <a
+  class="inline-flex items-center w-full text-sm transition-colors duration-150
+  hover:text-gray-500 text-white"
+  href="/"
+  >
+  <svg
+  class="w-5 h-5"
+  aria-hidden="true"
+  fill="none"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  stroke-width="2"
+  viewBox="0 0 24 24"
+  stroke="currentColor"
+  >
+  <path
+  d="M4 6h16M4 10h16M4 14h16M4 18h16"
+  ></path>
+</svg>
+<span class="ml-2 py-2 font-bold text-md">Vos création en cours ({{Auth::user()->CountConceptionEncours()}})</span>
+</a>
+</li>
+
+<hr class="mb-2">
+
+@foreach ($value as $type)
+
+<li class="relative ml-2">
+  <a
+  class="inline-flex items-center w-full text-sm transition-colors duration-150
+  hover:text-gray-500 text-white"
+  href="/{{ $type->id }}/conceptions"
+  >
+  <svg
+  class="w-5 h-5"
+  aria-hidden="true"
+  fill="none"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  stroke-width="2"
+  viewBox="0 0 24 24"
+  stroke="currentColor"
+  >
+  <path
+  d="M4 6h16M4 10h16M4 14h16M4 18h16"
+  ></path>
+</svg>
+<span class="ml-2">{{ $type->label }} ({{ $type->countConceptions()}})</span>
+</a>
+</li>
+
+@endforeach
+
+@endcannot
+@endcannot                                                     
+</ul>
+
+</div>
+
+
+<!-- fin copie de menu en haut -->
+
+      </aside>
+
+<!-- End Mobile Sidebar-->
+
+
+
 
 <div class="flex flex-col flex-1 w-full">
   <header class="z-10 py-4 bg-white shadow-md dark:bg-gray-800">
@@ -456,8 +853,9 @@
     class="container flex items-center justify-between h-full px-6 mx-auto text-purple-600 dark:text-purple-300"
     >
     <!-- Mobile hamburger -->
+
     <button
-    class="p-1 mr-5 -ml-1 rounded-md md:hidden focus:outline-none focus:shadow-outline-purple"
+    class="p-1 mr-5 -ml-1 border-4 border-gray-300 rounded-lg md:hidden focus:outline-none focus:shadow-outline-black"
     @click="toggleSideMenu"
     aria-label="Menu"
     >

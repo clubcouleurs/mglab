@@ -14,7 +14,7 @@ Le graphiste <strong><i>{{ $graphiste }}</i></strong> vient d'uploader la modifi
 
 Merci de valider dans les plus brefs délais.
 
-@component('mail::button', ['url' => config('app.url') . '/conceptions/' . $conception->id . '/propositions' ])
+@component('mail::button', ['url' => config('app.url') . '/conceptions/' . $conception->id])
 Consulter le projet
 @endcomponent
 @endcomponent

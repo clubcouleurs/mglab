@@ -123,23 +123,18 @@
 
 </div>  
 
-<div class="row-span-1 col-span-3 p-4 rounded-lg bg-white rounded-lg shadow-md">
+<div class="row-span-1 col-span-3 p-4 rounded-lg bg-red-600 rounded-lg shadow-md">
   <div class="mb-2 block flex items-center w-full">
-    <span class="inline-block w-3 h-3 mr-1 bg-red-600 rounded-full">
+    <span class="inline-block w-3 h-3 mr-1 bg-white rounded-full">
     </span>
-    <p class="text-xs">Etat</p>
+    <p class="text-xs text-white">Etat</p>
   </div>  
-
-
-
   <span
-  class="py-2 px-2 font-semibold leading-tight text-red-700 bg-red-100 rounded-lg"
-  >    
-  {{ $conception->status->label }}
+  class="text-xl uppercase font-semibold leading-tight text-white rounded-lg"
+  >En attente de vos données
 </span>
+</div>  
 
-
-</div>              
 </div>
 @endforeach
 <hr>

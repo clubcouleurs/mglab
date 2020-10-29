@@ -69,7 +69,9 @@ class PropalController extends Controller
                                      . str_replace(' ', '-', date('Y-m-d-His')) ;
 
             $path = "{$propalName}.jpeg";
-            $watermark = ImageIntervention::make(public_path('storage/img/watermark.png'));
+
+            $watermark = ImageIntervention::make(storage_path('app/public/img/watermark.png'));
+            //$watermark = ImageIntervention::make(public_path('storage/img/watermark.png'));
             $resize->insert($watermark, 'center') ;
             $resize->save('storage/propals/'.$path);
 

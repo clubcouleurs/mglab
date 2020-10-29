@@ -44,7 +44,7 @@ class ConceptionValidatedNotification extends Notification
         return (new MailMessage)
                             ->subject('Votre création ' . $this->conception->type
                             . ' est finalisée est validée')
-                            ->markdown('mail.user.ConceptionValidated', [
+                            ->markdown('mail.user.conceptionValidated', [
                                 'sujet' => 'Création finalisée',
                                 'conception' => $this->conception,
                                 'client' => $this->conception->user->display_name,

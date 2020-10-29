@@ -469,6 +469,11 @@ class ConceptionController extends Controller
         ]) ;
     }
 
+    public function canEditConception(Conception $conception)
+    {
+        return $conception->status_id === 1 ? true : false ;
+    }    
+
     /**
      * Show the form for editing the specified resource.
      *
@@ -477,30 +482,37 @@ class ConceptionController extends Controller
      */
     public function edit(Conception $conception)
     {
+        if($this->canEditConception($conception))
+        {
+            return view('conceptions.edit', ['conception' => $conception,
+                'images' =>$conception->images,
+                'produits' => $conception->produits,
+                'document' =>$conception->document,            
+                'slab' => $conception->slab,
+                'SansSerif' => $conception->sanserif,
+                'Serif' => $conception->serif,
+                'Manuscrit' => $conception->manuscrit,
+                'Script' => $conception->script,
+                'Particuliers' => $conception->particuliers,
+                'Entreprises' => $conception->entreprises,
+                'Hommes' => $conception->hommes,
+                'Femmes' => $conception->femmes,
+                'Enfants' => $conception->enfants,
+                'Adolescents' => $conception->adolescents,
+                'Adultes' => $conception->adultes,
+                'Seniours' => $conception->seniours,
+                'type' => $conception->typeConception,
+                'types' => Type::all(), 
 
-        //return view('conceptions.edit', ['conception' => $conception ]) ;
-        //$data = $conception->getConceptionAttributes();
-        return view('conceptions.edit', ['conception' => $conception,
-            'images' =>$conception->images,
-            'produits' => $conception->produits,
-            'document' =>$conception->document,            
-            'slab' => $conception->slab,
-            'SansSerif' => $conception->sanserif,
-            'Serif' => $conception->serif,
-            'Manuscrit' => $conception->manuscrit,
-            'Script' => $conception->script,
-            'Particuliers' => $conception->particuliers,
-            'Entreprises' => $conception->entreprises,
-            'Hommes' => $conception->hommes,
-            'Femmes' => $conception->femmes,
-            'Enfants' => $conception->enfants,
-            'Adolescents' => $conception->adolescents,
-            'Adultes' => $conception->adultes,
-            'Seniours' => $conception->seniours,
-            'type' => $conception->typeConception,
-            'types' => Type::all(), 
-
-        ]) ;        
+            ]) ; 
+        }
+        else
+        {
+            return view('conceptions.deny', [
+                'conception' => $conception,
+                'types' => Type::all(), 
+            ]) ;
+        }               
         
     }
 
@@ -801,17 +813,33 @@ class ConceptionController extends Controller
             while ( $request->has('i' . $i)) {            
 
                     $request->validate([
-                        'd'.$i => ['required', 'string'],
-                        'i'.$i => ['file','mimes:jpg,jpeg,png'],
+                        'd'.$i => ['sometimes','required', 'string'],
+                        'i'.$i => ['image','mimetypes:image/png,image/jpeg','max:5000'],
                         'p'.$i => 'numeric'
-                    ]);
+                    ],
+                    $messages = [
+
+            'i'.$i .'.mimetypes' => 'Les fichiers doivent être des images du format : JPG ou PNG',
+            'i'.$i .'.image'     => 'Les fichiers doivent être des images du format : JPG ou PNG',
+            'i'.$i .'.required'  => 'Une image du produit est réquise',
+            'i'.$i .'.max'       => 'Les images ne doivent pas dépasser 5 Mo',
+
+            'd'.$i .'.string'    => 'Du texte est attendu sur ce champs',
+            'd'.$i .'.required'  => 'Merci de saisir une description de produits',
+
+            'p'.$i .'.numeric'   => 'Merci de saisir un prix valable',
+
+
+                        ]
+
+                );
 
             if ($request->hasFile('i'. $i ))
             {  
                 $image = $request->file('i'. $i ) ;
                 $destinationPath = $image->store('produits') ;
                 $path = substr($destinationPath, 8 );
-                $resize = ImageIntervention::make(public_path('storage/produits/' . $path))->encode('jpg');
+                $resize = ImageIntervention::make(storage_path('app/public/produits/' . $path))->encode('jpg');
 
                 $resize->resize($this->getNewWidth($resize->width(), $resize->height(), 200) , $this->getNewHeight($resize->width(), $resize->height(), 200) , function ($constraint) {
                 $constraint->aspectRatio();
@@ -844,7 +872,7 @@ class ConceptionController extends Controller
 
             $destinationPath = $image->store('uploads') ;
             $path = substr($destinationPath, 8 );
-            $resize = ImageIntervention::make(public_path('storage/uploads/' . $path))->encode('jpg');
+            $resize = ImageIntervention::make(storage_path('app/public/uploads/' . $path))->encode('jpg');
             $resize->resize($this->getNewWidth($resize->width(), $resize->height(), 200), $this->getNewHeight($resize->width(), $resize->height(), 200) ,function ($constraint) {
                 $constraint->aspectRatio();
                 $constraint->upsize();
@@ -866,13 +894,21 @@ class ConceptionController extends Controller
         $sex_cible = ($request->has('Hommes') ? Str::substr(Request('Hommes'), 0, 1) : '0')  
         . '|' . ($request->has('Femmes') ? Str::substr(Request('Femmes'), 0, 1) : '0');
 
-        $age_cible = ($request->has('Enfants') ? Str::substr(Request('Enfants'), 0, 1) : '0')
-        . '|' . ($request->has('Adolescents') ? Str::substr(Request('Adolescents'), 0, 1) : '0')
-        . '|' . ($request->has('Adultes') ? Str::substr(Request('Adultes'), 0, 1) : '0')
-        . '|' . ($request->has('Seniours') ? Str::substr(Request('Seniours'), 0, 1) : '0');
-
         $cible = ($request->has('cible_b2c') ? Str::substr(Request('cible_b2c'), 0, 1) : '0')
         . '|' . ($request->has('cible_b2b') ? Str::substr(Request('cible_b2b'), 0, 1) : '0');
+
+        if ($request->has('cible_b2c') && Request('cible_b2c') == 'Particuliers')
+        {
+            $age_cible = ($request->has('Enfants') ? Str::substr(Request('Enfants'), 0, 1) : '0')
+            . '|' . ($request->has('Adolescents') ? Str::substr(Request('Adolescents'), 0, 1) : '0')
+            . '|' . ($request->has('Adultes') ? Str::substr(Request('Adultes'), 0, 1) : '0')
+            . '|' . ($request->has('Seniours') ? Str::substr(Request('Seniours'), 0, 1) : '0');        
+                   
+        }
+        else
+        {
+            $age_cible = '0|0|0|0' ;
+        }
 
         $font = ($request->has('Slab') ? Str::substr(Request('Slab'), 0, 2) : '00')
         . '|' . ($request->has('Script') ? Str::substr(Request('Script'), 0, 2):'00')

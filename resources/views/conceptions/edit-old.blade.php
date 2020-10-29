@@ -2,6 +2,22 @@
   <main class="h-full overflow-y-auto bg-blue-100">
     <div class="container px-6 mx-auto grid">
 
+
+
+<div>
+
+      @php
+      $i = 0 ;
+      @endphp
+
+    @while (null !== old('d'.$i) )
+    <p>{{ old('d'. $i )  }}</p>
+      @php
+      $i++;
+      @endphp
+    @endwhile
+
+</div>
         @if(!$errors->isEmpty())
         <p class="block h-160 px-4 py-4 rounded-lg mx-auto w-full mt-4
         bg-red-200 text-red-600 text-xl"> Attention Il y'a des erreurs dans votre formulaire</p>
@@ -824,6 +840,152 @@ prod{{ $produit->id }} : true ,
 
 
 
+
+
+
+
+<!-- teste
+@if(null !== old('d0'))
+<div class="px-4 py-3 mb-8 bg-white rounded-lg shadow-md">
+    <h3 class="block mb-2 uppercase font-bold text-2xl text-gray-700">
+    Les produits/services/événements pour votre création<hr>
+  </h3>
+<div class="grid grid-cols-3 gap-4 justify-items-auto">
+  <div class="flex justify-center items-center px-4 py-2">
+
+           <h3 class="block mb-2 uppercase font-bold text-sm text-gray-700"
+           for="texte_additionnel">
+           Image du produit
+         </h3>
+</div>
+  <div class="flex justify-center items-center px-4 py-2">
+
+       <h3 class="block mb-2 uppercase font-bold text-sm text-gray-700"
+       for="">
+       Description
+     </h3>
+</div>
+  <div class="flex justify-center items-center px-4 py-2">
+
+        <h3 class="block mb-2 uppercase font-bold text-sm text-gray-700"
+   for="">
+   Prix
+ </h3>
+</div>
+</div>
+
+<section
+x-data="{
+produitsToDelete:[],
+addProduitToDelete(prod){
+this.produitsToDelete.push(prod, this.produitsToDelete.length);
+},
+
+      @php
+      $i = 0 ;
+      @endphp
+
+    @while (null !== old('d'.$i) )
+    prod{{ $i }} : true ,
+      @php
+      $i++;
+      @endphp
+    @endwhile
+
+
+}"
+>
+<input type="hidden" name="produitsToDelete[]" :value="produitsToDelete">
+
+
+      @php
+      $i = 0 ;
+      @endphp 
+
+    @while (null !== old('d'.$i) )
+
+        <section x-show="prod{{ $i }}">
+<div class="grid grid-cols-3 gap-4 justify-items-auto">
+  <div class="flex justify-center items-center px-4 py-2">
+
+<input type="hidden" name="h[{{$i}}]" value="{{ $i }}">
+
+         <input
+         class="block h-12 px-2 py-2 rounded-md w-full
+    border border-gray-400 bg-gray-200
+    focus:border-purple-600 focus:outline-none
+    focus:shadow-outline-purple form-input"
+
+         type="file"
+         
+         name="i[{{$i}}]"
+         required
+         multiple
+         >
+
+
+</div>
+
+  <div class="flex justify-center items-center px-4 py-2">
+
+
+<textarea
+  class="block px-2 py-2 rounded-md w-full
+  border border-gray-400 bg-gray-200
+  focus:border-purple-600 focus:outline-none focus:shadow-outline-purple form-textarea" 
+  name="d[{{$i}}]"
+  required
+  rows="5"
+  >{{old('d' . $i)}}</textarea>
+
+
+  </div>
+
+
+
+ <div
+ class="relative focus-within:text-purple-600"
+ >      
+  <input
+  class="block h-10 px-2 py-2 rounded-md w-full
+  border border-gray-400 bg-gray-200
+  focus:border-purple-600 focus:outline-none focus:shadow-outline-purple form-input"
+
+  type="number"
+  step="any"
+  name="p[{{$i}}]"
+  value="{{old('p' . $i)}}"
+  >
+ <button
+ class="h-10 absolute inset-y-0 right-0 px-4 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-r-md active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple"
+ @click="deleteTodo(todo)">
+ Supprimer
+</button>
+
+  </div>
+
+</div>
+          
+        </section>
+
+
+      @php
+      $i++;
+      @endphp
+    @endwhile
+
+
+</section>
+</div>
+@endif
+ end teste --> 
+
+
+
+
+
+
+
 @if($type !== 'logo')
 
 
@@ -844,8 +1006,6 @@ todos:[
       myDesc : '{{old('d'.$i)}}' ,
       prix : 'p{{$i}}' , 
       myPrice : '{{old('p'.$i)}}' ,
-      label : 'label' + (this.todos.length) ,
-
 
     },
       @php
@@ -861,7 +1021,6 @@ id: this.todos.length +1,
 name : 'i' + (this.todos.length) ,
 desc : 'd' + (this.todos.length) ,
 prix : 'p' + (this.todos.length) ,
-label : 'label' + (this.todos.length) ,
 
 });
 },
@@ -899,26 +1058,24 @@ this.todos.splice(this.todos.indexOf(todo), 1 );
         <div class="w-1/3 px-2 w-full ">
           <div>
            <label class="block mb-2 uppercase font-bold text-xs text-gray-700"
-           :id="todo.label">
+           for="texte_additionnel">
            Image du produit
          </label>
 
          <input
          class="block h-12 px-2 py-2 rounded-md w-full
-                border border-gray-400 bg-gray-200
-                focus:border-purple-600 focus:outline-none
-                focus:shadow-outline-purple form-input"
+    border border-gray-400 bg-gray-200
+    focus:border-purple-600 focus:outline-none
+    focus:shadow-outline-purple form-input"
+
          type="file"
          :key="todo.id"
          :name="todo.name"
-         :id="todo.name"
          required
+         multiple
          >
+
        </div>
-            @error('i*')
-                  <p class="block px-2 py-2 rounded-md w-full mt-2
-    bg-red-600 text-white text-xs"> Attention :{{ $message }}</p>
-            @enderror
      </div>
      <div class="w-1/3 px-2 w-full ">
       <div>
@@ -939,12 +1096,8 @@ focus:border-purple-600 focus:outline-none focus:shadow-outline-purple form-text
      required
      rows="5"
      ></textarea>
-        </div>
-    @error('d*')
-        <p class="block px-2 py-2 rounded-md w-full mt-2
-    bg-red-600 text-white text-xs"> Attention :{{ $message }}</p>
-    @enderror
 
+   </div>
  </div>
  <div class="w-1/3 px-2 w-full ">
   <div>
@@ -965,10 +1118,6 @@ focus:border-purple-600 focus:outline-none focus:shadow-outline-purple form-text
  id=""
  x-model:value="todo.myPrice" 
  >
-     @error('p*')
-        <p class="block px-2 py-2 rounded-md w-full mt-2
-    bg-red-600 text-white text-xs"> Attention :{{ $message }}</p>
-    @enderror
  <button
  class="absolute inset-y-0 right-0 px-4 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-r-md active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple"
  @click="deleteTodo(todo)">
@@ -993,88 +1142,7 @@ focus:border-purple-600 focus:outline-none focus:shadow-outline-purple form-text
 
 
 <div x-data="{
-checkbox: [
-              @if(old('_token'))
-                @if (old('cible_b2c') == 'Particuliers') 
-                  'Particuliers',      
-                @endif
-              @else
-                @empty(!$Particuliers)
-                  'Particuliers',
-                @endempty
-              @endif
-
-              @if(old('_token'))
-                @if (old('cible_b2b') == 'Entreprises') 
-                  'Entreprises',      
-                @endif
-              @else
-                @empty(!$Entreprises)
-                  'Entreprises',
-                @endempty
-              @endif
-
-              @if(old('_token'))
-                @if (old('Enfants') == 'Enfants') 
-                  'Enfants',      
-                @endif
-              @else
-                @empty(!$Enfants)
-                  'Enfants',
-                @endempty
-              @endif
-
-              @if(old('_token'))
-                @if (old('Adolescents') == 'Adolescents') 
-                  'Adolescents',      
-                @endif
-              @else
-                @empty(!$Adolescents)
-                  'Adolescents',
-                @endempty
-              @endif
-
-              @if(old('_token'))
-                @if (old('Adultes') == 'Adultes') 
-                  'Adultes',      
-                @endif
-              @else
-                @empty(!$Adultes)
-                  'Adultes',
-                @endempty
-              @endif
-
-              @if(old('_token'))
-                @if (old('Seniours') == 'Seniours') 
-                  'Seniours',      
-                @endif
-              @else
-                @empty(!$Seniours)
-                  'Seniours',
-                @endempty
-              @endif
-
-              @if(old('_token'))
-                @if (old('Hommes') == 'Hommes') 
-                  'Hommes',      
-                @endif
-              @else
-                @empty(!$Hommes)
-                  'Hommes',
-                @endempty
-              @endif
-
-              @if(old('_token'))
-                @if (old('Femmes') == 'Femmes') 
-                  'Femmes',      
-                @endif
-              @else
-                @empty(!$Femmes)
-                  'Femmes',
-                @endempty
-              @endif               
-
-],
+checkbox: ['{{$Particuliers}}', '{{$Enfants}}', '{{$Adolescents}}', '{{$Adultes}}', '{{$Seniours}}', '{{$Femmes}}', '{{$Hommes}}'],
 toogle() {
   this.checkbox = []
 },
@@ -1099,7 +1167,7 @@ show:
 , b2b:
 
 @if(old('_token'))
-  @if (old('cible_b2b') == 'Entreprises') 
+  @if (old('cible_b2c') == 'Entreprises') 
     true
   @else
     false
@@ -1135,6 +1203,15 @@ show:
           name="cible_b2c"
           value="Particuliers"
           @click="show =! show, toogle()"
+              @if(old('_token'))
+                @if (old('cible_b2c') == 'Particuliers') 
+                  checked      
+                @endif
+              @else
+                @empty(!$Particuliers)
+                  checked
+                @endempty
+              @endif
           />
           <span class="ml-2">Particuliers</span>
         </label>
@@ -1145,13 +1222,22 @@ show:
         >
         <input
         type="checkbox"
-        x-model="checkbox"
         class="text-purple-600 form-checkbox focus:border-purple-400 focus:outline-none focus:shadow-outline-purple h-8 w-8"
         name="cible_b2b"
         value="Entreprises"
         @click="b2b =! b2b"
+              @if(old('_token'))
+                @if (old('cible_b2b') == 'Entreprises') 
+                  checked      
+                @endif
+              @else
+                @empty(!$Entreprises)
+                  checked
+                @endempty
+              @endif
         />
-        <span class="ml-2">Entreprises</span>
+
+        <span class="ml-2">Entreprise</span>
       </label>
     </div>
   </div>
@@ -1182,7 +1268,15 @@ show:
       name="Enfants"
       value="Enfants"
       value="Enfants"
-
+              @if(old('_token'))
+                @if (old('Enfants') == 'Enfants') 
+                  checked      
+                @endif
+              @else
+                @empty(!$Enfants)
+                  checked
+                @endempty
+              @endif
       />
       <span class="ml-2">Enfants</span>
     </label>
@@ -1197,6 +1291,16 @@ show:
     class="text-purple-600 form-checkbox focus:border-purple-400 focus:outline-none focus:shadow-outline-purple h-8 w-8"
     name="Adolescents"
     value="Adolescents"
+              @if(old('_token'))
+                @if (old('Adolescents') == 'Adolescents') 
+                  checked      
+                @endif
+              @else
+                @empty(!$Adolescents)
+                  checked
+                @endempty
+              @endif
+
     />
     <span class="ml-2">Adolescents</span>
   </label>
@@ -1211,7 +1315,15 @@ show:
   class="text-purple-600 form-checkbox focus:border-purple-400 focus:outline-none focus:shadow-outline-purple h-8 w-8"
   name="Adultes"
   value="Adultes"
-   
+              @if(old('_token'))
+                @if (old('Adultes') == 'Adultes') 
+                  checked      
+                @endif
+              @else
+                @empty(!$Adultes)
+                  checked
+                @endempty
+              @endif     
   />
   <span class="ml-2">Adultes</span>
 </label>
@@ -1226,6 +1338,15 @@ show:
   class="text-purple-600 form-checkbox focus:border-purple-400 focus:outline-none focus:shadow-outline-purple h-8 w-8"
   name="Seniours"
   value="Seniours"
+              @if(old('_token'))
+                @if (old('Seniours') == 'Seniours') 
+                  checked      
+                @endif
+              @else
+                @empty(!$Seniours)
+                  checked
+                @endempty
+              @endif 
   />
   <span class="ml-2">Seniours</span>
 </label>                               
@@ -1248,7 +1369,16 @@ show:
     x-model="checkbox"
     class="text-purple-600 form-checkbox focus:border-purple-400 focus:outline-none focus:shadow-outline-purple h-8 w-8"
     name="Hommes"
-    value="Hommes"    
+    value="Hommes"
+              @if(old('_token'))
+                @if (old('Hommes') == 'Hommes') 
+                  checked      
+                @endif
+              @else
+                @empty(!$Hommes)
+                  checked
+                @endempty
+              @endif     
     />
     <span class="ml-2">Hommes</span>
   </label>
@@ -1263,7 +1393,15 @@ show:
   class="text-purple-600 form-checkbox focus:border-purple-400 focus:outline-none focus:shadow-outline-purple h-8 w-8"
   name="Femmes"
   value="Femmes"
-     
+              @if(old('_token'))
+                @if (old('Femmes') == 'Femmes') 
+                  checked      
+                @endif
+              @else
+                @empty(!$Femmes)
+                  checked
+                @endempty
+              @endif      
   />
   <span class="ml-2 mr-2">Femmes</span>
 
@@ -1420,13 +1558,6 @@ placeholder="Les secteurs d'activités de vos clients"
                 @endempty
               @endif              
     ],
-    check(data)
-    {
-      if(this.checkbox.length > 2)
-      {
-        this.checkbox.splice(this.checkbox.indexOf(data),1)
-      }
-    }
       
     }">
 
@@ -1439,8 +1570,18 @@ placeholder="Les secteurs d'activités de vos clients"
         class="text-purple-600 form-checkbox focus:border-purple-400 focus:outline-none focus:shadow-outline-purple  h-8 w-8"
         name="Serif"
         value="Serif"
-       
-      @click="check('Serif')"              
+              @if(old('_token'))
+                @if (old('Serif') == 'Serif') 
+                  checked      
+                @endif
+              @else
+                @empty(!$Serif)
+                  checked
+                @endempty
+              @endif
+
+       :disabled='checkbox.length > 2'
+      @click="check"              
 
         />
         <span class="ml-2 mr-2">Serif</span>
@@ -1454,9 +1595,15 @@ placeholder="Les secteurs d'activités de vos clients"
        x-model="checkbox" 
       class="text-purple-600 form-checkbox focus:border-purple-400 focus:outline-none focus:shadow-outline-purple h-8 w-8"
       name="SansSerif"
-      value="SansSerif"    
-       
-      @click="check('SansSerif')"    
+      value="SansSerif"
+      @empty(!$SansSerif) 
+      checked
+      @endempty
+      @empty(!old('SansSerif'))
+      checked
+      @endempty       
+       :disabled='checkbox.length > 2'
+      @click="check"    
       />
       <span class="ml-2 mr-2">Sans Serif</span>
       <img src="{{ asset('img/font_types_sansserif.jpg') }}" width="100" class="rounded-lg">
@@ -1470,9 +1617,18 @@ placeholder="Les secteurs d'activités de vos clients"
      x-model="checkbox" 
     class="text-purple-600 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray form-checkbox h-8 w-8"
     name="Slab"
-    value="Slab"   
-       
-      @click="check('Slab')"    
+    value="Slab"
+              @if(old('_token'))
+                @if (old('Slab') == 'Slab') 
+                  checked      
+                @endif
+              @else
+                @empty(!$slab)
+                  checked
+                @endempty
+              @endif     
+       :disabled='checkbox.length > 2'
+      @click="check"    
     />
     <span class="ml-2 mr-2">Slab Serif</span>
     <img src="{{ asset('img/font_types_slabserif.jpg') }}" width="100" class="rounded-lg">
@@ -1486,8 +1642,17 @@ placeholder="Les secteurs d'activités de vos clients"
   class="text-purple-600 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray form-checkbox h-8 w-8"
   name="Script"
   value="Script"
-       
-      @click="check('Script')"    
+              @if(old('_token'))
+                @if (old('Script') == 'Script') 
+                  checked      
+                @endif
+              @else
+                @empty(!$Script)
+                  checked
+                @endempty
+              @endif  
+       :disabled='checkbox.length > 2'
+      @click="check"    
   />
   <span class="ml-2 mr-2">Script</span>
   <img src="{{ asset('img/font_types_script.jpg') }}" width="100" class="rounded-lg">
@@ -1501,17 +1666,26 @@ type="checkbox"
 class="text-purple-600 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray form-checkbox h-8 w-8"
 name="Manuscrit"
 value="Manuscrit"
-@click="check('Manuscrit')"                  
+
+              @if(old('_token'))
+                @if (old('Manuscrit') == 'Manuscrit') 
+                  checked      
+                @endif
+              @else
+                @empty(!$Manuscrit)
+                  checked
+                @endempty
+              @endif
+       :disabled='checkbox.length > 2'
+      @click="check"                  
 />
 <span class="ml-2 mr-2">Manuscrit</span>
 <img src="{{ asset('img/font_types_handwritten.jpg') }}" width="100" class="rounded-lg">
-</label>   
-
+</label>                                                                      
 </div>
 
+
 </div>             
-
-
 @error('positionnement')
 <p class="text-red-500 text-xs mt-2"> {{ $message }}</p>
 @enderror
@@ -1741,8 +1915,8 @@ placeholder="Lister les exigences de votre imprimeur : nomenclature, format de f
 <div class="px-4 py-3 mb-8 bg-white rounded-lg shadow-md">
 
   <div class="flex-1 text-center items-center">
-    <button class="w-64 px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple mb-2"
-    type="submit">
+    <button class="w-64 px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple mb-2" type="submit"
+      >
      Enregistrer
 
    </button>

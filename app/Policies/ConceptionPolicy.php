@@ -20,9 +20,7 @@ class ConceptionPolicy
      */
     public function viewAny(User $user)
     {
-        dd('viewany');
-
-        //return $user->isSuperAdmin();
+        //
     }
 
     /**
@@ -91,18 +89,11 @@ class ConceptionPolicy
 
     public function edit(User $user, Conception $conception)
     {
-        if (isset($user->graphiste)) {
+        if (isset($user->graphiste))
+        {
             if ($user->graphiste->id === $conception->graphiste_id)
             {
-                if($this->canEditConception($conception))
-                {
-                    return Response::allow(); 
-                }
-                else
-                {
-                return Response::deny('Vous ne pouvez plus modifier ce cahier de charges,
-                    la conception est en cours de création, mais vous pouvez toujours demander des modifications une fois la création terminée.');
-                }
+                return Response::allow(); 
             }
             else
             {
@@ -113,15 +104,7 @@ class ConceptionPolicy
         {
             if ($user->ID === $conception->user_id)
             {
-                if($this->canEditConception($conception))
-                {
-                    return Response::allow(); 
-                }
-                else
-                {
-                return Response::deny('Vous ne pouvez plus modifier ce cahier de charges,
-                    la conception est en cours de création, mais vous pouvez toujours demander des modifications une fois la création terminée.');
-                }
+                return Response::allow(); 
             }
             else
             {
@@ -130,10 +113,10 @@ class ConceptionPolicy
         }
     }
 
-    public function canEditConception(Conception $conception)
-    {
-        return $conception->status_id === 1 ? true : false ;
-    }
+    //public function canEditConception(Conception $conception)
+    //{
+    //    return $conception->status_id === 1 ? true : false ;
+    //}
 
     /**
      * Determine whether the user can delete the model.

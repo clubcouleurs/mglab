@@ -14,11 +14,10 @@ Nous vous invitons à les consulter, choisir la meilleure proposition qui vous c
 
 Merci pour votre confiance et à très bientôt chez mongraphisme.com.
 
-@component('mail::button', ['url' => config('app.url') . '/conceptions/' . $conception->id . '/propositions'])
+@component('mail::button', ['url' => config('app.url') . '/conceptions/' . $conception->id])
 Consulter le projet
 @endcomponent
 @endcomponent
-
 
 
 
