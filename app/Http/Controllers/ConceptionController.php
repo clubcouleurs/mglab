@@ -722,13 +722,10 @@ class ConceptionController extends Controller
 
         if($request->has('graphiste'))
         {
-            //dd('has graphiste');
             $conception->graphiste_id = Request('graphiste') ;
             $conception->save();
             $conception->upgradeStatus(3) ;
-
             GraphisteAffected::dispatch($conception) ;
-            
             return back()->with('message','Graphiste bien affecté !') ;
         }
 

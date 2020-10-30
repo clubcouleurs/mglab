@@ -43,7 +43,7 @@ class NotificationConceptionValidatedPdfRequiredToClient extends Notification
         return (new MailMessage)
                             ->subject('Votre conception ' . $this->conception->type 
                                 . ' est validée')
-                            ->markdown('mail.user.conceptionValidated', [
+                            ->markdown('mail.user.conceptionValidatedPdfRequired', [
                                 'sujet' => 'Conception validée',
                                 'conception' => $this->conception,
                                 'client' => $this->conception->user->display_name,

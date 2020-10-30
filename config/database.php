@@ -71,7 +71,7 @@ return [
             'password'  => 'root',
             'charset'   => 'utf8',
             'collation' => 'utf8_unicode_ci',
-            'prefix'    => 'wp_',
+            'prefix'    => 'crea_',
             'strict'    => false,
             'engine'    => null,
         ],

@@ -57,10 +57,6 @@
                 @endif">
                   {{$notification->data['sujet']}}
 
-                 
-
-
-        
                 </span>
 
                 <div>

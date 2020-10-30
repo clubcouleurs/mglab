@@ -4,6 +4,7 @@ namespace App\Listeners;
 
 use App\Events\ConceptionValidatedPdfRequired;
 use App\Notifications\NotificationConceptionValidatedPdfRequired;
+use App\Notifications\NotificationConceptionValidatedPdfRequiredToClient;
 use App\Notifications\NotificationConceptionValidatedPdfRequiredToGraphiste;
 use App\User;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -35,7 +36,7 @@ class EnvoiNotificationConceptionValidatedPdfRequired
                             new NotificationConceptionValidatedPdfRequired($event->conception)) ;
             Notification::send($event->conception->graphiste->user ,
                             new NotificationConceptionValidatedPdfRequiredToGraphiste($event->conception)) ;
-            Notification::send($event->conception->user ,
+            Notification::send($event->conception->user,
                             new NotificationConceptionValidatedPdfRequiredToClient($event->conception)) ;
 
 
