@@ -35,6 +35,9 @@ class EnvoiNotificationConceptionValidatedPdfRequired
                             new NotificationConceptionValidatedPdfRequired($event->conception)) ;
             Notification::send($event->conception->graphiste->user ,
                             new NotificationConceptionValidatedPdfRequiredToGraphiste($event->conception)) ;
+            Notification::send($event->conception->user ,
+                            new NotificationConceptionValidatedPdfRequiredToClient($event->conception)) ;
+
 
     }
 }

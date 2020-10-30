@@ -10,8 +10,8 @@
   <title>{{ config('app.name', 'MonGraphisme.com') }}</title>
 
   <!-- Scripts -->
-  <script src="{{asset('js/app.js')}}" defer></script>
-  <script src="{{asset('js/init-alpine.js')}}"></script>
+  <script src="{{config('app.url')}}/js/app.js" defer></script>
+  <script src="{{config('app.url')}}/js/init-alpine.js"></script>
 
   <!-- Fonts -->
   <link rel="dns-prefetch" href="//fonts.gstatic.com">
@@ -24,7 +24,7 @@
   ></script>
 
   <!--<link href="css/tailwind.output.css" rel="stylesheet"> -->
-  <link href="{{asset('css/main.css')}}" rel="stylesheet">
+  <link href="{{config('app.url')}}/css/main.css" rel="stylesheet">
 </head>
 <body>
 

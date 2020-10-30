@@ -1,7 +1,8 @@
 <x-master type='types' :value="$types">
   <main class="h-full overflow-y-auto bg-blue-100">
-        <div class="sticky top-0 p-4 bg-red-100 shadow-md">
-      <p class="font-bold text-red-700 italic">  
+    @if( $conception->status_id > 1 )
+        <div class="sticky top-0 p-4 bg-green-100 shadow-md">
+      <p class="font-bold text-green-700 italic">  
 
         @switch ($conception->status_id)
         @case (2)
@@ -70,9 +71,9 @@
         @case (15)
          <div class="w-full flex items-center">
            <p class="mr-2">Cette conception est finalisée est le fichier final prêt : </p>
+         <a download="{{ $conception->pdf_conception }}" href="{{ Storage::url('creations/' . $conception->pdf_conception) }}" class="font-semibold text-red-600 flex">           
          <svg class="fill-current w-6 h-6 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M13 8V2H7v6H2l8 8 8-8h-5zM0 18h20v2H0v-2z"/></svg>
          <img src="{{ asset('img/pdf.png') }}" class="h-8 mr-2">
-         <a download="{{ $conception->pdf_conception }}" href="{{ Storage::url('creations/' . $conception->pdf_conception) }}" class="font-semibold text-red-600">
          Exe_{{ $conception->type }}_{{ $conception->user->user_login }}</a>
         </div>
         @break;
@@ -80,7 +81,7 @@
         @endswitch
       </p>
     </div>
-
+    @endif
 
     <div class="container px-6 mx-auto grid">
       <div class="">

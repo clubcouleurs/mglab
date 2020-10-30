@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Graphiste;
+use App\Role;
 use App\Type;
 use App\User;
 use Illuminate\Http\Request;
@@ -47,6 +48,8 @@ class GraphisteController extends Controller
             {
                 $graphiste = new Graphiste();
                 $user->graphiste()->save($graphiste);
+                $graphisteRole = Role::findOrFail(2) ;
+                $user->assignRole($graphisteRole) ;
             }
 
         return back()->with('message','Graphiste crée !') ; 

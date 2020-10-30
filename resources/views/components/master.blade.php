@@ -11,9 +11,9 @@
   <!--<title>{{ config('app.name', 'MonGraphisme.com') }}</title>-->
 
   <!-- Scripts -->
-  <script src="{{url('/js/app.js')}}" defer></script>
-  <script src="{{url('js/init-alpine.js')}}"></script>
-  <script src="{{url('js/function.js')}}"></script>
+  <script src="{{config('app.url')}}/js/app.js" defer></script>
+  <script src="{{config('app.url')}}/js/init-alpine.js"></script>
+  <script src="{{config('app.url')}}/js/function.js"></script>
 
   <!-- Fonts -->
   <link rel="dns-prefetch" href="//fonts.gstatic.com">
@@ -26,7 +26,7 @@
   ></script>
 
   <!--<link href="css/tailwind.output.css" rel="stylesheet"> -->
-  <link href="{{url('css/main.css')}}" rel="stylesheet">
+  <link href="{{config('app.url')}}/css/main.css" rel="stylesheet">
 
   <style type="text/css">
       /*Toast open/load animation*/
@@ -1086,7 +1086,7 @@ aria-label="Search"
 </div>
 
 
-<script src="http://unpkg.com/turbolinks"></script>
+<script src="https://unpkg.com/turbolinks"></script>
 
 </body>
 </html>

@@ -2,6 +2,8 @@
   <main class="h-full overflow-y-auto bg-blue-100">
     <div class="container px-6 mx-auto grid">
 
+
+
         @if(!$errors->isEmpty())
         <p class="block h-160 px-4 py-4 rounded-lg mx-auto w-full mt-4
         bg-red-200 text-red-600 text-xl"> Attention Il y'a des erreurs dans votre formulaire</p>
@@ -844,7 +846,7 @@ todos:[
       myDesc : '{{old('d'.$i)}}' ,
       prix : 'p{{$i}}' , 
       myPrice : '{{old('p'.$i)}}' ,
-      label : 'label' + (this.todos.length) ,
+      label : 'label{{$i}}' ,
 
 
     },
@@ -915,7 +917,7 @@ this.todos.splice(this.todos.indexOf(todo), 1 );
          required
          >
        </div>
-            @error('i*')
+            @error('i.*')
                   <p class="block px-2 py-2 rounded-md w-full mt-2
     bg-red-600 text-white text-xs"> Attention :{{ $message }}</p>
             @enderror
@@ -940,7 +942,7 @@ focus:border-purple-600 focus:outline-none focus:shadow-outline-purple form-text
      rows="5"
      ></textarea>
         </div>
-    @error('d*')
+    @error('d.*')
         <p class="block px-2 py-2 rounded-md w-full mt-2
     bg-red-600 text-white text-xs"> Attention :{{ $message }}</p>
     @enderror
@@ -965,7 +967,7 @@ focus:border-purple-600 focus:outline-none focus:shadow-outline-purple form-text
  id=""
  x-model:value="todo.myPrice" 
  >
-     @error('p*')
+     @error('p.*')
         <p class="block px-2 py-2 rounded-md w-full mt-2
     bg-red-600 text-white text-xs"> Attention :{{ $message }}</p>
     @enderror
