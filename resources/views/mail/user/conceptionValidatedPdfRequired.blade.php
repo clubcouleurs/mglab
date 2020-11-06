@@ -10,7 +10,7 @@
 
 # Bonjour M. {{$client}},
 
-Votre création <strong><i>{{$conception->type}}</i></strong> est validée. Votre fichier final sera prêt dans très peu de temps. Un email vous sera envoyé quand ledit fichier sera disponible pour le téléchargement.
+Votre création <strong><i>{{$conception->type}}</i></strong> est validée. Votre fichier final sera prêt dans très peu de temps. Un email vous sera envoyé quand le dit fichier sera disponible pour le téléchargement.
 
 Merci pour votre confiance et à très bientôt chez mongraphisme.com.
 

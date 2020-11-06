@@ -39,14 +39,19 @@ class ConceptionController extends Controller
 
     public function dashboard()
     {
+        $now = Carbon::now();
+        $expDate = $now->subDays(30);
+        $year = $now->year;
 
-        return view('dashboard', ['conceptions' => Conception::whereNull('updated_at')
-            ->orderBy('updated_at', 'desc')
-            ->get(),
-            'conceptionsACreer' => Conception::whereNotNull('updated_at')
-            ->orderBy('lancer_at', 'desc')
-            ->get()
+        return view('dashboard',[
+            'conceptions' => count(Conception::where('status_id' , 1)->get()),
+            'conceptionsACreer' => count(Conception::where('status_id' , 2)->get()),
+            'CAMois' =>Conception::whereDate('created_at', '>=', $expDate)->sum('prix'),
+            'CAAnne' =>Conception::whereYear('created_at', '=', $year)->sum('prix'),
+
         ]);   
+
+
 
     }
 

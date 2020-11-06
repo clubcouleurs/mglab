@@ -52,16 +52,22 @@
           <div class="block flex items-center w-full">
             <span class="inline-block w-3 h-3 mr-1 bg-red-600 rounded-full">
             </span>
-
             <div class="w-64">
               <span class="font-bold bold text-2xl">
                 <a href="/conceptions/{{$conception->id}}">
                   {{$conception->type}}
                 </a>
-              </span>
+              </span>          
             </div>
-
           </div>                            
+
+          <div class="block flex items-center w-full">
+            <div class="w-64">
+              <span class="font-normal text-md">
+                  {{$conception->nom_projet}}
+              </span>          
+            </div>
+          </div> 
 
         </div>
       </div>

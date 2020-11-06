@@ -27,7 +27,7 @@
                   <p
                     class="text-lg font-semibold text-gray-700 dark:text-gray-200"
                   >
-                    {{count($conceptions)}}
+                    {{$conceptions}}
                   </p>
                 </div>
               </div>
@@ -55,7 +55,7 @@
                   <p
                     class="text-lg font-semibold text-gray-700 dark:text-gray-200"
                   >
-                    {{count($conceptionsACreer)}}
+                    {{$conceptionsACreer}}
                   </p>
                 </div>
               </div>
@@ -81,7 +81,7 @@
                   <p
                     class="text-lg font-semibold text-gray-700 dark:text-gray-200"
                   >
-                    376
+                    {{$CAMois}}
                   </p>
                 </div>
               </div>
@@ -109,7 +109,7 @@
                   <p
                     class="text-lg font-semibold text-gray-700 dark:text-gray-200"
                   > 
-                    35
+                    {{$CAAnne}}
                   </p>
                 </div>
               </div>

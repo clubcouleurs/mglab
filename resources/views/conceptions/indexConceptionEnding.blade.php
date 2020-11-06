@@ -40,6 +40,14 @@
 
       </div>                            
 
+          <div class="block flex items-center w-full">
+            <div class="w-64">
+              <span class="font-normal text-md">
+                  {{$conception->nom_projet}}
+              </span>          
+            </div>
+          </div> 
+          
     </div>
   </div>
   <div class="row-span-1 col-span-4 p-4 bg-white rounded-lg shadow-md">

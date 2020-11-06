@@ -37,7 +37,14 @@
           </span>
         </div>
 
-      </div>                            
+      </div>    
+          <div class="block flex items-center w-full">
+            <div class="w-64">
+              <span class="font-normal text-md">
+                  {{$conception->nom_projet}}
+              </span>          
+            </div>
+          </div>                               
 
     </div>
   </div>

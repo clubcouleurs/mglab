@@ -71,17 +71,6 @@ class User extends Corcel
        
     }
 
-
-    /*public function conceptionACreer()
-    {
-        return Conception::where('user_id', $this->ID)
-                                                ->whereNotNull('lancer_at')
-                                                ->orderBy('lancer_at', 'desc')
-                                                ->get();
-
-        
-    }   */ 
-
     public function graphiste()
     {
         return $this->hasOne(Graphiste::class)->latest();
@@ -108,23 +97,21 @@ class User extends Corcel
             $expDate = Carbon::now()->subDays(30);
             return $this->conceptions()->whereIn('status_id' , [15] )
             ->whereDate('validate_at', '>=', $expDate)
-            ->orderBy('lancer_at', 'desc')
             ->get();
-    }    
+    }
+
     public function CountConceptionEncours()
     {
             return count($this->ConceptionAvantArchive())
             +
             count($this->conceptions()->whereNotIn('status_id' , [15] )
-            ->orderBy('lancer_at', 'desc')
             ->get());
     }
-    /// ça sert à quoi ?
-    /*public function isSuperAdmin()
+
+    public function ConceptionArchive()
     {
-        if ($this->display_name ==='admin' && $this->user_login ==='admin' && $this->user_nicename ==='admin')
-        {
-            return true ;
-        }
-    }*/
+            return count($this->conceptions()->whereIn('status_id' , [15] )
+            ->get());
+    }
+
 }
