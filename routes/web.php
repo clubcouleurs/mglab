@@ -2,8 +2,6 @@
 
 
 use App\Conception;
-use App\Propal;
-
 use App\Events\ChoixFaitModificationReceived;
 use App\Events\ConceptionValidated;
 use App\Events\DataConceptionReceived;
@@ -16,10 +14,12 @@ use App\Notifications\DataConceptionReceivedNotification;
 use App\Notifications\DataConceptionReceivedNotificationToClient;
 use App\Notifications\GraphisteAffectedNotification;
 use App\Notifications\ModificationAppliedNotification;
+use App\Propal;
+use Carbon\Carbon;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Route;
-
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 
 /*
@@ -33,44 +33,36 @@ use Illuminate\Http\Request;
 |
 */
 
+Route::get('/log', function(){
+            $now = Carbon::now();
+            $expDate = $now->subMinutes(1);
+        $directories = Storage::directories('tmp') ;
+        dd($directories) ;
+        foreach ($directories as $directory)
+        {
+           echo 'directory' ;
 
-Route::get('/path', function () {
-    $path = public_path('storage/uploads/') ;
-    $path = storage_path('app/public/uploads/');
-    dd($path) ;
+            $files = Storage::allFiles($directory);
+                foreach ($files as $file)
+                    {
+                        echo  'file' ;
+                        $dateFile = Carbon::createFromTimestamp(Storage::lastModified($file));
+                            if ($dateFile <= $expDate)
+                                {
+                                    Storage::delete($file); 
+                                    echo 'file deleted' ;    
+                                }
+                    }
+                        $dateDir = Carbon::createFromTimestamp(Storage::lastModified($directory));
+                        if ($dateDir <= $expDate)
+                            {
+                                Storage::deleteDirectory($directory);   
+                                echo 'Directory deleted' ;    
+
+                            }
+
+        }
 });
-
-
-/*Route::get('/form', function () {
-    return view('form');
-});*/
-
-/*Route::get('mail', function () {
-	
-	$c = Conception::find(26);
-	//$c->createPdf ;
-	//die();
-/*return (new ModificationAppliedNotification($conception))
-                ->toMail(request()->user());*/
-    //GraphisteAffected::dispatch($conception) ;            
-    //ConceptionValidated::dispatch($conception) ;
-	//ModificationValidated::dispatch($conception);
-	//ModificationApplied::dispatch($conception);
-	//ChoixFaitModificationReceived::dispatch($conception) ;
-	//PropalsValidated::dispatch($conception) ;
-    //PropalsCreated::dispatch($conception) ;
-    //GraphisteAffected::dispatch($conception) ;
-	//DataConceptionReceived::dispatch($c) ;
-
-	      /*  Notification::send(request()->user() ,
-                            new DataConceptionReceivedNotificationToClient($c)) ;
-
-
-	
-    return (new DataConceptionReceivedNotificationToClient($Conception))
-                ->toMail(request()->user());*/
-//});
-
 
 
 Route::middleware('auth')->group(function(){

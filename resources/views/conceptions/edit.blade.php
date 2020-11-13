@@ -2,8 +2,6 @@
   <main class="h-full overflow-y-auto bg-blue-100">
     <div class="container px-6 mx-auto grid">
 
-
-
         @if(!$errors->isEmpty())
         <p class="block h-160 px-4 py-4 rounded-lg mx-auto w-full mt-4
         bg-red-200 text-red-600 text-xl"> Attention Il y'a des erreurs dans votre formulaire</p>
@@ -137,12 +135,11 @@ id: this.logos.length +1,
         </section>
           <section x-show="logos.length">
   <template x-for="logo in logos" :key="logo.id">
-
-    <input
-    class="block h-12 px-2 py-2 rounded-md w-full
+    <!--class="block h-12 px-2 py-2 rounded-md w-full
     border border-gray-400 bg-gray-200
     focus:border-purple-600 focus:outline-none
-    focus:shadow-outline-purple form-input"
+    focus:shadow-outline-purple form-input"-->
+    <input
     type="file"
     name="logo"
     id="logo"
@@ -167,11 +164,12 @@ id: this.logos.length +1,
 <!-- here was the form to delete the logo -->
 
     @else
-    <input
-    class="block h-12 px-2 py-2 rounded-md w-full
+    <!--class="block h-12 px-2 py-2 rounded-md w-full
     border border-gray-400 bg-gray-200
     focus:border-purple-600 focus:outline-none
-    focus:shadow-outline-purple form-input"
+    focus:shadow-outline-purple form-input"-->
+        
+    <input
     type="file"
     name="logo"
     id="logo"
@@ -302,6 +300,9 @@ placeholder="Positionnement de votre Entreprise"
 @enderror
 </div>
 
+</div>
+<div class="px-4 py-3 mb-8 bg-white rounded-lg shadow-md">
+
 <div class="mb-4">
   <label class="block mb-2 uppercase font-bold text-2xl text-gray-700"
   for="objectif">
@@ -431,8 +432,8 @@ img{{ $image->id }} : true ,
 >
        <section class="flex flex-wrap">
           <button type="button" class="hover:border-gray-500" @click="isDialogOpen = true">
-            <img src="{{ asset($image->lien) }}"
-            class="px-2 py-2 w-48 border border-blue-400 shadow-lg rounded-lg mb-2">
+            <img src="{{ asset('thumbs/'. substr($image->lien,8)) }}"
+            class="px-2 py-2 border border-blue-400 shadow-lg rounded-lg mb-2">
           </button>
 
 
@@ -475,7 +476,7 @@ img{{ $image->id }} : true ,
 
 
   <div class="relative flex justify-between items-center ">
-    <img class="rounded-b-lg" src="{{asset($image->lien)}}">
+    <img class="rounded-b-lg" src="{{ asset($image->lien) }}">
 
   </div>
 
@@ -510,11 +511,8 @@ Merci d'uploader les images pour votre création
 @endif
 </label>
 
+<!--class="block h-12 px-2 py-2 rounded-md w-full border border-gray-400 bg-gray-200 focus:border-purple-600 focus:outline-none focus:shadow-outline-purple form-input"-->
 <input
-class="block h-12 px-2 py-2 rounded-md w-full
-border border-gray-400 bg-gray-200
-focus:border-purple-600 focus:outline-none
-focus:shadow-outline-purple form-input"
 
 type="file"
 name="images[]"
@@ -1541,7 +1539,8 @@ value="Manuscrit"
         value="typo"
               @if(old('_token'))
                 @if (old('typeLogo') == 'typo') 
-                  checked      
+                
+                  checked
                 @endif
               @else
                 @if ($conception->typeLogo == 'typo') 
@@ -1598,19 +1597,19 @@ value="Manuscrit"
         type="radio"
         class="text-purple-600 form-radio focus:border-purple-400 focus:outline-none focus:shadow-outline-purple  h-8 w-8"
         name="style"
-        value="style1"
+        value="3D"
               @if(old('_token'))
                 @if (old('style') == 'style1') 
                   checked      
                 @endif
               @else
-                @if ($conception->style == 'style1') 
+                @if ($conception->style == '3D') 
                   checked
                 @endif
               @endif
         />
-        <span class="ml-2 mr-2">style1</span>
-        <img src="{{ asset('img/font_types_serif.jpg') }}" width="100" class="rounded-lg">
+        <span class="ml-2 mr-2">3D</span>
+        <img src="{{ asset('img/3D.jpg') }}" width="100" class="rounded-lg">
       </label>
       <label
       class="inline-flex items-center ml-6 text-gray-600"
@@ -1619,20 +1618,20 @@ value="Manuscrit"
       type="radio"
       class="text-purple-600 form-radio focus:border-purple-400 focus:outline-none focus:shadow-outline-purple h-8 w-8"
       name="style"
-      value="style2"
+      value="Abstrait"
               @if(old('_token'))
                 @if (old('style') == 'style2') 
                   checked      
                 @endif
               @else
-                @if ($conception->style == 'style2') 
+                @if ($conception->style == 'Abstrait') 
                   checked
                 @endif
               @endif      
 
       />
-      <span class="ml-2 mr-2">style2</span>
-      <img src="{{ asset('img/font_types_sansserif.jpg') }}" width="100" class="rounded-lg">
+      <span class="ml-2 mr-2">Abstrait</span>
+      <img src="{{ asset('img/Abstrait.jpg') }}" width="100" class="rounded-lg">
 
     </label>
     <label
@@ -1642,20 +1641,20 @@ value="Manuscrit"
     type="radio"
     class="text-purple-600 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray form-radio h-8 w-8"
     name="style"
-    value="style3"
+    value="Illustration"
               @if(old('_token'))
                 @if (old('style') == 'style3') 
                   checked      
                 @endif
               @else
-                @if ($conception->style == 'style3') 
+                @if ($conception->style == 'Illustration') 
                   checked
                 @endif
               @endif   
 
     />
-    <span class="ml-2 mr-2">style3</span>
-    <img src="{{ asset('img/font_types_slabserif.jpg') }}" width="100" class="rounded-lg">
+    <span class="ml-2 mr-2">Illustration</span>
+    <img src="{{ asset('img/Illustration.jpg') }}" width="100" class="rounded-lg">
   </label>
   <label
   class="inline-flex items-center ml-6 text-gray-600"
@@ -1664,20 +1663,20 @@ value="Manuscrit"
   type="radio"
   class="text-purple-600 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray form-radio h-8 w-8"
   name="style"
-  value="style4"
+  value="Colorés-Cool"
               @if(old('_token'))
                 @if (old('style') == 'style4') 
                   checked      
                 @endif
               @else
-                @if ($conception->style == 'style4') 
+                @if ($conception->style == 'Colorés-Cool') 
                   checked
                 @endif
               @endif  
 
   />
-  <span class="ml-2 mr-2">style4</span>
-  <img src="{{ asset('img/font_types_script.jpg') }}" width="100" class="rounded-lg">
+  <span class="ml-2 mr-2">Colorés-Cool</span>
+  <img src="{{ asset('img/Colorés-Cool.jpg') }}" width="100" class="rounded-lg">
 </label>
 <label
 class="inline-flex items-center ml-6 text-gray-600"
@@ -1686,20 +1685,20 @@ class="inline-flex items-center ml-6 text-gray-600"
 type="radio"
 class="text-purple-600 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray form-radio h-8 w-8"
 name="style"
-value="style5"
+value="Imagerie"
               @if(old('_token'))
                 @if (old('style') == 'style5') 
                   checked      
                 @endif
               @else
-                @if ($conception->style == 'style5') 
+                @if ($conception->style == 'Imagerie') 
                   checked
                 @endif
               @endif
 
 />
-<span class="ml-2 mr-2">style5</span>
-<img src="{{ asset('img/font_types_handwritten.jpg') }}" width="100" class="rounded-lg">
+<span class="ml-2 mr-2">Imagerie</span>
+<img src="{{ asset('img/Imagerie.jpg') }}" width="100" class="rounded-lg">
 </label>                                                                      
 </div>
 </div>             
@@ -1715,6 +1714,27 @@ value="style5"
   @if($type !== 'logo')
 
 <div class="px-4 py-3 mb-8 bg-white rounded-lg shadow-md">
+<div class="mb-4">
+  <label class="block uppercase font-bold text-2xl text-gray-700"
+  for="printer">
+  Chez quel imprimeur vous allez imprimer votre création ?
+</label>
+<p class="mb-2 text-xs text-gray-600">Les gabarits des imprimeurs sont différents les uns des autres, nous devons connaitre votre imprimeur pour que nous puissions préparer vos fichiers conformément aux exigences de celui-ci</p>
+        <input
+        class="block h-10 px-2 py-2 rounded-md w-full
+        border border-gray-400 bg-gray-200
+        focus:border-purple-600 focus:outline-none focus:shadow-outline-purple form-input"
+        type="text"
+        name="printer"
+        id="printer"
+        placeholder="Votre imprimeur si vous en avez un, sinon laissez vide."
+        value="{{old('printer', $conception->printer)}}" 
+        >
+
+@error('printer')
+<p class="text-red-500 text-xs mt-2"> {{ $message }}</p>
+@enderror
+</div>
 
 <div class="mb-4">
   <label class="block mb-2 uppercase font-bold text-2xl text-gray-700"
@@ -1729,7 +1749,7 @@ class="block px-2 py-2 rounded-md w-full
 border border-gray-400 bg-gray-200
 focus:border-purple-600 focus:outline-none focus:shadow-outline-purple form-textarea"
 name="note"
-placeholder="Lister les exigences de votre imprimeur : nomenclature, format de fichier d'impression, résolution, profil colorimétrique à incorporer…"
+placeholder="Lister vos exigences ici : nomenclature, format de fichier d'impression, résolution, profil colorimétrique à incorporer…"
 
 >{{old('note', $conception->note)}}</textarea>
 @error('note')
@@ -1741,12 +1761,14 @@ placeholder="Lister les exigences de votre imprimeur : nomenclature, format de f
 
 
 <div class="px-4 py-3 mb-8 bg-white rounded-lg shadow-md">
+  <div id="divMsgSub" class="flex-1 text-center items-center p-2 rounded-lg mb-2">
 
+    <span id="msgSub" class="text-red-500"></span>
+</div>
   <div class="flex-1 text-center items-center">
     <button class="w-64 px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple mb-2"
-    type="submit">
+    type="submit" id="sub">
      Enregistrer
-
    </button>
  </div>
 </div>
@@ -1757,4 +1779,85 @@ placeholder="Lister les exigences de votre imprimeur : nomenclature, format de f
 
 </div>
 </main>
+  <script src="{{config('app.url')}}/js/filepond.js"></script>
+  <script src="{{config('app.url')}}/js/filepond-plugin-file-validate-type.js"></script>
+  <script src="{{config('app.url')}}/js/filepond-plugin-image-preview.js"></script>
+  <script type="text/javascript">
+            FilePond.registerPlugin(
+              FilePondPluginImagePreview,
+              FilePondPluginFileValidateType,
+            );
+
+            var inputElement = document.querySelector('input[type="file"]');
+            var pond = FilePond.create( inputElement, {
+                name:'images',
+                allowFileTypeValidation : true ,
+                acceptedFileTypes: ['image/*'],
+                labelFileTypeNotAllowed : 'Seules les images JPG ou PNG sont acceptées' ,
+                credits : {},  
+                allowProcess : false,
+                allowDrop : true,
+                allowRevert : true,
+                allowRemove : false,
+                forceRevert : true,
+                checkValidity : true, 
+                dropValidation : true,
+                onaddfilestart: (file) => { isLoadingCheck(); },
+                onprocessfile: (files) => { isLoadingCheck(); },                
+            });
+
+                function validation(e)
+                {
+                        console.log(pond.status);
+                        return true ;
+                }
+            FilePond.setOptions({
+    labelIdle: 'Faites glisser vos fichiers ou <span class = "filepond--label-action"> Parcourir <span>',
+    labelInvalidField: "Le champ contient des fichiers invalides",
+    labelFileWaitingForSize: "En attente de taille",
+    labelFileSizeNotAvailable: "Taille non disponible",
+    labelFileLoading: "Chargement",
+    labelFileLoadError: "Erreur durant le chargement",
+    labelFileProcessing: "Traitement",
+    labelFileProcessingComplete: "Traitement effectué",
+    labelFileProcessingAborted: "Traitement interrompu",
+    labelFileProcessingError: "Erreur durant le traitement",
+    labelFileProcessingRevertError: "Erreur durant la restauration",
+    labelFileRemoveError: "Erreur durant la suppression",
+    labelTapToCancel: "appuyez pour annuler",
+    labelTapToRetry: "appuyer pour réessayer",
+    labelTapToUndo: "appuyer pour revenir en arrière",
+    labelButtonRemoveItem: "Retirer",
+    labelButtonAbortItemLoad: "Annuler",
+    labelButtonRetryItemLoad: "Recommencer",
+    labelButtonAbortItemProcessing: "Annuler",
+    labelButtonUndoItemProcessing: "Retour en arrière",
+    labelButtonRetryItemProcessing: "Recommencer",
+    labelButtonProcessItem: "Charger",
+    labelMaxFileSizeExceeded: "Le fichier est trop volumineux",
+    labelMaxFileSize: "La taille maximale de fichier est {filesize}",
+    labelMaxTotalFileSizeExceeded: "Taille totale maximale dépassée",
+    labelMaxTotalFileSize: "La taille totale maximale des fichiers est {filesize}",
+    labelFileTypeNotAllowed: "Fichier non valide",
+    fileValidateTypeLabelExpectedTypes: "Attendez {allButLastType} ou {lastType}",
+    imageValidateSizeLabelFormatError: "Type d'image non pris en charge",
+    imageValidateSizeLabelImageSizeTooSmall: "L'image est trop petite",
+    imageValidateSizeLabelImageSizeTooBig: "L'image est trop grande",
+    imageValidateSizeLabelExpectedMinSize: "La taille minimale est {minWidth} × {minHeight}",
+    imageValidateSizeLabelExpectedMaxSize: "La taille maximale est {maxWidth} × {maxHeight}",
+    imageValidateSizeLabelImageResolutionTooLow: "La résolution est trop faible",
+    imageValidateSizeLabelImageResolutionTooHigh: "La résolution est trop élevée",
+    imageValidateSizeLabelExpectedMinResolution: "La résolution minimale est {minResolution}",
+    imageValidateSizeLabelExpectedMaxResolution: "La résolution maximale est {maxResolution}",
+          server: {
+                url: '/filepond/api',
+                process: '/process',
+                revert: '/process',
+                headers: {
+                  'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                }
+              }
+            });
+
+        </script>
 </x-master>

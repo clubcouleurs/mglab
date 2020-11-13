@@ -65,8 +65,8 @@ return [
         'wordpress' => [ // for WordPress database (used by Corcel)
             'driver'    => 'mysql',
             'host'      => '127.0.0.1',
+            'port'      => '8889',            
             'database'  => 'db_mongraphisme',
-            'port' => '8889',
             'username'  => 'db_mongraphisme',
             'password'  => '00Max1med%',
             'charset'   => 'utf8',
@@ -79,8 +79,8 @@ return [
         'mglab' => [ 
             'driver'    => 'mysql',
             'host'      => '127.0.0.1',
+            'port'      => '8889',            
             'database'  => 'db_mongraphisme',
-            'port' => '8889',
             'username'  => 'db_mongraphisme',
             'password'  => '00Max1med%',
             'charset'   => 'utf8',

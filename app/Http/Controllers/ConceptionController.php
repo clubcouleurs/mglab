@@ -25,6 +25,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Intervention\Image\Facades\Image as ImageIntervention;
+use Sopamo\LaravelFilepond\getPathFromServerId;
+
 
 class ConceptionController extends Controller
 {
@@ -50,180 +52,7 @@ class ConceptionController extends Controller
             'CAAnne' =>Conception::whereYear('created_at', '=', $year)->sum('prix'),
 
         ]);   
-
-
-
     }
-
-
-    /*public function crea_en_cours()
-    {
-
-        if (Gate::allows('soumettre_proposition') && Gate::denies('administrer')) {
-            return view('conceptions.indexEnCours', ['conceptionsEnAttPropals'
-                => Conception::where('graphiste_id', auth()->user()->ID)
-                ->where('status_id' , 2)
-                ->orderBy('lancer_at', 'desc')
-                ->with('propals')
-                ->get(),
-
-                'conceptionsEnAttCrea'
-                => Conception::where('graphiste_id', auth()->user()->ID)
-                ->whereNotNull('lancer_at')
-                ->whereNotNull('validate_at')
-                ->orderBy('validate_at', 'desc')
-                ->get(),
-                'conceptions1' => Conception::where('graphiste_id', auth()->user()->ID)
-                ->where('status_id' , 1 )
-                ->orderBy('lancer_at', 'desc')
-                ->get(),
-
-                'conceptions2' => Conception::where('graphiste_id', auth()->user()->ID)
-                ->where('status_id' , 2 )
-                ->orderBy('lancer_at', 'desc')
-                ->get(),
-                'conceptions3' => Conception::where('graphiste_id', auth()->user()->ID)
-                ->where('status_id' , 3 )
-                ->orderBy('lancer_at', 'desc')
-                ->get(),
-                'conceptions4' => Conception::where('graphiste_id', auth()->user()->ID)
-                ->where('status_id' , 4 )
-                ->orderBy('lancer_at', 'desc')
-                ->get(),
-                'conceptions5' => Conception::where('graphiste_id', auth()->user()->ID)
-                ->where('status_id' , 5 )
-                ->orderBy('lancer_at', 'desc')
-                ->get(),
-                'conceptions6' => Conception::where('graphiste_id', auth()->user()->ID)
-                ->where('status_id' , 6 )
-                ->orderBy('lancer_at', 'desc')
-                ->get(),
-                'conceptions7' => Conception::where('graphiste_id', auth()->user()->ID)
-                ->where('status_id' , 7 )
-                ->orderBy('lancer_at', 'desc')
-                ->get(),
-                'conceptions8' => Conception::where('graphiste_id', auth()->user()->ID)
-                ->where('status_id' , 8 )
-                ->orderBy('lancer_at', 'desc')
-                ->get(),
-                'conceptions9' => Conception::where('graphiste_id', auth()->user()->ID)
-                ->where('status_id' , 9 )
-                ->orderBy('lancer_at', 'desc')
-                ->get(),
-                'conceptions10' => Conception::where('graphiste_id', auth()->user()->ID)
-                ->where('status_id' , 10 )
-                ->orderBy('lancer_at', 'desc')
-                ->get(),
-                'conceptions11' => Conception::where('graphiste_id', auth()->user()->ID)
-                ->where('status_id' , 11 )
-                ->orderBy('lancer_at', 'desc')
-                ->get(),
-                'conceptions12' => Conception::where('graphiste_id', auth()->user()->ID)
-                ->where('status_id' , 12 )
-                ->orderBy('lancer_at', 'desc')
-                ->get(),
-                'conceptions13' => Conception::where('graphiste_id', auth()->user()->ID)
-                ->where('status_id' , 13 )
-                ->orderBy('lancer_at', 'desc')
-                ->get(),
-                'conceptions14' => Conception::where('graphiste_id', auth()->user()->ID)
-                ->where('status_id' , 14 )
-                ->orderBy('lancer_at', 'desc')
-                ->get(), 
-
-
-                'graphistes' => ''
-            ]);
-        }
-
-
-
-        return view('conceptions.indexEnCours', ['conceptions' => Conception::whereNotNull('lancer_at')
-            ->orderBy('lancer_at', 'desc')
-            ->with('graphiste')
-            ->with('user')
-            ->get(),
-            'conceptions1' => Conception::where('status_id' , 1 )
-            ->orderBy('lancer_at', 'desc')
-            ->get(),
-
-            'conceptions2' => Conception::where('status_id' , 2 )
-            ->orderBy('lancer_at', 'desc')
-            ->get(),
-            'conceptions3' => Conception::where('status_id' , 3 )
-            ->orderBy('lancer_at', 'desc')
-            ->get(),
-            'conceptions4' => Conception::where('status_id' , 4 )
-            ->orderBy('lancer_at', 'desc')
-            ->get(),
-            'conceptions5' => Conception::where('status_id' , 5 )
-            ->orderBy('lancer_at', 'desc')
-            ->get(),
-
-            'conceptions6' => Conception::where('status_id' , 6 )
-            ->orderBy('lancer_at', 'desc')
-                                                                //->with('modifications')
-            ->with(['propals' => function($query){
-                $query->whereNotNull('user_id')
-                ->first();
-            }])
-            ->get(),
-
-
-
-
-
-            'conceptions7' => Conception::where('status_id' , 7 )
-            ->orderBy('lancer_at', 'desc')
-            ->get(),
-
-            'conceptions8' => Conception::where('status_id' , 8 )
-            ->orderBy('lancer_at', 'desc')
-            ->get(),
-            'conceptions9' => Conception::where('status_id' , 9 )
-            ->orderBy('lancer_at', 'desc')
-            ->get(),
-            'conceptions10' => Conception::where('status_id' , 10 )
-            ->orderBy('lancer_at', 'desc')
-            ->get(),
-
-            'conceptions11' => Conception::where('status_id' , 11 )
-            ->orderBy('lancer_at', 'desc')
-            ->get(),
-            'conceptions12' => Conception::where('status_id' , 12 )
-            ->orderBy('lancer_at', 'desc')
-            ->get(),
-            'conceptions13' => Conception::where('status_id' , 13 )
-            ->orderBy('lancer_at', 'desc')
-            ->get(),
-
-            'conceptions14' => Conception::where('status_id' , 14 )
-            ->orderBy('lancer_at', 'desc')
-            ->get(),
-            'conceptions15' => Conception::where('status_id' , 15 )
-            ->orderBy('lancer_at', 'desc')
-            ->get(),
-
-
-
-
-
-            'conceptionsEnAttPropals' => Conception::where('status_id' , 14 )
-            ->orderBy('lancer_at', 'desc')
-                                                                ->get(), // à supprimer
-
-                                                                'conceptionsEnAttCrea' => Conception::where('status_id' , 14 )
-                                                                ->orderBy('lancer_at', 'desc')
-                                                                ->get(), // à supprimer
-
-
-                                                                'graphistes' => Graphiste::with('user')->get(),
-                                                            ]);  
-
-    }*/
-
-
-
 
 // les conceptions en attente de données step 1
     public function WaitingForData()
@@ -369,27 +198,26 @@ class ConceptionController extends Controller
         return view('conceptions.index', 
             ['conceptions1' => Conception::where('user_id', auth()->user()->ID)
             ->where('status_id' , 1 )
-            ->orderBy('lancer_at', 'desc')
+            ->orderBy('lancer_at', 'asc')
             ->get(),
 
             'conceptions234' => Conception::where('user_id', auth()->user()->ID)
             ->whereIn('status_id' , [2 , 3 , 4] )
-
-            ->orderBy('lancer_at', 'desc')
+            ->orderBy('lancer_at', 'asc')
             ->get(),
 
             'conceptions5811' => Conception::where('user_id', auth()->user()->ID)
             ->whereIn('status_id' , [5,8,11] )
-            ->orderBy('lancer_at', 'desc')
+            ->orderBy('lancer_at', 'asc')
             ->get(),
 
             'conceptions691271013' => Conception::where('user_id', auth()->user()->ID)
             ->whereIn('status_id' , [6,9,12,7,10,13] )
-            ->orderBy('lancer_at', 'desc')
+            ->orderBy('lancer_at', 'asc')
             ->get(),
             'conceptions14' => Conception::where('user_id', auth()->user()->ID)
             ->whereIn('status_id' , [14] )
-            ->orderBy('lancer_at', 'desc')
+            ->orderBy('lancer_at', 'asc')
             ->get(),                   
 
             'conceptions15' => auth()->user()->ConceptionAvantArchive(), 
@@ -675,7 +503,7 @@ class ConceptionController extends Controller
 
     public function update(StoreConception $request, Conception $conception)
     {
-
+        //dd($request->file('images')) ;
         if ($request->has('confirm') && $conception->updated_at !== Null) {
             $conception->status_id = 2 ;
             $conception->lancer_at = date('Y-m-d H:i:s') ;
@@ -869,8 +697,42 @@ class ConceptionController extends Controller
             }            
         }
 
-        if($request->hasFile('images')) {
-            foreach($request->file('images') as $image) {
+        if($request->has('images'))
+        {
+
+            // Ici l'adaptation pour SOPAMO FILEPOND
+        
+                $filepond = app(\Sopamo\LaravelFilepond\Filepond::class);
+                foreach ($request->input('images') as $file)
+                    {
+                        $pathName = $filepond->getPathFromServerId($file);
+                        $p = 'tmp/' . basename(dirname ($pathName)) .'/' . basename($pathName)  ;
+                        $filename = basename($pathName);
+                        $directory = dirname ($pathName) ;
+                        $random = Str::random(40) . '.' . pathinfo($pathName, PATHINFO_EXTENSION);
+                        Storage::move($p , 'uploads/' . $random);
+
+                        // Redimensionner et enrgistrement des thumbs ...
+                        $resize = ImageIntervention::make(storage_path('app/public/uploads/' . $random))
+                                                        ->encode('jpg');
+                        $resize->resize($this->getNewWidth($resize->width(), $resize->height(), 200), $this->getNewHeight($resize->width(), $resize->height(), 200) ,function ($constraint) {
+                            $constraint->aspectRatio();
+                            $constraint->upsize();
+                        });
+                        $resize->save('storage/thumbs/'. $random);
+
+                        // Sauvegarde les images dans la BD
+                        $imageConception = new Image([
+                            'lien' => 'uploads/' . $random,
+                            'nomFichier' => $filename
+                        ]);
+                        $conception->images()->save($imageConception);   
+                        Storage::deleteDirectory($directory); // rmdir($directory) ;
+                    }
+
+            //
+
+            /*foreach($request->file('images') as $image) {
 
             $destinationPath = $image->store('uploads') ;
             $path = substr($destinationPath, 8 );
@@ -888,7 +750,7 @@ class ConceptionController extends Controller
                     'nomFichier' => $filename
                 ]);
                 $conception->images()->save($imageConception);
-            }
+            }*/
         }
 
         if ($request->has('rs_entreprise'))
@@ -976,9 +838,9 @@ class ConceptionController extends Controller
             'cible'  => $cible,
             'font' => $font,
             'objectif' => $request['objectif'],
+            'printer' => $request['printer'],
         ]);
-
-        return redirect('/conceptions/' . $conception->id . '/confirm' ) ;
+            return redirect('/conceptions/' . $conception->id . '/confirm' ) ;
         }
     }
 

@@ -595,7 +595,7 @@
             <span>{{ $conception->style }}</span>
             </td>
             <td>
-        <img src="{{ asset('img/font_types_serif.jpg') }}" width="100" class="img-thumbnail">
+        <img src="{{ asset('img/' . $conception->style . '.jpg') }}" width="100" class="img-thumbnail">
             </td>
           </tr>
         </table>

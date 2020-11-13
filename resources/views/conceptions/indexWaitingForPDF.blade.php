@@ -29,7 +29,7 @@
         </span>
 
         <div class="w-64">
-          <span class="font-bold bold text-2xl">
+          <span class="font-bold bold text-xl">
             <a href="/conceptions/{{$conception->id}}">
               {{$conception->type}}
             </a>

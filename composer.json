@@ -17,7 +17,8 @@
         "jgrossi/corcel": "^4.0",
         "laravel/framework": "^7.24",
         "laravel/tinker": "^2.0",
-        "laravel/ui": "^2.2"
+        "laravel/ui": "^2.2",
+        "sopamo/laravel-filepond": "^0.5.0"
     },
     "require-dev": {
         "facade/ignition": "^2.0",

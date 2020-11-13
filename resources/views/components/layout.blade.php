@@ -10,10 +10,12 @@
   <title>{{ config('app.name', 'MonGraphisme.com') }}</title>
   <!--<title>{{ config('app.name', 'MonGraphisme.com') }}</title>-->
 
-  <!-- Scripts -->
-  <script src="{{config('app.url')}}/js/app.js" defer></script>
+  <!-- Scripts 
+  <script src="{{config('app.url')}}/js/app.js" defer></script>-->
   <script src="{{config('app.url')}}/js/init-alpine.js"></script>
   <script src="{{config('app.url')}}/js/function.js"></script>
+
+  <!-- filepond js -->
 
   <!-- Fonts -->
   <link rel="dns-prefetch" href="//fonts.gstatic.com">
@@ -25,8 +27,14 @@
   defer
   ></script>
 
+
   <!--<link href="css/tailwind.output.css" rel="stylesheet"> -->
   <link href="{{config('app.url')}}/css/main.css" rel="stylesheet">
+
+
+  <!-- filepond css -->
+  <link href="{{config('app.url')}}/css/filepond.css" rel="stylesheet">
+  <link href="{{config('app.url')}}/css/filepond-plugin-image-preview.css" rel="stylesheet">
 
   <style type="text/css">
       /*Toast open/load animation*/
@@ -48,6 +56,21 @@
   @-webkit-keyframes slide-in-top{0%{-webkit-transform:translateY(-1000px);transform:translateY(-1000px);opacity:0}100%{-webkit-transform:translateY(0);transform:translateY(0);opacity:1}}@keyframes slide-in-top{0%{-webkit-transform:translateY(-1000px);transform:translateY(-1000px);opacity:0}100%{-webkit-transform:translateY(0);transform:translateY(0);opacity:1}}@-webkit-keyframes slide-out-top{0%{-webkit-transform:translateY(0);transform:translateY(0);opacity:1}100%{-webkit-transform:translateY(-1000px);transform:translateY(-1000px);opacity:0}}@keyframes slide-out-top{0%{-webkit-transform:translateY(0);transform:translateY(0);opacity:1}100%{-webkit-transform:translateY(-1000px);transform:translateY(-1000px);opacity:0}}@-webkit-keyframes slide-in-bottom{0%{-webkit-transform:translateY(1000px);transform:translateY(1000px);opacity:0}100%{-webkit-transform:translateY(0);transform:translateY(0);opacity:1}}@keyframes slide-in-bottom{0%{-webkit-transform:translateY(1000px);transform:translateY(1000px);opacity:0}100%{-webkit-transform:translateY(0);transform:translateY(0);opacity:1}}@-webkit-keyframes slide-out-bottom{0%{-webkit-transform:translateY(0);transform:translateY(0);opacity:1}100%{-webkit-transform:translateY(1000px);transform:translateY(1000px);opacity:0}}@keyframes slide-out-bottom{0%{-webkit-transform:translateY(0);transform:translateY(0);opacity:1}100%{-webkit-transform:translateY(1000px);transform:translateY(1000px);opacity:0}}@-webkit-keyframes slide-in-right{0%{-webkit-transform:translateX(1000px);transform:translateX(1000px);opacity:0}100%{-webkit-transform:translateX(0);transform:translateX(0);opacity:1}}@keyframes slide-in-right{0%{-webkit-transform:translateX(1000px);transform:translateX(1000px);opacity:0}100%{-webkit-transform:translateX(0);transform:translateX(0);opacity:1}}@-webkit-keyframes fade-out-right{0%{-webkit-transform:translateX(0);transform:translateX(0);opacity:1}100%{-webkit-transform:translateX(50px);transform:translateX(50px);opacity:0}}@keyframes fade-out-right{0%{-webkit-transform:translateX(0);transform:translateX(0);opacity:1}100%{-webkit-transform:translateX(50px);transform:translateX(50px);opacity:0}}
 
   </style>
+  
+  <!--Start of Tawk.to Script-->
+<script type="text/javascript">
+var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+(function(){
+var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+s1.async=true;
+s1.src='https://embed.tawk.to/5fa6d81a8e1c140c2abbbf8c/default';
+s1.charset='UTF-8';
+s1.setAttribute('crossorigin','*');
+s0.parentNode.insertBefore(s1,s0);
+})();
+</script>
+<!--End of Tawk.to Script-->
+
 </head>
 <body>
 
@@ -56,7 +79,6 @@
 {{ $slot }}
 
 
-<script src="https://unpkg.com/turbolinks"></script>
-
+<!--<script src="https://unpkg.com/turbolinks"></script>-->
 </body>
 </html>

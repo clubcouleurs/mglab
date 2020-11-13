@@ -282,8 +282,8 @@ Les images pour votre création<hr>
 >
        <section class="flex flex-wrap">
           <button type="button" class="hover:border-gray-500" @click="isDialogOpen = true">
-            <img src="{{ asset($image->lien) }}"
-            class="px-2 py-2 w-48 border border-blue-400 shadow-lg rounded-lg mb-2">
+            <img src="{{ asset('thumbs/'. substr($image->lien,8)) }}"
+            class="px-2 py-2 border border-blue-400 shadow-lg rounded-lg mb-2">
           </button>
 
 
@@ -325,7 +325,7 @@ Les images pour votre création<hr>
 
 
   <div class="relative flex justify-between items-center ">
-    <img class="rounded-b-lg" src="{{asset($image->lien)}}">
+    <img class="rounded-b-lg" src="{{ asset($image->lien) }}">
 
   </div>
 
@@ -887,31 +887,30 @@ class="inline-block w-4 h-4 mr-1 bg-red-600 rounded-full"
 @else
 
 
-<!-- style -->
-<div class="px-4 py-3 mb-8 bg-white rounded-lg shadow-md">
-  <div class="mb-4">
-    <div class="mt-4 text-sm">
-      <span class="block mb-2 uppercase font-bold text-2xl text-gray-600">
-        Le style que vous avez choisie
-      </span>
-      <div class="flex mt-2">
+  <!-- style -->
+    @if($conception->style !== null)
+      <div class="px-4 py-3 mb-8 bg-white rounded-lg shadow-md">
+        <div class="mb-4">
+          <div class="mt-4 text-sm">
+            <span class="block mb-2 uppercase font-bold text-2xl text-gray-600">
+              Le style que vous avez choisie
+            </span>
+            <div class="flex mt-2">
 
-        <h3
-        class="inline-flex items-center ml-6 text-gray-600"
-        >
-        <span
-        class="inline-block w-4 h-4 mr-1 bg-red-600 rounded-full"
-        ></span>
+              <span
+              class="inline-block w-4 h-4 mr-1 bg-red-600 rounded-full"
+              ></span>
 
-        <span class="ml-2 mr-2">{{ $conception->style }}</span>
-        <img src="{{ asset('img/font_types_serif.jpg') }}" width="100" class="rounded-lg">
-      </h3>
+              <span class="ml-2 mr-2">{{ $conception->style }}</span>
+              <img src="{{ asset('img/' . $conception->style . '.jpg') }}" width="100" class="rounded-lg">
 
-    </div>
-  </div>             
 
-</div>
-</div>
+          </div>
+        </div>             
+
+      </div>
+      </div>
+    @endif
 
 @endif
 

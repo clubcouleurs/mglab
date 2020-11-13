@@ -192,4 +192,21 @@ return ( true );
   }
 
 
+function isLoadingCheck()
+{
+  var isLoading = pond.getFiles().filter(x=>x.status !== 5).length !== 0;
+  if(isLoading) {
+      document.getElementById("sub").setAttribute("disabled", "disabled");
+      document.getElementById("sub").style.background = '#cccccc';//#fed7d7
+      document.getElementById("divMsgSub").style.background = '#fed7d7';//
+      document.getElementById("msgSub").innerHTML = "Les images sont en cours d'uploader, vous pourrez envoyer la forumlaire une fois les images uploadées." ;
+
+  } else {
+      document.getElementById("sub").removeAttribute("disabled");
+      document.getElementById("msgSub").innerHTML = "" ;
+      document.getElementById("sub").style.background = '#805ad5';
+      document.getElementById("divMsgSub").style.background = '#ffffff';//
+
+  }
+} 
 

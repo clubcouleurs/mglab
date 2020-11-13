@@ -27,7 +27,7 @@ class StoreConception extends FormRequest
         return [
                 'rs_entreprise'     => 'sometimes|required|max:255|string',
                 'logo'              => 'sometimes|required|max:5000|mimetypes:application/pdf,image/png,image/jpeg,image/tiff,image/svg+xml,image/gif',
-                'images.*'          => 'image|mimetypes:image/png,image/jpeg|max:5000',
+                //'images.*'          => 'image|mimetypes:image/png,image/jpeg|max:5000',
                 'slogan'            => 'nullable|max:255|string',
                 "activities"        => "sometimes|required|string",
                 "positionnement"    => "nullable|string",
@@ -64,6 +64,8 @@ class StoreConception extends FormRequest
                 'typeLogo'          => 'nullable|max:255|string',
                 'ageEntreprise'     => 'nullable|max:50|string',
                 'objectif'          => 'nullable|string',
+                'printer'            => 'nullable|max:255|string',
+
 
         ];
     }
@@ -116,6 +118,9 @@ class StoreConception extends FormRequest
             'document.file'                    => 'Un document est requis',
             'document.mimetypes'               => 'Un document doit être au format : Word, Excel, PDF ou une image',
             'document.required'                => 'Le fichier finale est requis',
+
+            'printer.string'                   => 'Du texte est attendu sur ce champs',
+
 
         ];
     }    
