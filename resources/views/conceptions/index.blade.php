@@ -898,20 +898,19 @@
 
 </div>  
 
-<div class="row-span-1 col-span-3 p-4 rounded-lg bg-gray-800 rounded-lg shadow-md">
-  <div class="mb-2 block flex items-center w-full">
-    <span class="inline-block w-3 h-3 mr-1 bg-gray-100 rounded-full">
+<div class="row-span-1 col-span-3 p-4 rounded-lg bg-white rounded-lg shadow-md">
+  <div class="block flex items-center w-full">
+    <span class="inline-block w-3 h-3 mr-1 bg-{{ $conception->status->color }}-700 rounded-full">
     </span>
-    <p class="text-xs text-gray-100">Etat</p>
+    <p class="text-xs">Etat</p>
   </div>  
 
 
 
   <span
-  class="py-2 px-2 font-semibold leading-tight text-gray-100 rounded-lg
-  bg-gray-600"
+  class="py-1 font-semibold leading-tight text-{{ $conception->status->color }}-700 bg-{{ $conception->status->color }}-200 rounded-lg"
   >    
-  {{ $conception->status->label }}
+  {{ $conception->status->xlabel }}
 </span>
 
 

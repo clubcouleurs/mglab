@@ -110,7 +110,7 @@
    @method('PATCH')
 
      <div>
-<p id="labelPropal" class="text-gray-700 text-sm mb-2">Uploader ici le fichier PDF Final de la création</p>
+<p id="labelPropal" class="text-gray-700 text-sm mb-2">Uploader ici le fichier PDF/ZIP Final de la création</p>
        <hr class="mb-2">
      </div>
 

@@ -184,8 +184,8 @@ return ( true );
   function validateFormFinal() {
     var file = document.getElementById("pdf_conception").value;
     var l = file.split('.').pop();
-    if (l != 'pdf') {
-      alert("Vous devez soumettre un fichier PDF ! ");
+    if (l != 'pdf' && l != 'zip') {
+      alert("Vous devez soumettre un fichier PDF ou un fichier zip! ");
       document.getElementById("pdf_conception").value = '' ;
       return false;
     }

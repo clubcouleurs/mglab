@@ -53,7 +53,7 @@
         <div class="block flex items-center w-full">
           <span class="inline-block w-3 h-3 mr-1 bg-purple-600 rounded-full">
           </span>
-          <div class="w-64">
+          <div class="w-full">
             <span class="font-light text-sm">
               <a href="/conceptions/{{$conception->id}}">
                <p class="">Nom Client : {{$conception->user->display_name}}</p>
@@ -73,6 +73,16 @@
        </div>
      </div> 
 
+       <div class="block flex items-center w-full">
+        <span class="inline-block w-3 h-3 mr-1 bg-purple-600 rounded-full">
+        </span>
+        <div class="w-64">
+          <span class="font-light text-sm">
+             <p class="">Email : {{$conception->user->user_email}}</p>
+         </span>
+       </div>
+       <p></p>
+     </div> 
 
    </div>  
    <div class="text-center justify-center flex items-center row-span-2 col-span-4 p-4 rounded-lg bg-white rounded-lg shadow-md">

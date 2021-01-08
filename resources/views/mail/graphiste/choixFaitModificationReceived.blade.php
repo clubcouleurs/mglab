@@ -10,7 +10,7 @@
 
 # Bonjour M. {{$graphiste}},
 
-Le client vient de faire sont choix pour sa création  {{$conception->type}}.
+Le client vient de faire son choix pour sa création  {{$conception->type}}.
 
 Merci de regarder pour la suite.
 

@@ -1,4 +1,18 @@
 <x-layout>
+  <!--Start of Tawk.to Script-->
+<script type="text/javascript">
+var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+(function(){
+var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+s1.async=true;
+s1.src='https://embed.tawk.to/5fa6d81a8e1c140c2abbbf8c/default';
+s1.charset='UTF-8';
+s1.setAttribute('crossorigin','*');
+s0.parentNode.insertBefore(s1,s0);
+})();
+</script>
+<!--End of Tawk.to Script-->
+  
   @if (session('message'))
   <!--Toast-->
   <div class="alert-toast fixed bottom-0 right-0 m-8 w-5/6 md:w-full max-w-sm">
@@ -153,8 +167,7 @@ background-color: #c01a89
   d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"
   ></path>
 </svg>
-<span class="ml-2 text-white">En création (@can('administrer')
-  {{ count(App\Conception::whereIn('status_id', [3])->get()) }}@elsecan ('soumettre_proposition')
+<span class="ml-2 text-white">En création (@can('administrer'){{ count(App\Conception::whereIn('status_id', [3])->get()) }}@elsecan ('soumettre_proposition')
   {{ count(App\Conception::where('graphiste_id', Auth::user()->graphiste->id)->whereIn('status_id', [3])->get()) }}@endcan)</span>
 </a>
 
@@ -236,8 +249,7 @@ background-color: #c01a89
   d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"
   ></path>
 </svg>
-<span class="ml-2 text-white">En modification (@can('administrer')
-  {{ count(App\Conception::whereIn('status_id', [6,9,12])->get()) }}@elsecan ('soumettre_proposition')
+<span class="ml-2 text-white">En modification (@can('administrer'){{ count(App\Conception::whereIn('status_id', [6,9,12])->get()) }}@elsecan ('soumettre_proposition')
   {{ count(App\Conception::where('graphiste_id', Auth::user()->graphiste->id)->whereIn('status_id', [6,9,12])->get()) }}@endcan)</span>
 </a>
 
@@ -264,8 +276,7 @@ background-color: #c01a89
   d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"
   ></path>
 </svg>
-<span class="ml-2 text-white">En attente du PDF (@can('administrer')
-  {{ count(App\Conception::whereIn('status_id', [14])->get()) }}@elsecan ('soumettre_proposition')
+<span class="ml-2 text-white">En attente du PDF (@can('administrer'){{ count(App\Conception::whereIn('status_id', [14])->get()) }}@elsecan ('soumettre_proposition')
   {{ count(App\Conception::where('graphiste_id', Auth::user()->graphiste->id)->whereIn('status_id', [14])->get()) }}@endcan)</span>
 </a>
 
@@ -292,8 +303,7 @@ background-color: #c01a89
   d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"
   ></path>
 </svg>
-<span class="ml-2 text-white">Validées et finalisées (@can('administrer')
-  {{ count(App\Conception::whereIn('status_id', [15])->get()) }}@elsecan ('soumettre_proposition')
+<span class="ml-2 text-white">Validées et finalisées (@can('administrer'){{ count(App\Conception::whereIn('status_id', [15])->get()) }}@elsecan ('soumettre_proposition')
   {{ count(App\Conception::where('graphiste_id', Auth::user()->graphiste->id)->whereIn('status_id', [15])->get()) }}@endcan)</span>
 </a>
 
@@ -323,6 +333,33 @@ background-color: #c01a89
   ></path>
 </svg>
 <span class="ml-2 text-white">Graphistes ({{ count(App\Graphiste::all()) }})</span>
+</a>
+
+</li>           
+@endcan
+
+@can('affecter_graphistes')
+
+<li class="relative px-1 py-1 border-b hover:bg-pink-500 ">
+  <a
+  class="inline-flex items-center w-full text-xs font-semibold transition-colors duration-150 hover:text-gray-800"
+  href="/users"
+  >
+  <svg
+  class="w-8 h-8"
+  aria-hidden="true"
+  fill="none"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  stroke-width="2"
+  viewBox="0 0 24 24"
+  stroke="white"
+  >
+  <path
+  d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"
+  ></path>
+</svg>
+<span class="ml-2 text-white">Clients ({{ count(App\User::all()) }})</span>
 </a>
 
 

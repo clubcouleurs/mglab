@@ -86,7 +86,7 @@
       <div class="w-full">
         <span class="font-light text-sm font-semibold">
           
-           <p class="mb-4">Télécharger le fichier pdf finale de la création</p>
+           <p class="mb-4">Télécharger le fichier pdf/zip finale de la création</p>
 
        </span>
      </div>

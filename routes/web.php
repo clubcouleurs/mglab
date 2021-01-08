@@ -33,39 +33,32 @@ use Illuminate\Support\Facades\Storage;
 |
 */
 
-Route::get('/log', function(){
-            $now = Carbon::now();
-            $expDate = $now->subMinutes(1);
-        $directories = Storage::directories('tmp') ;
-        dd($directories) ;
-        foreach ($directories as $directory)
-        {
-           echo 'directory' ;
 
-            $files = Storage::allFiles($directory);
-                foreach ($files as $file)
-                    {
-                        echo  'file' ;
-                        $dateFile = Carbon::createFromTimestamp(Storage::lastModified($file));
-                            if ($dateFile <= $expDate)
-                                {
-                                    Storage::delete($file); 
-                                    echo 'file deleted' ;    
-                                }
-                    }
-                        $dateDir = Carbon::createFromTimestamp(Storage::lastModified($directory));
-                        if ($dateDir <= $expDate)
-                            {
-                                Storage::deleteDirectory($directory);   
-                                echo 'Directory deleted' ;    
 
-                            }
 
-        }
-});
+// Route for avis
+Route::get('/avis', 'AvisController@index');
+					//->middleware('can:administrer');
+
+Route::get('/avis/create', 'AvisController@create');
+					//->middleware('can:administrer');
+
+Route::post('{user}/avis/create', 'AvisController@store');
+					//->middleware('can:administrer');
+
+Route::get('/avis/{avis}/edit', 'AvisController@edit');
+									//->middleware('can:edit,conception');
+
+Route::patch('/avis/{avis}', 'AvisController@update');
+
+////// end
 
 
 Route::middleware('auth')->group(function(){
+
+Route::get('/avis/{avis}', 'AvisController@show')
+									->middleware('can:administrer');	
+
 // Authorization OK
 Route::get('/conceptions/{conception}/pdf', 'ConceptionController@createPDF')
 					->middleware('can:update,conception');
@@ -97,6 +90,12 @@ Route::get('/conceptions/{conception}/confirm', 'ConceptionController@confirm')
 									->middleware('can:view,conception');
 
 Route::get('/', 'ConceptionController@index')->name('home');
+
+
+/////////routes for graphistes
+// Authorization OK
+Route::get('/users', 'UserController@index')
+					->middleware('can:administrer');
 
 /////////routes for graphistes
 // Authorization OK
@@ -188,6 +187,10 @@ Route::post('conceptions/{conception}/modifications/{modification}/propositions'
 // Route for notifications
 Route::get('/notifications-lus' , 'NotificationController@showRead') ;
 Route::get('/notifications-non-lus' , 'NotificationController@showUnread') ;
+
+
+
+
 
 });
 

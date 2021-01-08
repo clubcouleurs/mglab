@@ -54,7 +54,7 @@ class StoreConception extends FormRequest
                 'note'              => 'nullable|string',
                 'produitService'    => 'nullable|string',
                 'graphiste'         => 'sometimes|required|integer',
-                'pdf_conception'    => 'sometimes|required|mimetypes:application/pdf',
+                'pdf_conception'    => 'sometimes|required|max:50000|mimetypes:application/pdf,application/zip',
 
                 'upgrade'           => 'sometimes|required|max:1|string',
 
@@ -110,7 +110,7 @@ class StoreConception extends FormRequest
             'produitService.string'            => 'Du texte est attendu sur ce champs',
             'graphiste.integer'                => 'Un ID est requis',
             'graphiste.required'               => 'Un ID est requis',
-            'pdf_conception.mimetypes'         => 'Le fichier finale doit être en format PDF',
+            'pdf_conception.mimetypes'         => 'Le fichier finale doit être en format PDF ou ZIP',
             'pdf_conception.required'          => 'Le fichier finale est requis',
             'ageEntreprise.string'             => 'Du texte est attendu sur ce champs',
             'objectif.string'                  => 'Du texte est attendu sur ce champs',

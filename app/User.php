@@ -2,15 +2,16 @@
 
 namespace App;
 
+use App\Avis;
 use App\Conception;
 use App\Graphiste;
 use App\Notification;
 use App\Role;
+use Carbon\Carbon;
 use Corcel\Model\User as Corcel;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Carbon\Carbon;
 
 
 
@@ -49,6 +50,11 @@ class User extends Corcel
     public function conceptions()
     {
         return $this->hasMany(Conception::class)->latest();
+    }
+
+    public function avis()
+    {
+        return $this->hasMany(Avis::class, 'user_id')->latest();
     }
 
     public function notifications()
@@ -112,6 +118,17 @@ class User extends Corcel
     {
             return count($this->conceptions()->whereIn('status_id' , [15] )
             ->get());
+    }
+
+    public function getFirstNameClient()
+    {
+        if (isset($this->meta()->where('meta_key','first_name')->get('meta_value')->first()->meta_value)) {
+            return $this->meta()->where('meta_key','first_name')->get('meta_value')->first()->meta_value ;
+        }
+        else
+        {
+            return $this->user_nicename ;
+        }
     }
 
 }

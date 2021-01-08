@@ -1233,7 +1233,7 @@ show:
 </div>
 <label class="block mt-4 text-sm">
   <span class="block mb-2 uppercase font-bold text-md text-gray-700">
-    Sex de votre cible
+    Sexe de votre cible
   </span>
 
 </label>
@@ -1663,20 +1663,20 @@ value="Manuscrit"
   type="radio"
   class="text-purple-600 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray form-radio h-8 w-8"
   name="style"
-  value="Colorés-Cool"
+  value="Couleurs-vives"
               @if(old('_token'))
                 @if (old('style') == 'style4') 
                   checked      
                 @endif
               @else
-                @if ($conception->style == 'Colorés-Cool') 
+                @if ($conception->style == 'Couleurs-vives') 
                   checked
                 @endif
               @endif  
 
   />
-  <span class="ml-2 mr-2">Colorés-Cool</span>
-  <img src="{{ asset('img/Colorés-Cool.jpg') }}" width="100" class="rounded-lg">
+  <span class="ml-2 mr-2">Couleurs-vives</span>
+  <img src="{{ asset('img/Couleurs-vives.jpg') }}" width="100" class="rounded-lg">
 </label>
 <label
 class="inline-flex items-center ml-6 text-gray-600"
@@ -1788,7 +1788,7 @@ placeholder="Lister vos exigences ici : nomenclature, format de fichier d'impres
               FilePondPluginFileValidateType,
             );
 
-            var inputElement = document.querySelector('input[type="file"]');
+            var inputElement = document.querySelector('input[name="images[]"]');
             var pond = FilePond.create( inputElement, {
                 name:'images',
                 allowFileTypeValidation : true ,
